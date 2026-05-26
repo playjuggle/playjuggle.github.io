@@ -1469,7 +1469,7 @@ function showCompletion() {
     };
 
     if (navigator.share) {
-      navigator.share({ title: 'JUGGLE', text: shareText })
+      navigator.share({ text: shareText })
         .then(() => showMsg('Shared!'))
         .catch(err => { if (err.name !== 'AbortError') copyToClipboard(shareText, showMsg); });
     } else {
