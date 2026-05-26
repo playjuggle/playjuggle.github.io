@@ -738,6 +738,24 @@ header {
 .tile-confirmed { background: var(--bg); border-color: var(--grey-lt); color: var(--grey-lt); cursor: default; pointer-events: none; }
 .tile-blank     { background: var(--bg); border: 2px dashed var(--grey-md); color: var(--grey-dk); font-size: 0.9rem; }
 
+/* Shuffle button */
+.shuffle-btn {
+  width: var(--tile-sz);
+  height: var(--tile-sz);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1.5px solid var(--grey-lt);
+  border-radius: var(--radius);
+  color: var(--grey-md);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.shuffle-btn:active { color: var(--grey-dk); border-color: var(--grey-md); }
+
 /* Backspace button — sits at end of tile bank row */
 .backspace-btn {
   width: var(--tile-sz);

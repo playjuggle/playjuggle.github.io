@@ -763,7 +763,7 @@ function resetHintTimer() {
   _hintTimer = setTimeout(() => {
     const b = document.getElementById('hint-btn');
     if (b) b.classList.remove('hidden');
-  }, 10000);
+  }, 5000);
 }
 
 function giveHint() {
@@ -845,6 +845,17 @@ function renderBank() {
     bank.appendChild(tile);
   });
 
+  // Shuffle button — only when there are 2+ unconfirmed letters available.
+  const availCount = letterStates.filter(s => !s.confirmed).length;
+  if (availCount > 1) {
+    const shuffleBtn = document.createElement('button');
+    shuffleBtn.className = 'shuffle-btn';
+    shuffleBtn.setAttribute('aria-label', 'Shuffle letters');
+    shuffleBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="21" y2="21"/></svg>`;
+    shuffleBtn.addEventListener('click', shuffleBank);
+    bank.appendChild(shuffleBtn);
+  }
+
   // Backspace button — always visible; faded when nothing to delete.
   const hasPlaced = ws.guess.some((g, i) => g !== null && !ws.confirmed[i]);
   const bkspBtn = document.createElement('button');
@@ -855,6 +866,44 @@ function renderBank() {
   bank.appendChild(bkspBtn);
 
   updateSubmit();
+}
+
+function shuffleBank() {
+  const isFinal = S.activeWord === 5;
+  const ws      = isFinal ? S.final : S.words[S.activeWord];
+  if (ws.solved) return;
+
+  if (isFinal) {
+    const arr = S.final.bonusLetters.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    if (arr.join('') === S.final.bonusLetters.join('')) {
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] !== arr[i + 1]) { [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]; break; }
+      }
+    }
+    S.final.bonusLetters = arr;
+    renderFinalPrompt();
+  } else {
+    const letters = ws.scrambled.split('');
+    for (let i = letters.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [letters[i], letters[j]] = [letters[j], letters[i]];
+    }
+    if (letters.join('') === ws.scrambled) {
+      for (let i = 0; i < letters.length - 1; i++) {
+        if (letters[i] !== letters[i + 1]) { [letters[i], letters[i + 1]] = [letters[i + 1], letters[i]]; break; }
+      }
+    }
+    ws.scrambled = letters.join('');
+    const promptEl = document.querySelector(`#row-${S.activeWord} .prompt`);
+    if (promptEl) promptEl.textContent = ws.scrambled.split('').join(' · ');
+  }
+
+  renderBank();
+  saveState();
 }
 
 function doBackspace() {
