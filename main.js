@@ -13,7 +13,7 @@ const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 // Looks like: https://username.github.io/juggle
 // Leave blank to use the current page origin + path automatically.
 // ---------------------------------------------------------------------------
-const PUBLIC_GAME_URL = 'https://apuzzlenamedjuggle.github.io/juggle';
+const PUBLIC_GAME_URL = 'https://playjuggle.github.io';
 
 // ─── Daily color palette ──────────────────────────────────────────────────────
 // Order maps to J U G G L E: pink, blue, orange, purple, yellow, green.
