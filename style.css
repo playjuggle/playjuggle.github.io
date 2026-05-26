@@ -450,8 +450,7 @@ header {
   padding: 5px 10px;
   border-radius: 6px;
   white-space: normal;
-  min-width: 180px;
-  max-width: min(260px, calc(100vw - 40px));
+  width: min(140px, calc(100vw - 40px));
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.15s;
@@ -635,11 +634,15 @@ header {
   position: relative;
 }
 
-/* Circled bonus position */
+/* Circled bonus position — explicitly square so it stays circular on all screen sizes */
 .slot.circled::after {
   content: '';
   position: absolute;
-  inset: 3px 1px 5px;
+  width: calc(var(--slot-h) - 10px);
+  height: calc(var(--slot-h) - 10px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% - 1px));
   border: 2px solid var(--accent);
   border-radius: 50%;
   pointer-events: none;
@@ -732,10 +735,11 @@ header {
 .tile-active    { background: var(--black); color: var(--white); }
 .tile-placed    { background: var(--bg); border-color: var(--grey-md); color: var(--grey-dk); }
 .tile-at-cursor { background: var(--grey-lt); border-color: var(--grey-lt); color: var(--grey-md); cursor: default; }
+.tile-confirmed { background: var(--bg); border-color: var(--grey-lt); color: var(--grey-lt); cursor: default; pointer-events: none; }
 .tile-blank     { background: var(--bg); border: 2px dashed var(--grey-md); color: var(--grey-dk); font-size: 0.9rem; }
 
-/* Shuffle button — sits at end of tile bank row */
-.shuffle-btn {
+/* Backspace button — sits at end of tile bank row */
+.backspace-btn {
   width: var(--tile-sz);
   height: var(--tile-sz);
   display: flex;
@@ -750,7 +754,8 @@ header {
   flex-shrink: 0;
 }
 
-.shuffle-btn:active { color: var(--grey-dk); border-color: var(--grey-md); }
+.backspace-btn:active          { color: var(--grey-dk); border-color: var(--grey-md); }
+.backspace-btn--empty          { opacity: 0.25; cursor: default; pointer-events: none; }
 
 /* Post-solve decorative JUGGLE tiles */
 .tile-juggle {
@@ -802,11 +807,11 @@ header {
   border: none;
   font-family: inherit;
   font-size: 0.72rem;
-  color: var(--grey-dk);
+  color: var(--accent-dark);
   cursor: pointer;
   padding: 8px 0;
   text-decoration: underline dotted;
-  text-decoration-color: var(--grey-md);
+  text-decoration-color: var(--accent-dark);
   text-underline-offset: 2px;
 }
 
