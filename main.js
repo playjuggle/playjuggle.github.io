@@ -16,10 +16,10 @@ const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 const PUBLIC_GAME_URL = 'https://playjuggle.github.io';
 
 // ─── Daily color palette ──────────────────────────────────────────────────────
-// Order maps to J U G G L E: pink, blue, orange, purple, yellow, green.
-// E (index 5) = green = accent on day 0 (2026-05-25).
-const PALETTE      = ['#F4A0BC','#A4C0E8','#F7B090','#C4B0E8','#F0DC8C','#A8D4B4'];
-const PALETTE_DARK = ['#C84B70','#3A74C0','#D05A1A','#7B45C0','#B08000','#3A8C5A'];
+// Rotation cycle: green → pink → blue → orange → purple → yellow → green …
+// Day 0 (2026-05-25): J=green U=pink G=blue G=orange L=purple E=yellow
+const PALETTE      = ['#A8D4B4','#F4A0BC','#A4C0E8','#F7B090','#C4B0E8','#F0DC8C'];
+const PALETTE_DARK = ['#3A8C5A','#C84B70','#3A74C0','#D05A1A','#7B45C0','#B08000'];
 
 // ─── Achievements ─────────────────────────────────────────────────────────────
 // hidden: true means the unlock condition is not shown to the player when locked.
@@ -65,9 +65,9 @@ function todayDisplayDate() {
 
 // ─── Color theme ──────────────────────────────────────────────────────────────
 
-// Calibrated so 2026-05-25 → offset 1 (E = pink accent).
+// Calibrated so 2026-05-25 → offset 1 (J=pink U=blue G=orange G=purple L=yellow E=green).
 function getDayOffset() {
-  return (Math.floor(Date.parse(todayKey()) / 86400000) + 6) % 6;
+  return (Math.floor(Date.parse(todayKey()) / 86400000) + 7) % 6;
 }
 
 function getDailyColors() {
@@ -845,7 +845,7 @@ function renderBank() {
     bank.appendChild(tile);
   });
 
-  // Shuffle button — only when there are 2+ unconfirmed letters available.
+  // Shuffle button — prepended to left of bank; only when 2+ unconfirmed letters available.
   const availCount = letterStates.filter(s => !s.confirmed).length;
   if (availCount > 1) {
     const shuffleBtn = document.createElement('button');
@@ -853,7 +853,7 @@ function renderBank() {
     shuffleBtn.setAttribute('aria-label', 'Shuffle letters');
     shuffleBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="4" y1="4" x2="21" y2="21"/></svg>`;
     shuffleBtn.addEventListener('click', shuffleBank);
-    bank.appendChild(shuffleBtn);
+    bank.prepend(shuffleBtn);
   }
 
   // Backspace button — always visible; faded when nothing to delete.
