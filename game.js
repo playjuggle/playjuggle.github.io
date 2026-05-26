@@ -109,7 +109,78 @@ function parsePuzzleRow(date, theme, row) {
     );
   }
 
-  return { theme, words, finalWord };
+  // ── Word display order ────────────────────────────────────────────────────
+  // Deterministically reorder the five words so solving top-to-bottom does
+  // not reveal the final answer's letter sequence.
+  const wordDisplayPerm  = lcgPermutation(5, date + '\x00wordorder');
+  const displayWords     = wordDisplayPerm.map(i => words[i]);
+
+  // Bonus letters re-collected in the new display order.
+  const displayBonusLetters = [];
+  displayWords.forEach(w => w.bonusIndices.forEach(idx => displayBonusLetters.push(w.answer[idx])));
+
+  // ── Slot assignment ───────────────────────────────────────────────────────
+  // Map each bonus letter (in reveal order) to a fixed final-prompt slot such
+  // that no 3 consecutive prompt slots spell a consecutive substring of the answer.
+  const bonusSlotOrder = computeBonusSlotOrder(displayBonusLetters, finalWord, date);
+
+  return { theme, words: displayWords, finalWord, bonusSlotOrder };
+}
+
+// ─── Seeded LCG helpers ───────────────────────────────────────────────────────
+
+function lcgHash(seed) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  return h;
+}
+
+// Returns a deterministic permutation of [0..n-1] via Fisher-Yates + LCG.
+function lcgPermutation(n, seed) {
+  let h = lcgHash(seed);
+  const perm = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    h = (Math.imul(h, 1664525) + 1013904223) | 0;
+    const j = Math.abs(h) % (i + 1);
+    [perm[i], perm[j]] = [perm[j], perm[i]];
+  }
+  return perm;
+}
+
+// Assigns each bonus letter (in word-reveal order) to a fixed slot in the
+// final-word prompt. Scores 120 seeded candidates and picks the one that best
+// avoids consecutive answer substrings, answer-bigram runs, and correct-position
+// placements — guaranteeing no 3 consecutive prompt slots spell part of the answer.
+function computeBonusSlotOrder(bonusLetters, finalWord, seed) {
+  let h = lcgHash(seed + '\x00slots');
+  function next() { h = (Math.imul(h, 1664525) + 1013904223) | 0; return Math.abs(h); }
+
+  function buildPrompt(perm) {
+    const slots = Array(6);
+    perm.forEach((slot, i) => { slots[slot] = bonusLetters[i]; });
+    return slots;
+  }
+
+  function score(perm) {
+    const s = buildPrompt(perm);
+    let n = 0;
+    for (let j = 0; j <= 3; j++) if (finalWord.includes(s[j] + s[j+1] + s[j+2])) n += 100;
+    for (let j = 0; j <= 4; j++) if (finalWord.includes(s[j] + s[j+1]))            n += 8;
+    for (let j = 0; j < 6;  j++) if (s[j] === finalWord[j])                        n += 3;
+    return n;
+  }
+
+  const base = [0, 1, 2, 3, 4, 5];
+  let best = base.slice(), bestScore = score(base);
+
+  for (let attempt = 0; attempt < 120; attempt++) {
+    const c = base.slice();
+    for (let i = 5; i > 0; i--) { const j = next() % (i + 1); [c[i], c[j]] = [c[j], c[i]]; }
+    const sc = score(c);
+    if (sc < bestScore) { bestScore = sc; best = c.slice(); }
+  }
+
+  return best;
 }
 
 // ─── Deterministic scramble ───────────────────────────────────────────────────
@@ -140,11 +211,13 @@ function deterministicScramble(word, seed) {
     }
   }
 
-  // Break any consecutive bigrams that also appear consecutively in the answer.
-  // A matching bigram would hint at the word order; we swap deterministically
-  // using the running LCG state so the same seed always yields the same result.
+  // Break any consecutive bigrams that appear consecutively in the answer
+  // read forwards OR backwards — either direction hints at the word.
   const answerBigrams = new Set();
-  for (let i = 0; i < word.length - 1; i++) answerBigrams.add(word[i] + word[i + 1]);
+  for (let i = 0; i < word.length - 1; i++) {
+    answerBigrams.add(word[i] + word[i + 1]);   // forward
+    answerBigrams.add(word[i + 1] + word[i]);   // reversed
+  }
 
   for (let pass = 0; pass < 30; pass++) {
     let badIdx = -1;

@@ -873,31 +873,69 @@ function shuffleBank() {
   const ws      = isFinal ? S.final : S.words[S.activeWord];
   if (ws.solved) return;
 
-  if (isFinal) {
-    const arr = S.final.bonusLetters.slice();
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  const answer  = ws.answer;
+  const current = isFinal ? S.final.bonusLetters.join('') : ws.scrambled;
+  const letters = current.split('');
+
+  // Score a candidate permutation — lower is less answer-revealing.
+  function scoreCandidate(c) {
+    let score = 0;
+    const str         = c.join('');
+    const revAnswer   = answer.split('').reverse().join('');
+
+    // Hard penalty: any 3 consecutive letters matching a forward OR reversed answer substring.
+    for (let i = 0; i <= c.length - 3; i++) {
+      const tri = str.slice(i, i + 3);
+      if (answer.includes(tri) || revAnswer.includes(tri)) score += 100;
     }
-    if (arr.join('') === S.final.bonusLetters.join('')) {
-      for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i] !== arr[i + 1]) { [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]; break; }
+    // Penalty: letter sitting in its correct answer position.
+    for (let i = 0; i < c.length; i++) {
+      if (c[i] === answer[i]) score += 4;
+    }
+    // Penalty: consecutive pair whose relative order matches the forward answer.
+    for (let i = 0; i < c.length - 1; i++) {
+      const a = answer.indexOf(c[i]);
+      const b = answer.indexOf(c[i + 1]);
+      if (a !== -1 && b !== -1 && a < b) score += 1;
+    }
+
+    return score;
+  }
+
+  // Generate 60 random shuffles and keep the best-scoring one.
+  let best = null;
+  let bestScore = Infinity;
+
+  for (let attempt = 0; attempt < 60; attempt++) {
+    const candidate = letters.slice();
+    for (let i = candidate.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [candidate[i], candidate[j]] = [candidate[j], candidate[i]];
+    }
+    if (candidate.join('') === current) continue;
+    const score = scoreCandidate(candidate);
+    if (score < bestScore) { bestScore = score; best = candidate.slice(); }
+  }
+
+  // Guaranteed fallback: swap the first non-identical adjacent pair.
+  if (!best || best.join('') === current) {
+    const fallback = letters.slice();
+    for (let i = 0; i < fallback.length - 1; i++) {
+      if (fallback[i] !== fallback[i + 1]) {
+        [fallback[i], fallback[i + 1]] = [fallback[i + 1], fallback[i]];
+        if (fallback.join('') !== current) { best = fallback; break; }
+        [fallback[i], fallback[i + 1]] = [fallback[i + 1], fallback[i]];
       }
     }
-    S.final.bonusLetters = arr;
+  }
+
+  if (!best || best.join('') === current) return;
+
+  if (isFinal) {
+    S.final.bonusLetters = best;
     renderFinalPrompt();
   } else {
-    const letters = ws.scrambled.split('');
-    for (let i = letters.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [letters[i], letters[j]] = [letters[j], letters[i]];
-    }
-    if (letters.join('') === ws.scrambled) {
-      for (let i = 0; i < letters.length - 1; i++) {
-        if (letters[i] !== letters[i + 1]) { [letters[i], letters[i + 1]] = [letters[i + 1], letters[i]]; break; }
-      }
-    }
-    ws.scrambled = letters.join('');
+    ws.scrambled = best.join('');
     const promptEl = document.querySelector(`#row-${S.activeWord} .prompt`);
     if (promptEl) promptEl.textContent = ws.scrambled.split('').join(' · ');
   }
@@ -1243,8 +1281,10 @@ function revealBonusLetters(wordIdx) {
 }
 
 function revealOneLetter(letter) {
-  const slot = S.final.bonusLetters.findIndex(b => b === null);
-  if (slot === -1) return;
+  // Use the predetermined slot for this reveal index rather than left-to-right fill.
+  const revealIdx = S.final.bonusLetters.filter(b => b !== null).length;
+  if (revealIdx >= 6) return;
+  const slot = S.puzzle.bonusSlotOrder[revealIdx];
   S.final.bonusLetters[slot] = letter;
   renderFinalPrompt();
 }
@@ -1349,7 +1389,7 @@ function showCompletion() {
   // Build share text with URL embedded so iMessage shows the full message
   const url        = getShareUrl();
   const timeStr    = time + (S.hardMode ? '*' : '');
-  const shareLines = [S.puzzle.theme, timeStr];
+  const shareLines = ["Today's JUGGLE", S.puzzle.theme, timeStr];
   if (url) shareLines.push(url);
   const shareText  = shareLines.join('\n');
 
