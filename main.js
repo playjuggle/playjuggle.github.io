@@ -65,9 +65,9 @@ function todayDisplayDate() {
 
 // ─── Color theme ──────────────────────────────────────────────────────────────
 
-// Calibrated so 2026-05-25 → offset 0 (E = green accent).
+// Calibrated so 2026-05-25 → offset 1 (E = pink accent).
 function getDayOffset() {
-  return (Math.floor(Date.parse(todayKey()) / 86400000) + 5) % 6;
+  return (Math.floor(Date.parse(todayKey()) / 86400000) + 6) % 6;
 }
 
 function getDailyColors() {
