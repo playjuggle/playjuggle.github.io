@@ -15,7 +15,7 @@
   --accent-solved: rgba(244,160,188,0.52);
   --slot-w:  44px;
   --slot-h:  clamp(34px, 5.2vh, 52px);
-  --tile-sz: 44px;
+  --tile-sz: clamp(36px, calc((100vw - 74px) / 8), 44px);
   --gap:     6px;
   --radius:  4px;
 }
