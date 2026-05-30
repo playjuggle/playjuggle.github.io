@@ -8,6 +8,15 @@
 const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 
 // ---------------------------------------------------------------------------
+// ANALYTICS_ENDPOINT
+// Create a Google Sheet, open Extensions → Apps Script, paste the script
+// from the README / setup instructions, and deploy as a web app (Execute as:
+// Me, Who has access: Anyone).  Paste the deployment URL here.
+// Leave blank to disable analytics without breaking anything.
+// ---------------------------------------------------------------------------
+const ANALYTICS_ENDPOINT = '';
+
+// ---------------------------------------------------------------------------
 // PUBLIC_GAME_URL
 // Set this to your live URL once the game is deployed (e.g. GitHub Pages).
 // Looks like: https://username.github.io/juggle
@@ -257,12 +266,14 @@ function saveState() {
     words: S.words.map(w => ({
       confirmed: w.confirmed,
       guess:     w.guess,
+      bankSlots: w.bankSlots,
       solved:    w.solved,
     })),
     final: {
       bonusLetters: S.final.bonusLetters,
       confirmed:    S.final.confirmed,
       guess:        S.final.guess,
+      bankSlots:    S.final.bankSlots,
       solved:       S.final.solved,
     },
     activeWord: S.activeWord,
@@ -288,11 +299,13 @@ function loadState() {
     d.words.forEach((w, i) => {
       S.words[i].confirmed = w.confirmed;
       S.words[i].guess     = w.guess;
+      S.words[i].bankSlots = w.bankSlots ?? Array(6).fill(null);
       S.words[i].solved    = w.solved;
     });
     S.final.bonusLetters = d.final.bonusLetters;
     S.final.confirmed    = d.final.confirmed;
     S.final.guess        = d.final.guess;
+    S.final.bankSlots    = d.final.bankSlots ?? Array(6).fill(null);
     S.final.solved       = d.final.solved;
     S.activeWord = d.activeWord;
     S.cursor     = d.cursor;
@@ -469,6 +482,7 @@ function init() {
     bonusIndices: w.bonusIndices,
     confirmed:    Array(6).fill(false),
     guess:        Array(6).fill(null),
+    bankSlots:    Array(6).fill(null),
     solved:       false,
   }));
 
@@ -477,6 +491,7 @@ function init() {
     bonusLetters: Array(6).fill(null),
     confirmed:    Array(6).fill(false),
     guess:        Array(6).fill(null),
+    bankSlots:    Array(6).fill(null),
     solved:       false,
   };
 
@@ -556,6 +571,7 @@ function onReady() {
   setActive(0);
   Timer.start();
   saveState();
+  trackEvent('start');
 }
 
 // ─── Already-solved screen ───────────────────────────────────────────────────
@@ -772,6 +788,7 @@ function giveHint() {
   let idx = ws.guess.findIndex((g, i) => !ws.confirmed[i] && g === null);
   if (idx === -1) idx = ws.guess.findIndex((g, i) => !ws.confirmed[i] && g !== ws.answer[i]);
   if (idx === -1) return;
+  ws.bankSlots[idx] = null; // confirmed by hint; bank tile freed back to confirmedRem pool
   ws.guess[idx]     = ws.answer[idx];
   ws.confirmed[idx] = true;
   S.cursor = firstOpenSlot(ws);
@@ -809,37 +826,28 @@ function renderBank() {
     return { ch, confirmed: false };
   });
 
-  // Count letters placed at non-cursor, non-confirmed positions.
-  const placedElsewhere = {};
-  ws.guess.forEach((g, i) => {
-    if (g !== null && !ws.confirmed[i] && i !== S.cursor) {
-      placedElsewhere[g] = (placedElsewhere[g] || 0) + 1;
-    }
+  // Build precise bank-tile state from bankSlots (avoids first-instance bias).
+  const placedBankSet = new Set();
+  ws.bankSlots.forEach((bi, gpos) => {
+    if (bi !== null && !ws.confirmed[gpos] && gpos !== S.cursor) placedBankSet.add(bi);
   });
+  const cursorBankIdx = ws.bankSlots[S.cursor]; // null when cursor slot is empty
 
-  const cursorLetter   = ws.guess[S.cursor];
-  const renderedPlaced = {};
-  let   cursorShown    = false;
-
-  letterStates.forEach(({ ch, confirmed }) => {
-    renderedPlaced[ch] = renderedPlaced[ch] || 0;
-
+  letterStates.forEach(({ ch, confirmed }, bankIdx) => {
     const tile = document.createElement('div');
     tile.className   = 'tile';
     tile.textContent = ch;
 
     if (confirmed) {
       tile.classList.add('tile-confirmed');
-    } else if (!cursorShown && ch === cursorLetter) {
+    } else if (bankIdx === cursorBankIdx) {
       tile.classList.add('tile-at-cursor');
-      cursorShown = true;
-    } else if (renderedPlaced[ch] < (placedElsewhere[ch] || 0)) {
+    } else if (placedBankSet.has(bankIdx)) {
       tile.classList.add('tile-placed');
-      tile.addEventListener('click', () => placeTile(ch));
-      renderedPlaced[ch]++;
+      tile.addEventListener('click', () => placeTile(ch, bankIdx));
     } else {
       tile.classList.add('tile-active');
-      tile.addEventListener('click', () => placeTile(ch));
+      tile.addEventListener('click', () => placeTile(ch, bankIdx));
     }
 
     bank.appendChild(tile);
@@ -935,7 +943,8 @@ function shuffleBank() {
     S.final.bonusLetters = best;
     renderFinalPrompt();
   } else {
-    ws.scrambled = best.join('');
+    ws.scrambled  = best.join('');
+    ws.bankSlots  = remapBankSlots(ws, ws.scrambled);
     const promptEl = document.querySelector(`#row-${S.activeWord} .prompt`);
     if (promptEl) promptEl.textContent = ws.scrambled.split('').join(' · ');
   }
@@ -948,11 +957,16 @@ function doBackspace() {
   const ws = S.activeWord === 5 ? S.final : S.words[S.activeWord];
   if (ws.solved) return;
   if (ws.guess[S.cursor] !== null && !ws.confirmed[S.cursor]) {
-    ws.guess[S.cursor] = null;
+    ws.guess[S.cursor]     = null;
+    ws.bankSlots[S.cursor] = null;
   } else {
     let prev = S.cursor - 1;
     while (prev >= 0 && ws.confirmed[prev]) prev--;
-    if (prev >= 0) { ws.guess[prev] = null; S.cursor = prev; }
+    if (prev >= 0) {
+      ws.guess[prev]     = null;
+      ws.bankSlots[prev] = null;
+      S.cursor = prev;
+    }
   }
   renderSlots(S.activeWord);
   renderBank();
@@ -996,27 +1010,93 @@ function availableCount(letter) {
   return ws.answer.split('').filter((ch, i) => ch === letter && !ws.confirmed[i]).length;
 }
 
-function placeTile(letter) {
-  const ws = S.activeWord === 5 ? S.final : S.words[S.activeWord];
+// Returns the Set of bank-tile indices consumed by confirmed (hint-placed) positions.
+// Uses the same left-to-right heuristic as renderBank so behaviour is consistent.
+function getConfirmedBankIndices(ws, allLetters) {
+  const rem = ws.answer.split('').filter((_, i) => ws.confirmed[i]);
+  const out = new Set();
+  allLetters.forEach((ch, bi) => {
+    const ci = rem.indexOf(ch);
+    if (ci !== -1) { rem.splice(ci, 1); out.add(bi); }
+  });
+  return out;
+}
+
+// Returns the first bank-tile index available for `letter` that is neither
+// confirmed nor already claimed by a guess slot.  Excludes the cursor's current
+// bankSlot so it can be reused when the same letter is retyped.
+function findFirstAvailableBankIdx(ws, letter) {
+  const isFinal    = S.activeWord === 5;
+  const allLetters = isFinal ? S.final.bonusLetters.filter(Boolean) : ws.scrambled.split('');
+  const confSet    = isFinal ? new Set() : getConfirmedBankIndices(ws, allLetters);
+  const takenSet   = new Set(ws.bankSlots.filter(bi => bi !== null));
+  for (let bi = 0; bi < allLetters.length; bi++) {
+    if (allLetters[bi] === letter && !confSet.has(bi) && !takenSet.has(bi)) return bi;
+  }
+  return null;
+}
+
+// Rebuilds bankSlots after ws.scrambled changes (shuffle).  Reassigns each
+// placed (non-confirmed) guess position to a new bank index in the new order.
+function remapBankSlots(ws, newScrambled) {
+  const newLetters = newScrambled.split('');
+  const confSet    = getConfirmedBankIndices(ws, newLetters);
+  const pools      = {};
+  newLetters.forEach((ch, bi) => {
+    if (!confSet.has(bi)) { if (!pools[ch]) pools[ch] = []; pools[ch].push(bi); }
+  });
+  const out = Array(6).fill(null);
+  for (let gpos = 0; gpos < 6; gpos++) {
+    const ch = ws.guess[gpos];
+    if (ch !== null && !ws.confirmed[gpos] && pools[ch]?.length) {
+      out[gpos] = pools[ch].shift();
+    }
+  }
+  return out;
+}
+
+function placeTile(letter, bankIdx = null) {
+  const isFinal = S.activeWord === 5;
+  const ws = isFinal ? S.final : S.words[S.activeWord];
   if (ws.solved) return;
 
   if (letter === null) {
     ws.guess[S.cursor] = null;
+    ws.bankSlots[S.cursor] = null;
   } else {
-    const avail          = availableCount(letter);
-    const placedElsewhere = ws.guess.filter(
-      (g, idx) => g === letter && idx !== S.cursor && !ws.confirmed[idx]
-    ).length;
+    const avail = availableCount(letter);
+    const placedElsewhereIdxs = ws.guess.reduce((acc, g, idx) => {
+      if (g === letter && idx !== S.cursor && !ws.confirmed[idx]) acc.push(idx);
+      return acc;
+    }, []);
 
-    if (placedElsewhere >= avail) {
-      // All copies already on board — move one to make room at cursor.
-      const clearAt = ws.guess.findIndex(
-        (g, idx) => g === letter && idx !== S.cursor && !ws.confirmed[idx]
-      );
-      if (clearAt !== -1) ws.guess[clearAt] = null;
+    // Auto-pick bank tile for keyboard input or when not specified.
+    if (bankIdx === null) {
+      if (placedElsewhereIdxs.length >= avail) {
+        // All copies placed — inherit the bank tile being displaced.
+        bankIdx = ws.bankSlots[placedElsewhereIdxs[0]] ?? null;
+      } else {
+        // Temporarily free cursor slot so it's eligible for reuse.
+        const prev = ws.bankSlots[S.cursor];
+        ws.bankSlots[S.cursor] = null;
+        bankIdx = findFirstAvailableBankIdx(ws, letter);
+        ws.bankSlots[S.cursor] = prev;
+      }
     }
 
-    ws.guess[S.cursor] = letter;
+    // Displace if all copies are already placed.
+    if (placedElsewhereIdxs.length >= avail) {
+      // If bankIdx matches a specific placed tile, displace that position.
+      let clearAt = ws.bankSlots.findIndex(
+        (bi, gpos) => bi === bankIdx && !ws.confirmed[gpos] && gpos !== S.cursor
+      );
+      if (clearAt === -1) clearAt = placedElsewhereIdxs[0];
+      if (clearAt !== -1) { ws.guess[clearAt] = null; ws.bankSlots[clearAt] = null; }
+    }
+
+    ws.bankSlots[S.cursor] = null; // free whatever was at cursor
+    ws.guess[S.cursor]     = letter;
+    ws.bankSlots[S.cursor] = bankIdx;
   }
 
   advanceCursor();
@@ -1091,7 +1171,8 @@ function onSlotClick(wordIdx, pos) {
 
   if (S.activeWord === wordIdx) {
     if (S.cursor === pos && ws.guess[pos] !== null && !ws.confirmed[pos]) {
-      ws.guess[pos] = null;
+      ws.guess[pos]     = null;
+      ws.bankSlots[pos] = null;
       renderSlots(wordIdx);
       renderBank();
       saveState();
@@ -1243,6 +1324,11 @@ function solveWord(isFinal) {
     saveSettings();
     Timer.pause();
     saveState();
+    trackEvent('finish', {
+      time_ms:       Timer.elapsed,
+      hints_used:    S.hintsUsed,
+      wrong_guesses: S.wrongGuesses,
+    });
     setTimeout(showCompletion, 350);
     return;
   }
@@ -1261,6 +1347,7 @@ function wrongGuess(isFinal, guess) {
   // Confirm any correct-position letters (positional check handles duplicates correctly).
   for (let i = 0; i < 6; i++) {
     if (!ws.confirmed[i] && guess[i] === answer[i]) {
+      ws.bankSlots[i] = null; // confirmed; freed back to confirmedRem pool
       ws.confirmed[i] = true;
       if (!isFinal && S.words[S.activeWord].bonusIndices.includes(i)) {
         revealOneLetter(guess[i]);
@@ -1388,7 +1475,7 @@ function showCompletion() {
 
   // Build share text with URL embedded so iMessage shows the full message
   const url        = getShareUrl();
-  const timeStr    = time + (S.hardMode ? '*' : '');
+  const timeStr    = 'Solved in ' + time + (S.hardMode ? '*' : '');
   const shareLines = ["Today's JUGGLE", S.puzzle.theme, timeStr];
   if (url) shareLines.push(url);
   const shareText  = shareLines.join('\n');
@@ -1470,10 +1557,11 @@ function showCompletion() {
 
     if (navigator.share) {
       navigator.share({ text: shareText })
-        .then(() => showMsg('Shared!'))
+        .then(() => { showMsg('Shared!'); trackEvent('share'); })
         .catch(err => { if (err.name !== 'AbortError') copyToClipboard(shareText, showMsg); });
     } else {
       copyToClipboard(shareText, showMsg);
+      trackEvent('share');
     }
   });
 
@@ -1538,6 +1626,26 @@ function copyToClipboard(text, callback) {
   navigator.clipboard.writeText(text)
     .then(() => callback && callback('Copied to clipboard!'))
     .catch(() => callback && callback('Could not copy — try long-pressing'));
+}
+
+// ─── Analytics ────────────────────────────────────────────────────────────────
+// Fire-and-forget POST to the Apps Script endpoint; silently no-ops if not set.
+
+function trackEvent(event, extra = {}) {
+  if (!ANALYTICS_ENDPOINT) return;
+  const payload = {
+    event,
+    date:          todayKey(),
+    theme:         S.puzzle?.theme ?? '',
+    hard_mode:     S.hardMode,
+    user_agent:    navigator.userAgent,
+    ...extra,
+  };
+  fetch(ANALYTICS_ENDPOINT, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+  }).catch(() => {});
 }
 
 // ─── Start ────────────────────────────────────────────────────────────────────

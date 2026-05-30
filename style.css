@@ -704,7 +704,7 @@ header {
 
 #bank-area {
   flex-shrink: 0;
-  padding: 10px 0 20px;
+  padding: clamp(28px, 4.8vh, 38px) 0 20px;
   border-top: 1px solid var(--grey-lt);
   position: relative;
 }
@@ -812,11 +812,10 @@ header {
   cursor: pointer;
 }
 
-/* Hint button — floats above the bank border; absolutely positioned so it never
-   affects layout and can't cause a scrollbar in the board area above it. */
+/* Hint button — lives inside bank-area's top padding so it never overlaps the board. */
 #hint-btn {
   position: absolute;
-  top: -34px;
+  top: 2px;
   left: 0;
   right: 0;
   z-index: 2;

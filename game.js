@@ -36,6 +36,10 @@
 // ---------------------------------------------------------------------------
 
 const PUZZLE_ROWS = {
+  "2026-05-30": {
+  theme: "Airplane Mode",
+  row: "WI*NDOW, BUC*K*LE, T*RAVEL, SAFE*TY, FLIGHT*, TICKET"
+  },
   "2026-05-26": {
   theme: "Breakfast",
   row: "C*EREAL, YO*GURT, WAF*F*LE, OME*LET, ORANGE*, COFFEE",
