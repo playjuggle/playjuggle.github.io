@@ -14,7 +14,7 @@ const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 // Me, Who has access: Anyone).  Paste the deployment URL here.
 // Leave blank to disable analytics without breaking anything.
 // ---------------------------------------------------------------------------
-const ANALYTICS_ENDPOINT = '';
+const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxDPtwBJ-0P2srazz13k1DSuKGChr31pVfkyCSFx3skxCl1qy9_jxpdh3-Z0GXjYIplSQ/exec';
 
 // ---------------------------------------------------------------------------
 // PUBLIC_GAME_URL
