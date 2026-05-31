@@ -33,15 +33,15 @@ const PALETTE_DARK = ['#3A8C5A','#C84B70','#3A74C0','#D05A1A','#7B45C0','#B08000
 // ─── Achievements ─────────────────────────────────────────────────────────────
 // hidden: true means the unlock condition is not shown to the player when locked.
 const ACHIEVEMENTS = [
-  { id: 'flawless',   label: 'Flawless',   icon: '★',   color1: '#F47B55', color2: '#E06040', desc: 'No wrong guesses',  hidden: false },
-  { id: 'lightning',  label: 'Lightning',  icon: '⚡',  color1: '#A08FD4', color2: '#8070B8', desc: 'Under 90 seconds',  hidden: false },
-  { id: 'unbroken',   label: 'Unbroken',   icon: '📅',  color1: '#F4A0BC', color2: '#E080A0', desc: '5-day streak',      hidden: true  },
-  { id: 'wordsmith',  label: 'Wordsmith',  icon: '✏️',  color1: '#A8C8B8', color2: '#80A898', desc: '2 bonus words',     hidden: true  },
-  { id: 'hardboiled', label: 'Hardboiled', icon: '🥚',  color1: '#F7B090', color2: '#E0805A', desc: 'Hard mode finish',  hidden: true  },
-  { id: 'nightowl',   label: 'Night Owl',  icon: '🌙',  color1: '#7090C0', color2: '#506490', desc: 'After midnight',    hidden: true  },
-  { id: 'earlybird',  label: 'Early Bird', icon: '🌅',  color1: '#F0C060', color2: '#C89830', desc: 'Before 8am',        hidden: true  },
-  { id: 'ironwill',   label: 'Iron Will',  icon: '💪',  color1: '#90A8B8', color2: '#607888', desc: '5+ wrong guesses',  hidden: true  },
-  { id: 'veteran',    label: 'Veteran',    icon: '🏆',  color1: '#D4A840', color2: '#A87820', desc: '10 puzzles done',   hidden: true  },
+  { id: 'flawless',   label: 'Flawless',   icon: '★',   color1: '#F47B55', color2: '#E06040', desc: 'No wrong guesses',  hidden: true, repeatable: true  },
+  { id: 'lightning',  label: 'Lightning',  icon: '⚡',  color1: '#A08FD4', color2: '#8070B8', desc: 'Under 90 seconds',  hidden: true, repeatable: true  },
+  { id: 'unbroken',   label: 'Unbroken',   icon: '📅',  color1: '#F4A0BC', color2: '#E080A0', desc: '5-day streak',      hidden: true                   },
+  { id: 'wordsmith',  label: 'Wordsmith',  icon: '✏️',  color1: '#A8C8B8', color2: '#80A898', desc: '2 bonus words',     hidden: true, repeatable: true  },
+  { id: 'hardboiled', label: 'Hardboiled', icon: '🥚',  color1: '#F7B090', color2: '#E0805A', desc: 'Hard mode finish',  hidden: true, repeatable: true  },
+  { id: 'nightowl',   label: 'Night Owl',  icon: '🌙',  color1: '#7090C0', color2: '#506490', desc: 'After midnight',    hidden: true, repeatable: true  },
+  { id: 'earlybird',  label: 'Early Bird', icon: '🌅',  color1: '#F0C060', color2: '#C89830', desc: 'Before 8am',        hidden: true, repeatable: true  },
+  { id: 'ironwill',   label: 'Iron Will',  icon: '💪',  color1: '#90A8B8', color2: '#607888', desc: '5+ wrong guesses',  hidden: true, repeatable: true  },
+  { id: 'veteran',    label: 'Veteran',    icon: '🏆',  color1: '#D4A840', color2: '#A87820', desc: '10 puzzles done',   hidden: true                   },
 ];
 
 function hexToRgb(hex) {
@@ -398,6 +398,16 @@ function saveAchievements(unlocked) {
   catch {}
 }
 
+function loadAchCounts() {
+  try { return JSON.parse(localStorage.getItem('juggle_ach_counts') || '{}'); }
+  catch { return {}; }
+}
+
+function saveAchCounts(counts) {
+  try { localStorage.setItem('juggle_ach_counts', JSON.stringify(counts)); }
+  catch {}
+}
+
 function incrementCompletions() {
   try {
     const completions = JSON.parse(localStorage.getItem('juggle_completions') || '[]');
@@ -417,11 +427,18 @@ function checkAndUnlockAchievements() {
   const completions       = incrementCompletions();
   const streak            = getStreak();
   const hours             = new Date().getHours();
+  const today             = realTodayKey();
+  const counts            = loadAchCounts();
 
   const check = (id, condition) => {
     if (!condition) return;
     earnedThisSession.push(id);
     if (!unlocked.has(id)) { unlocked.add(id); newlyUnlocked.push(id); }
+    const ach = ACHIEVEMENTS.find(a => a.id === id);
+    if (ach?.repeatable) {
+      if (!counts[id]) counts[id] = [];
+      if (!counts[id].includes(today)) counts[id].push(today);
+    }
   };
 
   check('flawless',   S.wrongGuesses === 0 && S.invalidAttempts === 0 && S.hintsUsed === 0);
@@ -435,6 +452,7 @@ function checkAndUnlockAchievements() {
   check('veteran',    completions >= 10);
 
   saveAchievements(unlocked);
+  saveAchCounts(counts);
   completionCache = { earnedThisSession, newlyUnlocked };
   return completionCache;
 }
@@ -1103,6 +1121,9 @@ function placeTile(letter, bankIdx = null) {
   renderSlots(S.activeWord);
   renderBank();
   saveState();
+  if (letter !== null && ws.guess.every(g => g !== null)) {
+    setTimeout(handleSubmit, 150);
+  }
 }
 
 // ─── Cursor ───────────────────────────────────────────────────────────────────
@@ -1205,7 +1226,6 @@ function bindGlobalEvents() {
   document.getElementById('ach-close').addEventListener('click', closeAchievementsModal);
   document.getElementById('ach-backdrop').addEventListener('click', closeAchievementsModal);
 
-  document.getElementById('submit-btn').addEventListener('click', handleSubmit);
   document.getElementById('hint-btn').addEventListener('click', giveHint);
   document.getElementById('view-results-btn').addEventListener('click', () => showCompletion());
 
@@ -1261,17 +1281,16 @@ function isValidGuess(word) {
 }
 
 function updateSubmit() {
-  const ws    = S.activeWord === 5 ? S.final : S.words[S.activeWord];
-  const ready = ws.guess.every(g => g !== null) && isValidGuess(ws.guess.join(''));
-  document.getElementById('submit-btn').classList.toggle('btn-ready', ready);
+  // No submit button in the UI — auto-submission is handled in placeTile.
 }
 
 function shakeSubmit() {
-  const btn = document.getElementById('submit-btn');
-  btn.classList.remove('shake');
-  void btn.offsetWidth;
-  btn.classList.add('shake');
-  setTimeout(() => btn.classList.remove('shake'), 400);
+  const el = document.getElementById(`slots-${S.activeWord}`);
+  if (!el) return;
+  el.classList.remove('shake');
+  void el.offsetWidth;
+  el.classList.add('shake');
+  setTimeout(() => el.classList.remove('shake'), 400);
 }
 
 function handleSubmit() {
@@ -1421,12 +1440,15 @@ function renderAchievementsGrid() {
   const grid = document.getElementById('achievements-grid');
   if (!grid) return;
   const unlocked = loadAchievements();
+  const counts   = loadAchCounts();
   const earned   = ACHIEVEMENTS.filter(a => unlocked.has(a.id)).length;
 
   document.getElementById('ach-count').textContent = `${earned} / ${ACHIEVEMENTS.length} earned`;
 
   grid.innerHTML = ACHIEVEMENTS.map(a => {
     if (unlocked.has(a.id)) {
+      const count    = a.repeatable ? (counts[a.id]?.length ?? 1) : 0;
+      const countTag = count > 1 ? `<div class="ach-count">×${count}</div>` : '';
       return `
         <div class="ach-item">
           <div class="medal-drop">
@@ -1440,6 +1462,7 @@ function renderAchievementsGrid() {
           </div>
           <div class="ach-label">${a.label}</div>
           <div class="ach-desc">${a.desc}</div>
+          ${countTag}
         </div>`;
     } else {
       const lockedDesc = a.hidden ? '???' : a.desc;

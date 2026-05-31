@@ -745,16 +745,16 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 1.5px solid var(--grey-lt);
+  background: var(--accent);
+  border: 2px solid transparent;
   border-radius: var(--radius);
-  color: var(--grey-md);
+  color: var(--black);
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
 }
 
-.shuffle-btn:active { color: var(--grey-dk); border-color: var(--grey-md); }
+.shuffle-btn:active { opacity: 0.7; }
 
 /* Backspace button — sits at end of tile bank row */
 .backspace-btn {
@@ -763,17 +763,17 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: 1.5px solid var(--grey-lt);
+  background: var(--accent);
+  border: 2px solid transparent;
   border-radius: var(--radius);
-  color: var(--grey-md);
+  color: var(--black);
   cursor: pointer;
   padding: 0;
   flex-shrink: 0;
 }
 
-.backspace-btn:active          { color: var(--grey-dk); border-color: var(--grey-md); }
-.backspace-btn--empty          { opacity: 0.25; cursor: default; pointer-events: none; }
+.backspace-btn:active          { opacity: 0.7; }
+.backspace-btn--empty          { background: none; border: 1.5px solid var(--grey-lt); color: var(--grey-md); opacity: 0.35; cursor: default; pointer-events: none; }
 
 /* Post-solve decorative JUGGLE tiles */
 .tile-juggle {
@@ -1087,6 +1087,14 @@ header {
 }
 
 .ach-desc-locked { color: #7A706A; }
+
+.ach-count {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--grey-dk);
+  text-align: center;
+  margin-top: -2px;
+}
 
 /* Achievement callout in completion card */
 #completion-achievements {
