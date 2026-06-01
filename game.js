@@ -36,7 +36,38 @@
 // ---------------------------------------------------------------------------
 
 const PUZZLE_ROWS = {
-  
+  "2026-06-08": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-07": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-06": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-05": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-04": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-03": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-02": {
+  theme: "Airplane Mode",
+  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  },
+  "2026-06-01": {
+  theme: "Class is in Session",
+  row: "CR*AYON, PE*NCIL, LES*SON, MA*RKER*, RE*CESS, ERASER"
+  },
   "2026-05-31": {
   theme: "Airplane Mode",
   row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
