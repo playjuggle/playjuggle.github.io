@@ -37,32 +37,32 @@
 
 const PUZZLE_ROWS = {
   "2026-06-08": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "What's for Dessert?",
+  row: "C*OOKI*E, GE*L*ATO, SUNDA*E, PASTR*Y, MOUSSE, ECLAIR"
   },
   "2026-06-07": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "The Veggie Garden",
+  row: "C*ELERY, GA*R*LIC, TO*MATO, POT*ATO, PEPPER*, CARROT"
   },
   "2026-06-06": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "Outer Space",
+  row: "R*OC*KET, GA*LAXY, METEOR*, PLANE*T*, COSMOS, CRATER"
   },
   "2026-06-05": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "Hail Mary",
+  row: "KIC*K*ER, HELME*T, PLA*YER, JERSE*Y, HUDDL*E, TACKLE"
   },
   "2026-06-04": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "X Marks the Spot",
+  row: "PAR*ROT, CA*NNON, ANCHO*R, IS*L*AND, PI*STOL, SAILOR"
   },
   "2026-06-03": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "Once Upon a Time",
+  row: "KNI*GHT, WIZAR*D, THR*ONE, CA*STLE, PR*IN*CE, DRAGON"
   },
   "2026-06-02": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
+  theme: "Animal Kingdom",
+  row: "JAGU*AR, RABBIT*, PAR*ROT, L*IZARD, MONKE*Y, TURTLE"
   },
   "2026-06-01": {
   theme: "Class is in Session",
