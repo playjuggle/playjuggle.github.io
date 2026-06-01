@@ -14,7 +14,7 @@ const FEEDBACK_ENDPOINT = 'https://formspree.io/f/xjgzagya';
 // Me, Who has access: Anyone).  Paste the deployment URL here.
 // Leave blank to disable analytics without breaking anything.
 // ---------------------------------------------------------------------------
-const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxDPtwBJ-0P2srazz13k1DSuKGChr31pVfkyCSFx3skxCl1qy9_jxpdh3-Z0GXjYIplSQ/exec';
+const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbw-b8iVFO5Sfp2cWXmgb8kKg98aTYFdpwW-F_LE9waYvqGyTsmmrlVxvEgPYf2JvQALeQ/exec';
 
 // ---------------------------------------------------------------------------
 // PUBLIC_GAME_URL
@@ -1654,20 +1654,45 @@ function copyToClipboard(text, callback) {
 // ─── Analytics ────────────────────────────────────────────────────────────────
 // Fire-and-forget POST to the Apps Script endpoint; silently no-ops if not set.
 
+function getAnalyticsSessionId() {
+  const key = `juggle_session_${todayKey()}`;
+  let id = localStorage.getItem(key);
+
+  if (!id) {
+    if (window.crypto && crypto.randomUUID) {
+      id = crypto.randomUUID();
+    } else {
+      id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    }
+
+    localStorage.setItem(key, id);
+  }
+
+  return id;
+}
+
 function trackEvent(event, extra = {}) {
   if (!ANALYTICS_ENDPOINT) return;
+
   const payload = {
+    session_id: getAnalyticsSessionId(),
     event,
-    date:          todayKey(),
-    theme:         S.puzzle?.theme ?? '',
-    hard_mode:     S.hardMode,
-    user_agent:    navigator.userAgent,
+    date: todayKey(),
+    theme: S.puzzle?.theme ?? '',
+    hard_mode: S.hardMode,
+    url: window.location.href,
+    user_agent: navigator.userAgent,
     ...extra,
   };
+
   fetch(ANALYTICS_ENDPOINT, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(payload),
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+    },
+    body: JSON.stringify(payload),
+    keepalive: true,
   }).catch(() => {});
 }
 
