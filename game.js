@@ -50,7 +50,7 @@ const PUZZLE_ROWS = {
   },
   "2026-06-05": {
   theme: "Hail Mary",
-  row: "KIC*K*ER, HELME*T, PLA*YER, JERSE*Y, HUDDL*E, TACKLE"
+  row: "KIC*K*ER, HELMET*, PLA*YER, JERSE*Y, HUDDL*E, TACKLE"
   },
   "2026-06-04": {
   theme: "X Marks the Spot",
