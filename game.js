@@ -36,6 +36,18 @@
 // ---------------------------------------------------------------------------
 
 const PUZZLE_ROWS = {
+  "2026-06-17": {
+  theme: "Bake Shop",
+  row: "PASTR*Y* COO*KIE, BA*TTE*R, MUFFIN, B*UTTER, BAKERY"
+  },
+  "2026-06-17": {
+  theme: "Garden Path",
+  row: "BA*MBOO, CACT*U*S, OR*CHID, GARDEN*, FLOWE*R, NATURE"
+  },
+  "2026-06-16": {
+  theme: "Hard Hat Zone",
+  row: "HELME*T, HAM*MER, LADDE*R, WORKE*R, WREN*C*H, CEMENT"
+  },
   "2026-06-11": {
   theme: "Hard Hat Zone",
   row: "HELME*T, HAM*MER, LADDE*R, WORKE*R, WREN*C*H, CEMENT"
