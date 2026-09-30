@@ -2,7 +2,7 @@
 
 ## Purpose and authority
 
-The persistent Codex conversation is the user's single project-management control point. The normal user instruction remains `continue`. Codex owns product-minded sequencing, task definition, worker selection, validation/review, and guarded fallback. Claude Code is the preferred implementation worker; Codex implements only through the controlled fallback path when Claude subscription/session usage is genuinely exhausted and the active handoff is safe to continue.
+The persistent Codex conversation is the user's single project-management control point. The normal user instruction remains `continue`. Codex owns product-minded sequencing, task definition, worker selection, validation/review, and guarded fallback. Codex is the implementation worker for Juggle. Claude Code is not invoked for this project. If a slice genuinely exceeds Codex's judgment, stop and raise it with Emaad rather than delegating it, because Claude's usage is a scarce resource shared with his studying.
 
 The user has standing-authorized Codex to send Anthropic, through the locally authenticated Claude Code CLI and Claude Pro subscription, the current handoff and repository content reasonably necessary for that task. Routine launches/resumptions do not require another confirmation. This does not authorize API-key billing, unrelated secret disclosure, expanded product scope, commits, pushes, deployment, or a new material architecture/product decision.
 
@@ -38,7 +38,7 @@ Do not mechanically choose the smallest unresolved item, the easiest metric to m
 These rules are never relaxed merely because one model is unavailable:
 
 1. **Exactly one implementation writer.** Supervisor state records `implementation_owner=claude|codex|none`. Claude cannot run while Codex fallback owns implementation.
-2. **Claude remains preferred.** Codex fallback is considered only after a genuine Claude subscription/session usage limit, not for ordinary worker failures, auth problems, timeouts, or because Codex has spare credits.
+2. **Codex implements.** Claude Code is not a worker on this project. Low confidence or a repeated failure is a stop condition to raise with Emaad, not a reason to delegate.
 3. **No stale-session continuation after cross-agent edits.** If Codex changes the worktree during fallback, the prior Claude implementation session is no longer authoritative. If Codex safely aborts before any worktree change, that session may remain resumable.
 4. **No architecture/product invention during fallback.** Codex may continue an existing accepted approach, handoff-specified approach, or mechanically unambiguous local continuation. If a new material architecture/product decision or reconstruction of Claude's private intent is required, wait for Claude/user decision instead of guessing.
 5. **Preference is not a defect.** Neither model rewrites accepted work merely because it prefers another style/decomposition. Rework requires material evidence under the shared implementation contract.
