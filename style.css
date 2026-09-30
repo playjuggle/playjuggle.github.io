@@ -30,7 +30,30 @@ html, body {
   overscroll-behavior: none;
 }
 
+/* Dynamic-viewport override: follows the browser chrome collapsing/expanding
+   instead of the legacy large-viewport `vh` unit. Layered after the vh-based
+   rules above so unsupported browsers keep the `height: 100%` fallback. */
+@supports (height: 100dvh) {
+  html, body { height: 100dvh; }
+}
+
 .hidden { display: none !important; }
+
+/* Broad tap-target coverage: removes the double-tap-to-zoom gesture and the
+   synthetic click delay on every real control, including tiles/buttons
+   created dynamically by main.js, without touching scrollable regions. */
+button,
+.slot,
+.tile,
+.shuffle-btn,
+.backspace-btn,
+.toggle-row,
+.word-row,
+#timer-display,
+.modal-backdrop,
+#completion {
+  touch-action: manipulation;
+}
 
 /* ─── Pre-game overlay ───────────────────────────────────────────────────────── */
 
@@ -42,6 +65,10 @@ html, body {
   align-items: center;
   justify-content: center;
   z-index: 200;
+  /* Safe-area inset on the fixed shell so the centered card never sits
+     under a notch/status bar/home indicator; resolves to 0 (no change)
+     on browsers/devices without insets. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 #pregame-card {
@@ -96,6 +123,16 @@ html, body {
   font-size: 0.75rem;
   color: var(--grey-md);
   margin-top: -4px;
+}
+
+#reset-notice {
+  width: 100%;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--accent-dark);
+  background: var(--accent-alpha);
+  border-radius: 10px;
+  padding: 8px 12px;
 }
 
 /* Toggle rows */
@@ -204,6 +241,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* Fade transition for how-modal — starts hidden, fades in/out via .hidden toggle */
@@ -384,6 +422,11 @@ html, body {
   max-width: 480px;
   margin: 0 auto;
   padding: 0 16px;
+  /* Adds top/bottom/left/right safe-area insets on top of the ordinary 16px
+     gutter; resolves to the line above (unchanged) when env() is unsupported
+     or all insets are 0, so header/bank never sit under a notch or the
+     home-indicator gesture zone. */
+  padding: env(safe-area-inset-top) calc(16px + env(safe-area-inset-right)) env(safe-area-inset-bottom) calc(16px + env(safe-area-inset-left));
 }
 
 /* ─── Header ─────────────────────────────────────────────────────────────────── */
@@ -561,7 +604,13 @@ header {
 
 #board {
   flex: 1;
-  overflow: hidden;
+  /* auto (not hidden): if rows ever exceed the space the flex layout leaves
+     them (short landscape, enlarged text pushing header/bank taller), the
+     board scrolls internally instead of silently clipping rows. No visible
+     scrollbar/behavior change when everything already fits. */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   padding: clamp(10px, 2vh, 40px) 0 clamp(4px, 0.8vh, 12px);
 }
 
@@ -707,6 +756,50 @@ header {
   padding: clamp(28px, 4.8vh, 38px) 0 20px;
   border-top: 1px solid var(--grey-lt);
   position: relative;
+}
+
+/* Modern override for the key vertical `vh` sizing above: `dvh` follows the
+   collapsing/expanding mobile browser toolbar instead of the legacy large
+   viewport. Grouped in one @supports block (rather than per-declaration
+   fallback) so unsupported browsers keep every vh-based rule above untouched. */
+@supports (height: 100dvh) {
+  :root {
+    --slot-h: clamp(34px, 5.2dvh, 52px);
+  }
+  #board {
+    padding: clamp(10px, 2dvh, 40px) 0 clamp(4px, 0.8dvh, 12px);
+  }
+  .word-row {
+    margin-bottom: clamp(12px, 2.4dvh, 38px);
+  }
+  #bank-area {
+    padding: clamp(28px, 4.8dvh, 38px) 0 20px;
+  }
+  .modal-card {
+    max-height: 88dvh;
+  }
+  .slot {
+    font-size: clamp(0.9rem, 2dvh, 1.25rem);
+  }
+}
+
+/* Short-landscape / narrow-height escape: instead of relying solely on
+   #board's internal auto-scroll, let the whole shell size to its natural
+   content height and let the page scroll once viewport height is too
+   constrained for the fixed portrait layout. Ordinary portrait heights never
+   match this query, so the centered single-screen game is unaffected. */
+@media (max-height: 500px) {
+  html, body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  #app {
+    height: auto;
+    min-height: 100%;
+  }
+  #board {
+    flex: none;
+  }
 }
 
 #bank {
@@ -872,6 +965,7 @@ header {
   justify-content: center;
   z-index: 400;
   cursor: pointer;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 #completion-card {

@@ -1,0 +1,16 @@
+{
+  "start": "2027-01-01",
+  "end": "2027-01-02",
+  "entries": [
+    {
+      "date": "2027-01-02",
+      "theme": "REPLACE ME",
+      "row": "REPLACE, THESE, WORDS, WITH, REAL*, ANSWER"
+    },
+    {
+      "date": "2027-01-01",
+      "theme": "REPLACE ME TOO",
+      "row": "REPLACE, THESE, WORDS, WITH, REAL*, ANSWER"
+    }
+  ]
+}

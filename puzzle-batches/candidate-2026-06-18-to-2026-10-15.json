@@ -1,0 +1,606 @@
+{
+  "start": "2026-06-18",
+  "end": "2026-10-15",
+  "entries": [
+    {
+      "date": "2026-10-15",
+      "theme": "Changing Seasons",
+      "row": "CHANGE, CY*CL*ES*, STEADY, AL*W*AYS, MO*MENT, SLOWLY"
+    },
+    {
+      "date": "2026-10-14",
+      "theme": "Windy Day",
+      "row": "GU*ST*ED, R*USTLE, BREEZE, BLO*WER, TO*P*PLE, UPROOT"
+    },
+    {
+      "date": "2026-10-13",
+      "theme": "Wet Weather",
+      "row": "GUTTE*R, GLO*OMY, MIS*TED*, FLOOD*S, RAIN*ED, SODDEN"
+    },
+    {
+      "date": "2026-10-12",
+      "theme": "Frosty Morning",
+      "row": "I*CICLE*, MITTEN, S*TEAMY, H*AZILY, SILV*ER*, SHIVER"
+    },
+    {
+      "date": "2026-10-11",
+      "theme": "Harvest Festival",
+      "row": "CI*DE*R*S*, AP*PLES, BOUN*TY, YIELDS, AUTUMN, RIPENS"
+    },
+    {
+      "date": "2026-10-10",
+      "theme": "Summer Heatwave",
+      "row": "SCO*R*CH, SI*ZZLE, SWEAT*Y, BLAZED*, GLAR*ED, TORRID"
+    },
+    {
+      "date": "2026-10-09",
+      "theme": "Spring Bloom",
+      "row": "BLOOMS*, W*AR*ME*R, BUDDE*D, TULIPS, VERN*AL, RENEWS"
+    },
+    {
+      "date": "2026-10-08",
+      "theme": "Snow Day",
+      "row": "S*L*EIGH*, S*HOVEL, CHILLY*, FLU*RRY, WINTRY, SLUSHY"
+    },
+    {
+      "date": "2026-10-07",
+      "theme": "Thunderstorm Watch",
+      "row": "B*O*OME*D, DAR*K*EN*, HOWLED, STREAK, ROLLED, BROKEN"
+    },
+    {
+      "date": "2026-10-06",
+      "theme": "Butterfly Meadow",
+      "row": "COCOON*, EMER*GE, WING*ED, A*LIGHT, S*IP*PED, SPRANG"
+    },
+    {
+      "date": "2026-10-05",
+      "theme": "Sheep Pasture",
+      "row": "FL*E*ECE, W*O*O*LLY, FEN*CED, SHEARS, HERDED, WOOLEN"
+    },
+    {
+      "date": "2026-10-04",
+      "theme": "Nocturnal Animals",
+      "row": "A*WAK*EN, DARKL*Y, CRAWLS*, CREEPS*, T*IPTOE, STALKS"
+    },
+    {
+      "date": "2026-10-03",
+      "theme": "Pond Creatures",
+      "row": "MINNOW, CROAKS*, MU*DDL*E, RUSH*ES, DAMPL*Y*, LUSHLY"
+    },
+    {
+      "date": "2026-10-02",
+      "theme": "Birds of Prey",
+      "row": "T*A*LO*NS, SOAR*ED, P*R*EYED, CIRCLE, SCREAM, RAPTOR"
+    },
+    {
+      "date": "2026-10-01",
+      "theme": "Songbirds",
+      "row": "R*OB*INS, E*A*GL*ES, PUFFIN, TOUCAN, TW*EETS, WARBLE"
+    },
+    {
+      "date": "2026-09-30",
+      "theme": "Backyard Bugs",
+      "row": "SPID*E*R, MAN*T*IS, LOCU*ST, FLYING, H*IDING, HUNTED"
+    },
+    {
+      "date": "2026-09-29",
+      "theme": "Ocean Giants",
+      "row": "WALR*U*S*, BE*LUGA, DIV*ING, GIANTS, HUNGRY*, SURVEY"
+    },
+    {
+      "date": "2026-09-28",
+      "theme": "Farmyard Friends",
+      "row": "C*H*I*CKS*, P*IGLET, DONKEY, HOR*SES, BLEATS, CHIRPS"
+    },
+    {
+      "date": "2026-09-27",
+      "theme": "Reptile House",
+      "row": "GE*C*KOS*, IGUA*NA, SNAKES, SCAL*ES, COILED*, SCALED"
+    },
+    {
+      "date": "2026-09-26",
+      "theme": "Big Cats",
+      "row": "CO*UGAR*, BOBCAT, HUNTER, S*TRIP*E, GROW*L*S, PROWLS"
+    },
+    {
+      "date": "2026-09-25",
+      "theme": "Woodland Critters",
+      "row": "B*EAVER*, O*TTER*S, SKU*NKS, BADGER, W*EASEL, BURROW"
+    },
+    {
+      "date": "2026-09-24",
+      "theme": "Invention Fair",
+      "row": "PAT*E*NT*, MOD*E*LS*, DESIGN, PRIZED, BOOTHS, TESTED"
+    },
+    {
+      "date": "2026-09-23",
+      "theme": "Recycling Drive",
+      "row": "ME*TALS*, GLASSY, R*E*D*U*CE, GATHER, SAVING, REUSED"
+    },
+    {
+      "date": "2026-09-22",
+      "theme": "Planetarium Show",
+      "row": "NEBULA, C*O*M*ETS*, VI*EWED, STARRY, SC*OPES, COSMIC"
+    },
+    {
+      "date": "2026-09-21",
+      "theme": "Coding Bootcamp",
+      "row": "S*ER*VER*, BINA*RY*, SYNTA*X, DEVICE, OUTPUT, ARRAYS"
+    },
+    {
+      "date": "2026-09-20",
+      "theme": "Life Science",
+      "row": "G*ROWT*H*, A*DAPT*S, THRIVE, CHARTS, FU*NDED, TAUGHT"
+    },
+    {
+      "date": "2026-09-19",
+      "theme": "Wind Turbine Farm",
+      "row": "BLA*DES, BR*EEZY*, PO*WER*S, T*URNED, ROTATE, ROTARY"
+    },
+    {
+      "date": "2026-09-18",
+      "theme": "Solar Energy",
+      "row": "E*N*ERGY, S*UNLI*T, CH*ARGE, S*TORED, BRIGHT, SHINES"
+    },
+    {
+      "date": "2026-09-17",
+      "theme": "Weather Station",
+      "row": "RA*D*ARS, ALE*RT*S, SYSTEM, CLOU*DY, P*ULSES, UPDATE"
+    },
+    {
+      "date": "2026-09-16",
+      "theme": "Microscope Discovery",
+      "row": "T*I*SSU*E*, SLIDES, ZOOM*ED, DETAIL, VISION*, MINUTE"
+    },
+    {
+      "date": "2026-09-15",
+      "theme": "Robotics Club",
+      "row": "SE*NSOR, MOT*ORS, WIRING*, COD*ING*, GEA*RED, GADGET"
+    },
+    {
+      "date": "2026-09-14",
+      "theme": "Chemistry Lab",
+      "row": "BE*AKE*R, FL*AS*KS*, BURN*ER, SAMPLE, MIXING, LENSES"
+    },
+    {
+      "date": "2026-09-13",
+      "theme": "Mission Control",
+      "row": "LA*UN*C*H, MODULE*, ORBIT*S*, GAUGES, LIFTED, ASCENT"
+    },
+    {
+      "date": "2026-09-12",
+      "theme": "Comic Book Studio",
+      "row": "CO*MI*CS, PAN*ELS, I*NKING*, HER*OES, ISSUES, ORIGIN"
+    },
+    {
+      "date": "2026-09-11",
+      "theme": "Puppet Show",
+      "row": "PUPPET, STAG*ES, V*O*I*CED, ACTIN*G, M*ASTER, MOVING"
+    },
+    {
+      "date": "2026-09-10",
+      "theme": "Street Performer",
+      "row": "JUGGLE*, C*ROWD*S, TA*LEN*T, AMAZED*, TIPPED, DANCED"
+    },
+    {
+      "date": "2026-09-09",
+      "theme": "Poetry Reading",
+      "row": "VE*RS*ES, RHYMES, ST*AN*ZA, SPO*KEN*, PENNED, SONNET"
+    },
+    {
+      "date": "2026-09-08",
+      "theme": "Film Set",
+      "row": "SC*R*I*PT*, SCE*NES, CAMERA, RETAKE, ED*ITED, DIRECT"
+    },
+    {
+      "date": "2026-09-07",
+      "theme": "Orchestra Pit",
+      "row": "VIOLA*S*, CE*LLOS, BAT*ONS, TUNING, RE*CORD*, SEATED"
+    },
+    {
+      "date": "2026-09-06",
+      "theme": "Choir Practice",
+      "row": "CHO*RU*S*, LYRI*CS, VOICES, SOUN*DS, AN*THEM, UNISON"
+    },
+    {
+      "date": "2026-09-05",
+      "theme": "Ballet Recital",
+      "row": "BAL*LE*T, D*ANCER, RHYTHM, MOTI*ON, G*RACED*, GLIDED"
+    },
+    {
+      "date": "2026-09-04",
+      "theme": "Framed Prints",
+      "row": "PR*I*NT*S*, MA*T*TED, LIGHTS, VIEWER, PHOTOS, ARTIST"
+    },
+    {
+      "date": "2026-09-03",
+      "theme": "Mosaic Tiles",
+      "row": "MOSAI*C*, P*IE*CE*S, FITTED*, BORDER, LAYOUT, PIECED"
+    },
+    {
+      "date": "2026-09-02",
+      "theme": "Ceramic Kiln",
+      "row": "C*OOLE*D*, CR*ACKS, FI*RING, HEATED, P*OTTED, PRICED"
+    },
+    {
+      "date": "2026-09-01",
+      "theme": "Painter's Studio",
+      "row": "C*A*NVAS*, EAS*EL*S, LAY*ERS, COLORS, SHADES, CLASSY"
+    },
+    {
+      "date": "2026-08-31",
+      "theme": "Junk Drawer",
+      "row": "R*UBBER, STICKY, TA*N*GLE, JAM*MED*, LO*OSED, RANDOM"
+    },
+    {
+      "date": "2026-08-30",
+      "theme": "Potting Shed",
+      "row": "TROWE*L, S*PAD*E*S, GLOVE*S, WEED*ED, RAKING, SEEDED"
+    },
+    {
+      "date": "2026-08-29",
+      "theme": "Laundry Room",
+      "row": "D*RYE*RS, STAIN*S, TUM*BLE*, BLEACH, SOILED*, MENDED"
+    },
+    {
+      "date": "2026-08-28",
+      "theme": "Toy Chest",
+      "row": "B*L*OCKS*, MARBLE, WOOD*EN, JU*MBLE, GI*GGLE, BUILDS"
+    },
+    {
+      "date": "2026-08-27",
+      "theme": "String Lights",
+      "row": "T*IN*S*EL, STR*ING*, GIFTED, GLOWED, JOYFU*L, STRUNG"
+    },
+    {
+      "date": "2026-08-26",
+      "theme": "Nursery Corner",
+      "row": "C*RADL*E*, RAT*TLE, MOBI*LE, ONESIE, ROCK*ER, TICKLE"
+    },
+    {
+      "date": "2026-08-25",
+      "theme": "Office Desk",
+      "row": "ST*APLE, LAPTO*P, TYPI*N*G*, FILIN*G, AGENDA, NOTING"
+    },
+    {
+      "date": "2026-08-24",
+      "theme": "Living Room Comfort",
+      "row": "PIL*LOW, RE*MOT*E*, THROWS*, COZILY, MAN*TEL, NESTLE"
+    },
+    {
+      "date": "2026-08-23",
+      "theme": "Kitchen Drawer",
+      "row": "KN*IVE*S, WH*ISKS, PEEL*ER, GRA*TER, LAD*LED, HANDLE"
+    },
+    {
+      "date": "2026-08-22",
+      "theme": "Wardrobe Corner",
+      "row": "HANGE*R*, JACKET*, IRO*NED*, S*LEEVE, DRAWER, SORTED"
+    },
+    {
+      "date": "2026-08-21",
+      "theme": "Workbench Corner",
+      "row": "CLAM*PS, APR*O*NS, SAND*E*D, SHAPED, BUF*FED, FORMED"
+    },
+    {
+      "date": "2026-08-20",
+      "theme": "Bathroom Essentials",
+      "row": "TOWELS*, MI*R*ROR, FA*UCET, LATHER, RIN*SED*, DRAINS"
+    },
+    {
+      "date": "2026-08-19",
+      "theme": "Attic Storage",
+      "row": "TRUN*KS, HID*DE*N, P*ACKE*D, SEALED, CO*BWEB, OPENED"
+    },
+    {
+      "date": "2026-08-18",
+      "theme": "Toolbox Basics",
+      "row": "P*LI*E*R*S, SCR*EWS, DRILLS, WA*SHER, SOCKET, REPAIR"
+    },
+    {
+      "date": "2026-08-17",
+      "theme": "Craft Drawer",
+      "row": "ZIPPE*R*, S*PO*OLS*, FAST*EN, BOBBIN, PINNED, STORES"
+    },
+    {
+      "date": "2026-08-16",
+      "theme": "Beacon Point",
+      "row": "BE*ACO*N, SIGNAL, KEEP*ER*, ST*OR*MS, WARNED, REPORT"
+    },
+    {
+      "date": "2026-08-15",
+      "theme": "Ski Lodge",
+      "row": "SKIING, LO*D*GE*S, FLA*KES, C*ABINS, RESORT*, COATED"
+    },
+    {
+      "date": "2026-08-14",
+      "theme": "County Fair",
+      "row": "CO*TTO*N, PR*IZE*S*, RID*DEN, TWIRLS, MIDWAY, RODEOS"
+    },
+    {
+      "date": "2026-08-13",
+      "theme": "Hothouse Blooms",
+      "row": "NUR*S*E*D, ROOTED, T*ENDED, SHOOTS, W*A*RMTH, WATERS"
+    },
+    {
+      "date": "2026-08-12",
+      "theme": "Opening Night",
+      "row": "ENCOR*E, D*RA*MA*S*, VELVET, BOW*ING, REVIEW, AWARDS"
+    },
+    {
+      "date": "2026-08-11",
+      "theme": "Campus Quad",
+      "row": "CA*M*PU*S*, L*OCKER*, FOLDER, BUSSED, RECITE, MURALS"
+    },
+    {
+      "date": "2026-08-10",
+      "theme": "Reading Nook",
+      "row": "VOL*UME*, N*OVE*LS, BIND*ER*, MARGIN, READER, LENDER"
+    },
+    {
+      "date": "2026-08-09",
+      "theme": "Museum Halls",
+      "row": "M*U*S*EUM, STA*TUE, F*O*SSIL, RELICS, PLAQUE, FAMOUS"
+    },
+    {
+      "date": "2026-08-08",
+      "theme": "Suburban Street",
+      "row": "SUBUR*B, G*A*RAGE*, FENCES, HED*GES, MAILED*, GRADED"
+    },
+    {
+      "date": "2026-08-07",
+      "theme": "City Lights",
+      "row": "TOWE*RS, STREET, SIRENS, SUB*WA*Y, DA*Z*ZL*E, ABLAZE"
+    },
+    {
+      "date": "2026-08-06",
+      "theme": "Arcade Zone",
+      "row": "AR*CADE*, P*I*XELS*, BUT*TON, FLASHY, LEVELS, SPRITE"
+    },
+    {
+      "date": "2026-08-05",
+      "theme": "Downtown Plaza",
+      "row": "PL*AZAS*, ALLE*YS, AWNING, B*U*SKER, ST*ROLL, BUSTLE"
+    },
+    {
+      "date": "2026-08-04",
+      "theme": "Frontier Town",
+      "row": "S*AL*OON, WAGONS, CORRAL, ST*ABLE*, T*RADE*R, SETTLE"
+    },
+    {
+      "date": "2026-08-03",
+      "theme": "Mountain Village",
+      "row": "HAMLET*, C*HALET, S*LOPES, QU*AI*NT, TIMBER*, RUSTIC"
+    },
+    {
+      "date": "2026-08-02",
+      "theme": "Harbor Town",
+      "row": "HA*RBOR, VE*S*SEL*, COAST*S, MOORED*, PILOTS, SALTED"
+    },
+    {
+      "date": "2026-08-01",
+      "theme": "Field Day",
+      "row": "RE*L*AYS*, T*U*GGED, SACKED, CH*EERS, MEDALS, HUSTLE"
+    },
+    {
+      "date": "2026-07-31",
+      "theme": "Quiet Retreat",
+      "row": "BR*E*ATH, CAN*DLE*, CALMLY, S*OOTHE*, MELLOW, SERENE"
+    },
+    {
+      "date": "2026-07-30",
+      "theme": "Star Gazing",
+      "row": "NI*GHT*S*, A*S*TRAL, HEAV*EN, TWILIT, VOYAGE, VISTAS"
+    },
+    {
+      "date": "2026-07-29",
+      "theme": "Angler's Pier",
+      "row": "A*NGLE*R, BAI*T*ED*, HOOKED, REELED, W*ADING, WAITED"
+    },
+    {
+      "date": "2026-07-28",
+      "theme": "Skateboard Park",
+      "row": "S*K*A*T*E*D, TR*ICKS, GRINDS, LANDED, RAMPED, SKATER"
+    },
+    {
+      "date": "2026-07-27",
+      "theme": "Woodworking Shop",
+      "row": "CARVED, CH*IS*EL, LUM*BER, JO*INT*S, RO*UTER, SMOOTH"
+    },
+    {
+      "date": "2026-07-26",
+      "theme": "Paper Crafts",
+      "row": "CREAS*E, P*APERS, GL*UI*NG, SH*APES, CUTO*UT, POLISH"
+    },
+    {
+      "date": "2026-07-25",
+      "theme": "Photography Walk",
+      "row": "FRAME*D*, CANDID, IMAGES*, T*RIP*O*D, POSING, POSTED"
+    },
+    {
+      "date": "2026-07-24",
+      "theme": "Darts Night",
+      "row": "THROWN, SCORE*D*, L*INEUP*, DA*RTED, POINTY*, PLAYED"
+    },
+    {
+      "date": "2026-07-23",
+      "theme": "Pottery Studio",
+      "row": "POT*TER*, WHEEL*S, GLA*ZED, MOLDED, F*IGU*RE, ARTFUL"
+    },
+    {
+      "date": "2026-07-22",
+      "theme": "Sewing Circle",
+      "row": "S*EWING, NEEDLE, T*H*R*EA*D, FABRIC*, STITCH, STARCH"
+    },
+    {
+      "date": "2026-07-21",
+      "theme": "Trivia Night",
+      "row": "T*R*IVIA*, RIDDLE, ANS*WER, POINTS*, TEAM*ED, SMARTS"
+    },
+    {
+      "date": "2026-07-20",
+      "theme": "Archery Range",
+      "row": "AR*C*HE*R, T*ARGE*T, ARROWS, QUIVER, AIMIN*G, CENTER"
+    },
+    {
+      "date": "2026-07-19",
+      "theme": "Kayak Adventure",
+      "row": "KA*YAKS*, P*AD*DLE, SOAKED, PULLED, ADR*I*FT, RAPIDS"
+    },
+    {
+      "date": "2026-07-18",
+      "theme": "Hiking Adventure",
+      "row": "HI*KI*N*G*, WOODED, MAR*KED, BOOT*ED, GUIDED, TIRING"
+    },
+    {
+      "date": "2026-07-17",
+      "theme": "Wildflower Meadow",
+      "row": "PE*T*ALS*, S*PROUT, N*EC*TAR, POLLEN, BUZZED, SCENTS"
+    },
+    {
+      "date": "2026-07-16",
+      "theme": "Island Lagoon",
+      "row": "C*ORA*L*S, SHORE*S, LAPPED*, WARM*LY, PLACID, CALMED"
+    },
+    {
+      "date": "2026-07-15",
+      "theme": "Polar Ice Fields",
+      "row": "S*NOWE*D, SIL*ENT, NUM*BED, IG*LOOS, PA*LLID, GLEAMS"
+    },
+    {
+      "date": "2026-07-14",
+      "theme": "Volcanic Peaks",
+      "row": "ERU*PTS, PLUM*ES, SULF*UR, MOLTEN*, RAG*I*NG, FUMING"
+    },
+    {
+      "date": "2026-07-13",
+      "theme": "Autumn Forest",
+      "row": "M*AP*L*ES*, AC*ORNS, AMBERY, RU*SSET, FALLEN, CLUMPS"
+    },
+    {
+      "date": "2026-07-12",
+      "theme": "Wetland Marsh",
+      "row": "S*WA*MPS, H*E*RONS, LILIES, D*AMSEL, NESTED*, SHADED"
+    },
+    {
+      "date": "2026-07-11",
+      "theme": "Prairie Grasslands",
+      "row": "G*RASSY, FIE*L*D*S, BISO*N*S, GOPHER, OPENLY, GOLDEN"
+    },
+    {
+      "date": "2026-07-10",
+      "theme": "Coastal Cliffs",
+      "row": "C*LI*F*FS, LE*DGE*S, JAGGED, WINDED, R*OCKED, FIERCE"
+    },
+    {
+      "date": "2026-07-09",
+      "theme": "River Delta",
+      "row": "R*IVE*RS*, LAGO*ON, DRIFTS, BRIDGE, C*U*RVED, COURSE"
+    },
+    {
+      "date": "2026-07-08",
+      "theme": "Cave Exploration",
+      "row": "CA*VER*N*, GR*O*TTO, TUNNEL, SHADOW*, ECHOED, NARROW"
+    },
+    {
+      "date": "2026-07-07",
+      "theme": "Desert Dunes",
+      "row": "MIR*A*GE*, CAME*LS*, SPARSE, D*RYING, PARTED, SEARED"
+    },
+    {
+      "date": "2026-07-06",
+      "theme": "Tundra Frontier",
+      "row": "TUN*DR*A*, FR*OZE*N, ANTLER, LICHEN, B*ITTER, BARREN"
+    },
+    {
+      "date": "2026-07-05",
+      "theme": "Rainforest Canopy",
+      "row": "BR*AN*CH, MOS*SE*S, BE*ETLE, JUNGLE, TWINED*, DENSER"
+    },
+    {
+      "date": "2026-07-04",
+      "theme": "Mountain Meadow",
+      "row": "AL*PIN*E*, VALLE*Y, ST*REAM, PEBBLE, G*RAZED, GENTLE"
+    },
+    {
+      "date": "2026-07-03",
+      "theme": "Canyon Trail",
+      "row": "CANYO*N, R*ID*GE*S, GRAVE*L, D*ESERT, ECHOES, ERODED"
+    },
+    {
+      "date": "2026-07-02",
+      "theme": "Cheese Board",
+      "row": "WE*D*GES*, AROMAS, FLAVOR, P*AI*RED, SLIC*ED, SPICED"
+    },
+    {
+      "date": "2026-07-01",
+      "theme": "Fruit Stand",
+      "row": "BANANA, MEL*ONS*, CHERRY*, P*AP*AYA, GU*AVAS, SUPPLY"
+    },
+    {
+      "date": "2026-06-30",
+      "theme": "Barbecue Pit",
+      "row": "S*MO*KED, GR*ILLS*, BA*ST*ED, EMBERS, FLAMES, ROASTS"
+    },
+    {
+      "date": "2026-06-29",
+      "theme": "Seafood Shack",
+      "row": "FISH*ES, BU*C*KET*, DOCKED, NETTED, G*A*LLEY, CAUGHT"
+    },
+    {
+      "date": "2026-06-28",
+      "theme": "Pasta Night",
+      "row": "RI*BBON, BUBBL*E*, BOILED, M*INCED, S*P*IRAL, SIMPLE"
+    },
+    {
+      "date": "2026-06-27",
+      "theme": "Tea Time",
+      "row": "T*E*APOT, S*CONE*S, STEEPS, SAUCER*, D*AINTY, RESTED"
+    },
+    {
+      "date": "2026-06-26",
+      "theme": "Picnic Basket",
+      "row": "HA*MP*E*R*, GRAPES*, OUTING, MEAD*OW, QUILTS, SPREAD"
+    },
+    {
+      "date": "2026-06-25",
+      "theme": "Bread Basket",
+      "row": "LO*A*VES*, GLUT*EN, BAKERS, DOUGHS, Y*EAST*S, TOASTY"
+    },
+    {
+      "date": "2026-06-24",
+      "theme": "Salad Bar",
+      "row": "GREENS*, A*L*MOND*, TOS*SED, WA*LNUT, OLIVES, SALADS"
+    },
+    {
+      "date": "2026-06-23",
+      "theme": "Burger Stand",
+      "row": "PIC*K*LE*, O*NIO*NS, SESAME, CHEESE, LOAD*ED, COOKED"
+    },
+    {
+      "date": "2026-06-22",
+      "theme": "Pancake Diner",
+      "row": "ST*ACKS, SYRUP*S, CRUMBS, P*LATE*S, FO*LD*ED, TOPPED"
+    },
+    {
+      "date": "2026-06-21",
+      "theme": "Spice Rack",
+      "row": "N*UTME*G, GINGER, CL*OVES*, POWD*ER, B*OTTLE, BLENDS"
+    },
+    {
+      "date": "2026-06-20",
+      "theme": "Farmers Market",
+      "row": "CRA*TE*S*, VEN*DO*R, RADIS*H, TURNIP, BUNDLE, SEASON"
+    },
+    {
+      "date": "2026-06-19",
+      "theme": "Ice Cream Stand",
+      "row": "SCO*OP*S, SPOONS, CHUR*R*O, RIPPL*E, WA*FERS, PARLOR"
+    },
+    {
+      "date": "2026-06-18",
+      "theme": "Soup Kitchen",
+      "row": "N*OOD*LE*, KE*T*TLE, LADLES, BR*OTHS, SIMMER, TENDER"
+    }
+  ]
+}

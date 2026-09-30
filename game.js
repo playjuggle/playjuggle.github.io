@@ -1,119 +1,17 @@
 // ---------------------------------------------------------------------------
-// HOW TO ADD A PUZZLE
-// ---------------------------------------------------------------------------
-// Add one entry to PUZZLE_ROWS per date, keyed "YYYY-MM-DD".
-//
-// Each entry needs:
-//   theme — display name, title case (e.g. "Under the Sea")
-//   row   — six comma-separated items:
-//             • Items 1–5 are the five puzzle words.
-//             • Item 6 is the final word (no asterisks).
-//
-// Asterisk rules:
-//   • Write the word normally, then place * immediately after each
-//     circled letter.  The * is stripped to get the answer.
-//   • Exactly 6 asterisks total must appear across items 1–5.
-//   • Bonus letters collected in word order (left-to-right within each
-//     word) must be an anagram of the final word.
-//   • Repeated letters are allowed everywhere.
-//
-// Example:
-//   row: "MU*SSEL, OYSTER*, TRENC*H*, MARLI*N, SPON*GE, URCHIN"
-//   MU*SSEL  → MUSSEL,  circled U  (index 1)
-//   OYSTER*  → OYSTER,  circled R  (index 5)
-//   TRENC*H* → TRENCH,  circled C (index 4) and H (index 5)
-//   MARLI*N  → MARLIN,  circled I  (index 4)
-//   SPON*GE  → SPONGE,  circled N  (index 3)
-//   Bonus: U, R, C, H, I, N → URCHIN ✓
-//
-// Testing:
-//   ?date=YYYY-MM-DD   preview any puzzle date without affecting progress
-//   ?reset             clear saved progress for the active date
-//
-// WORD_LIST (wordlist.js) gates valid wrong guesses.
-// Puzzle answers and the final word are always accepted even if absent
-// from WORD_LIST — no need to duplicate them there.
+// Puzzle content (PUZZLE_ENTRIES, PUZZLE_PUBLISHING_RANGE) lives in
+// puzzles.js, loaded before this file. See puzzles.js for the authoring
+// instructions and format.
 // ---------------------------------------------------------------------------
 
-const PUZZLE_ROWS = {
-  "2026-06-17": {
-  theme: "Bake Shop",
-  row: "PASTR*Y* COO*KIE, BA*TTE*R, MUFFIN, B*UTTER, BAKERY"
-  },
-  "2026-06-17": {
-  theme: "Garden Path",
-  row: "BA*MBOO, CACT*U*S, OR*CHID, GARDEN*, FLOWE*R, NATURE"
-  },
-  "2026-06-16": {
-  theme: "Hard Hat Zone",
-  row: "HELME*T, HAM*MER, LADDE*R, WORKE*R, WREN*C*H, CEMENT"
-  },
-  "2026-06-11": {
-  theme: "Hard Hat Zone",
-  row: "HELME*T, HAM*MER, LADDE*R, WORKE*R, WREN*C*H, CEMENT"
-  },
-  "2026-06-10": {
-  theme: "Bird Watching",
-  row: "FALC*ON, MA*GPIE, PA*R*ROT, PIGEON*, TURKEY*, CANARY"
-  },
-  "2026-06-09": {
-  theme: "Crayon Box",
-  row: "PUR*PLE, IN*DIG*O, YELLO*W, MA*ROON, VIOLE*T, ORANGE"
-  },
-  "2026-06-08": {
-  theme: "What's for Dessert?",
-  row: "C*OOKI*E, GE*L*ATO, SUNDA*E, PASTR*Y, MOUSSE, ECLAIR"
-  },
-  "2026-06-07": {
-  theme: "The Veggie Garden",
-  row: "C*ELERY, GA*R*LIC, TO*MATO, POT*ATO, PEPPER*, CARROT"
-  },
-  "2026-06-06": {
-  theme: "Outer Space",
-  row: "R*OC*KET, GA*LAXY, METEOR*, PLANE*T*, COSMOS, CRATER"
-  },
-  "2026-06-05": {
-  theme: "Hail Mary",
-  row: "KIC*K*ER, HELMET*, PLA*YER, JERSE*Y, HUDDL*E, TACKLE"
-  },
-  "2026-06-04": {
-  theme: "X Marks the Spot",
-  row: "PAR*ROT, CA*NNON, ANCHO*R, IS*L*AND, PI*STOL, SAILOR"
-  },
-  "2026-06-03": {
-  theme: "Once Upon a Time",
-  row: "KNI*GHT, WIZAR*D, THR*ONE, CA*STLE, PR*IN*CE, DRAGON"
-  },
-  "2026-06-02": {
-  theme: "Animal Kingdom",
-  row: "JAGU*AR, RABBIT*, PAR*ROT, L*IZARD, MONKE*Y, TURTLE"
-  },
-  "2026-06-01": {
-  theme: "Class is in Session",
-  row: "CR*AYON, PE*NCIL, LES*SON, MA*RKER*, RE*CESS, ERASER"
-  },
-  "2026-05-31": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
-  },
-  "2026-05-30": {
-  theme: "Airplane Mode",
-  row: "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE"
-  },
-  "2026-05-26": {
-  theme: "Breakfast",
-  row: "C*EREAL, YO*GURT, WAF*F*LE, OME*LET, ORANGE*, COFFEE",
-  },
-  "2026-05-25": {
-    theme: "Under the Sea",
-    row: "TU*RTLE, OYSTER*, ANC*H*OR, SHRI*MP, SALMON*, URCHIN",
-  },
-  "2026-05-24": {
-    theme: "Around the House",
-    //         CLOSET[4]=E   FRIDGE[3]=D,[4]=G   CARPET[1]=A   PANTRY[2]=N   SHOWER[5]=R → GARDEN
-    row:   "CLOSE*T, FRID*G*E, CA*RPET, PAN*TRY, SHOWER*, GARDEN",
-  },
-};
+// Build PUZZLE_ROWS from the ordered PUZZLE_ENTRIES list. A later entry for
+// the same date overwrites an earlier one, matching plain JavaScript
+// object-literal key semantics (and preserving prior runtime behavior from
+// when these were authored directly as object-literal keys).
+const PUZZLE_ROWS = {};
+PUZZLE_ENTRIES.forEach(({ date, theme, row }) => {
+  PUZZLE_ROWS[date] = { theme, row };
+});
 
 // ─── Row parser ───────────────────────────────────────────────────────────────
 

@@ -237,6 +237,7 @@ const S = {
   wrongGuesses:    0,
   invalidAttempts: 0,
   hintsUsed:       0,
+  puzzleWasReset:  false,
 };
 
 let confettiFired   = false;
@@ -248,11 +249,42 @@ function puzzleStorageKey() {
   return `juggle_puzzle_${todayKey()}`;
 }
 
+// Dates where a fingerprint-less legacy save is known to be stale after the
+// 2026-09-15 historical archive remediation (marker repairs, duplicate-content
+// replacements, and previously-undeclared dates newly filled in).
+const LEGACY_INCOMPATIBLE_DATES = new Set([
+  '2026-05-27', '2026-05-28', '2026-05-29', '2026-05-31',
+  '2026-06-02', '2026-06-03', '2026-06-11', '2026-06-12',
+  '2026-06-13', '2026-06-14', '2026-06-15', '2026-06-16',
+]);
+
+// Deterministic, dependency-free signature of the effective parsed puzzle
+// content. Changes whenever theme, answers, scrambles/order, marker indices,
+// the final answer, or the final-slot assignment changes.
+function computePuzzleFingerprint(puzzle) {
+  const words = puzzle.words
+    .map(w => `${w.answer}:${w.scrambled}:${w.bonusIndices.join('')}`)
+    .join('|');
+  return [puzzle.theme, words, puzzle.finalWord, puzzle.bonusSlotOrder.join('')].join('~');
+}
+
+// Whether a saved state for `date` should be trusted against the puzzle's
+// `currentFingerprint`. Any *present* saved fingerprint (including a falsy
+// one like '' or null — anything but a JSON property that was never written)
+// must match exactly; only a genuinely missing (legacy, pre-fingerprint)
+// field is compatible, and only outside the known-affected dates.
+function isSaveCompatible(date, savedFingerprint, currentFingerprint) {
+  if (savedFingerprint !== undefined) return savedFingerprint === currentFingerprint;
+  return !LEGACY_INCOMPATIBLE_DATES.has(date);
+}
+
 function saveSettings() {
-  localStorage.setItem('juggle_settings', JSON.stringify({
-    hardMode:    S.hardMode,
-    timerHidden: Timer.hidden,
-  }));
+  try {
+    localStorage.setItem('juggle_settings', JSON.stringify({
+      hardMode:    S.hardMode,
+      timerHidden: Timer.hidden,
+    }));
+  } catch (_) {}
 }
 
 function loadSettings() {
@@ -284,6 +316,7 @@ function saveState() {
     hintsUsed:       S.hintsUsed,
     gameStarted:     S.gameStarted,
     timerMs:        Timer._current(),
+    puzzleFingerprint: computePuzzleFingerprint(S.puzzle),
   };
   try {
     localStorage.setItem(puzzleStorageKey(), JSON.stringify(data));
@@ -295,6 +328,13 @@ function loadState() {
     const raw = localStorage.getItem(puzzleStorageKey());
     if (!raw) return false;
     const d = JSON.parse(raw);
+
+    const currentFingerprint = computePuzzleFingerprint(S.puzzle);
+    if (!isSaveCompatible(todayKey(), d.puzzleFingerprint, currentFingerprint)) {
+      localStorage.removeItem(puzzleStorageKey());
+      S.puzzleWasReset = true;
+      return false;
+    }
 
     d.words.forEach((w, i) => {
       S.words[i].confirmed = w.confirmed;
@@ -315,6 +355,9 @@ function loadState() {
     S.hintsUsed          = d.hintsUsed          ?? 0;
     S.gameStarted        = d.gameStarted        ?? false;
     Timer.elapsed        = d.timerMs      ?? 0;
+
+    if (!d.puzzleFingerprint) saveState();
+
     return true;
   } catch (e) {
     console.warn('[JUGGLE] Could not load saved state:', e);
@@ -478,7 +521,7 @@ function init() {
   validatePuzzles();
 
   if (new URLSearchParams(window.location.search).has('reset')) {
-    localStorage.removeItem(puzzleStorageKey());
+    try { localStorage.removeItem(puzzleStorageKey()); } catch (_) {}
   }
 
   S.puzzle = getActivePuzzle();
@@ -517,6 +560,7 @@ function init() {
 
   const settings = loadSettings();
   Timer.hidden = settings.timerHidden ?? false;
+  S.hardMode   = settings.hardMode === true;
 
   document.getElementById('theme-label').textContent = S.puzzle.theme;
   document.getElementById('date-label').textContent  = todayDisplayDate();
@@ -550,6 +594,15 @@ function showPregame(hasSave) {
   document.getElementById('pregame').classList.remove('hidden');
   document.getElementById('theme-title').textContent = S.puzzle.theme;
   document.getElementById('pregame-date').textContent = todayDisplayDate();
+
+  if (S.puzzleWasReset && !document.getElementById('reset-notice')) {
+    const notice = document.createElement('div');
+    notice.id = 'reset-notice';
+    notice.setAttribute('role', 'status');
+    notice.textContent = 'This puzzle was updated since your last visit — your previous progress for this date was reset.';
+    document.getElementById('pregame-date').insertAdjacentElement('afterend', notice);
+  }
+  S.puzzleWasReset = false;
 
   const check      = document.getElementById('hard-check');
   check.checked    = S.hardMode;
@@ -1654,21 +1707,30 @@ function copyToClipboard(text, callback) {
 // ─── Analytics ────────────────────────────────────────────────────────────────
 // Fire-and-forget POST to the Apps Script endpoint; silently no-ops if not set.
 
-function getAnalyticsSessionId() {
-  const key = `juggle_session_${todayKey()}`;
-  let id = localStorage.getItem(key);
+let analyticsSessionFallbackId = null;
 
-  if (!id) {
-    if (window.crypto && crypto.randomUUID) {
-      id = crypto.randomUUID();
-    } else {
-      id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    }
-
-    localStorage.setItem(key, id);
+function generateAnalyticsSessionId() {
+  if (window.crypto && crypto.randomUUID) {
+    return crypto.randomUUID();
   }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
 
-  return id;
+function getAnalyticsSessionId() {
+  if (analyticsSessionFallbackId) return analyticsSessionFallbackId;
+
+  const key = `juggle_session_${todayKey()}`;
+  try {
+    let id = localStorage.getItem(key);
+    if (!id) {
+      id = generateAnalyticsSessionId();
+      localStorage.setItem(key, id);
+    }
+    return id;
+  } catch (_) {
+    analyticsSessionFallbackId = generateAnalyticsSessionId();
+    return analyticsSessionFallbackId;
+  }
 }
 
 function trackEvent(event, extra = {}) {
