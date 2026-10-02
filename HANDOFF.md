@@ -1,17 +1,16 @@
 # Create and Editorially QC a 120-Day Candidate Puzzle Schedule
 
 **Status:** Active  
-**Primary worker:** Claude Code  
+**Primary worker:** Codex
 **Supervisor/reviewer:** Codex  
-**Codex fallback:** Disallowed — the owner directed Codex to stop if Claude usage is exhausted  
-**New material architecture/product decision required:** No for staged creation/QC; yes before promotion, because 91 dates are already past and previously served fallback content  
-**Fallback continuity basis:** Not safe for fallback under the owner's current stop condition
+**Claude Code:** Not used on Juggle
+**New material architecture/product decision required:** No for staged creation/QC; yes before any promotion of dates already served as fallback content
 
 ## Why this work now
 
 - **Problem/evidence:** The accepted live schedule stops at 2026-06-17, and every later date falls back to Garden Path. The safe batch gate now exists, but there is no future candidate content to operate on.
 - **Desired outcome / hypothesis:** Produce one high-quality, fully validated 120-day candidate schedule covering 2026-06-18 through 2026-10-15, with enough editorial evidence for Codex and the owner to decide whether to promote it.
-- **Why this is the highest-leverage next slice:** Puzzle quality and daily freshness are the core product. This fills the current schedule gap and extends roughly one month beyond today's 2026-09-16 date without touching live data before executive approval.
+- **Why this is the highest-leverage next slice:** Puzzle quality and daily freshness are the core product. The existing range is now historical and near-term future content; staged review can establish candidate quality without changing live data.
 
 ## Implementation slice
 
@@ -50,7 +49,7 @@ The report must also include:
 - a theme-variety summary by broad category (food, nature, activities, places, objects, arts, science, etc.) so overconcentration is visible;
 - a lexical review statement covering familiarity, proper nouns/trademarks, abbreviations, spelling, offensiveness, and forced morphology;
 - a list of any remaining subjective concerns. If a word/theme is genuinely questionable, replace it before finalizing rather than hiding it in this list;
-- promotion implications: as of 2026-09-16, dates 2026-06-18 through 2026-09-16 (91 dates) are retroactive replacements for fallback content and require explicit owner approval plus expansion of the fingerprint-less legacy-save incompatibility set before live apply; 2026-09-17 through 2026-10-15 are future dates. State that the batch tool alone must not be run against live until that paired migration is approved.
+- promotion implications: as of 2026-10-01, dates 2026-06-18 through 2026-10-01 (106 dates) are retroactive replacements for fallback content and require explicit owner approval plus expansion of the fingerprint-less legacy-save incompatibility set before live apply; 2026-10-02 through 2026-10-15 (14 dates) are future dates. State that the batch tool alone must not be run against live until that paired migration is approved.
 
 ## Allowed changes
 
@@ -72,7 +71,7 @@ The report must also include:
 - All 720 answer uses are unique across candidate and non-overlapping with live answers/finals.
 - Themes are exact-unique and editorially distinct; required difficulty distribution and maximum-run rule are satisfied.
 - QC report contains all 120 compact review rows and every aggregate/evidence section above.
-- Live puzzles.js remains byte-for-byte unchanged at SHA-256 467eb5c9c2817c1fe4b02cd99ea261f10f0f29d38537f726e05f66e1e1e826f3.
+- Live puzzles.js remains byte-for-byte unchanged; record the actual starting SHA-256 from this checkout because the previously specified `467eb5c9...` no longer matches it.
 - No promotion occurs; final output is ready for Codex review and then an executive approval decision.
 
 ## Required final validation

@@ -4,8 +4,8 @@
   "entries": [
     {
       "date": "2026-10-15",
-      "theme": "Changing Seasons",
-      "row": "CHANGE, CY*CL*ES*, STEADY, AL*W*AYS, MO*MENT, SLOWLY"
+      "theme": "Seasonal Cycle",
+      "row": "C*Y*C*L*IC, WINTE*R, S*PRING, SUMMER, AUTUMN, CYCLES"
     },
     {
       "date": "2026-10-14",
@@ -25,7 +25,7 @@
     {
       "date": "2026-10-11",
       "theme": "Harvest Festival",
-      "row": "CI*DE*R*S*, AP*PLES, BOUN*TY, YIELDS, AUTUMN, RIPENS"
+      "row": "CI*DE*R*S*, AP*PLES, BOUN*TY, YIELDS, GRAINS, RIPENS"
     },
     {
       "date": "2026-10-10",
@@ -75,7 +75,7 @@
     {
       "date": "2026-10-01",
       "theme": "Songbirds",
-      "row": "R*OB*INS, E*A*GL*ES, PUFFIN, TOUCAN, TW*EETS, WARBLE"
+      "row": "R*OB*INS, THRUSH, RA*VENS, TRIL*LS, TW*E*ETS, WARBLE"
     },
     {
       "date": "2026-09-30",
@@ -130,7 +130,7 @@
     {
       "date": "2026-09-20",
       "theme": "Life Science",
-      "row": "G*ROWT*H*, A*DAPT*S, THRIVE, CHARTS, FU*NDED, TAUGHT"
+      "row": "GRO*WTH, ADAPTS, THRIV*E*, L*IV*ING, BRE*EDS, EVOLVE"
     },
     {
       "date": "2026-09-19",
@@ -475,17 +475,17 @@
     {
       "date": "2026-07-13",
       "theme": "Autumn Forest",
-      "row": "M*AP*L*ES*, AC*ORNS, AMBERY, RU*SSET, FALLEN, CLUMPS"
+      "row": "G*RO*USE, R*US*SET, COPPER, FALLE*N, LEAV*ES, GROVES"
     },
     {
       "date": "2026-07-12",
       "theme": "Wetland Marsh",
-      "row": "S*WA*MPS, H*E*RONS, LILIES, D*AMSEL, NESTED*, SHADED"
+      "row": "S*WA*MPS, H*E*RONS, LILIES, WAD*ERS, NESTED*, SHADED"
     },
     {
       "date": "2026-07-11",
       "theme": "Prairie Grasslands",
-      "row": "G*RASSY, FIE*L*D*S, BISO*N*S, GOPHER, OPENLY, GOLDEN"
+      "row": "G*RASSY, FIE*L*D*S, BISO*N*S, GOPHER, WAVING, GOLDEN"
     },
     {
       "date": "2026-07-10",

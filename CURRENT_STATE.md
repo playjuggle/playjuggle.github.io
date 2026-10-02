@@ -1,5 +1,9 @@
 # Juggle Current State
 
+## Staged candidate schedule (2026-10-01)
+
+`puzzle-batches/candidate-2026-06-18-to-2026-10-15.json` and its per-date review at `puzzle-batches/QC-2026-06-18-to-2026-10-15.md` are staged only; neither is live. Structural and batch checks pass with 0 candidate errors/warnings and the same 6 inherited live warnings. Codex's editorial review did not accept the content for promotion: 29 theme/payoff concerns remain, the broad-audience lexical review is incomplete, and the unit suite has five Windows batch-apply failures. No apply occurred. Any eventual retrospective promotion still needs owner approval and a save-compatibility migration.
+
 Baseline captured on 2026-09-13 from local commit `e273c7f` on `main`. At capture time the worktree was clean and `main` matched the locally recorded `origin/main`. No network fetch was performed, so this does not prove that the remote has not changed since its local tracking reference was last updated.
 
 ## Confirmed architecture
