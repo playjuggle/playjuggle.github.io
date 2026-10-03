@@ -1,0 +1,21 @@
+{
+  "start": "2026-11-02",
+  "end": "2026-11-04",
+  "entries": [
+    {
+      "date": "2026-11-04",
+      "theme": "Savanna Wildlife",
+      "row": "ZEBRAS*, HYEN*AS, I*MP*ALA, JACKAL*, BA*BOON, PLAINS"
+    },
+    {
+      "date": "2026-11-03",
+      "theme": "Bistro Dining",
+      "row": "B*OOTHS, WAI*TER*, S*ALADS, ST*EAKS, BO*TTLE, BISTRO"
+    },
+    {
+      "date": "2026-11-02",
+      "theme": "Murder Mystery",
+      "row": "ALIBIS, SLEU*TH, M*OTIVE, COR*PSE*, D*AGGER*, MURDER"
+    }
+  ]
+}

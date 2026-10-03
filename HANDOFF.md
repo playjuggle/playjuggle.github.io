@@ -1,49 +1,48 @@
-# Append October 23-November 1 Puzzles for Local Review
+# Prepare November 2-4 Puzzle Batch
 
-**Status:** Accepted; published by the OpenClaw gate under Emaad's standing publication decision of 2026-10-03 (no approval step exists for puzzle batches)
+**Status:** Prepared and locally validated; publication performed by the OpenClaw gate
 **Implementation worker:** Codex (sole worker)
 **Supervisor/reviewer:** Codex
 **New material architecture/product decision required:** No
-**Continuity basis:** Explicit user instruction; accepted append-only tool
+**Continuity basis:** Explicit MODE: GENERATE instruction; accepted append-only workflow
 
 ## Why this work now
 
-- **Problem/evidence:** October 3 local schedule ends October 22: 19 future days, below 60. No suitable prepared extension exists; the old candidate remains unapproved.
-- **Desired outcome:** Ten new high-quality puzzles extend the local schedule through November 1 for Emaad's review.
-- **Why now:** Content is mandatory and puzzle quality is the product. Ten entries bound editorial review; tooling work or adopting the unapproved pool would not resolve the immediate quality/runway gap.
+- **Problem/evidence:** Published schedule ends November 1, with 29 future days excluding October 3. Working tree was clean and supervisor state confirms the previous batch was published by the gate.
+- **Desired outcome:** Exactly three editorially compliant puzzles for November 2-4; prepared future-day buffer becomes 32.
+- **Why this slice:** This run explicitly requests three puzzles, superseding the usual about-seven-day refill threshold and twenty-puzzle batch size. Content quality and reliable append-only publication are the relevant product outcomes; no unrelated engineering work is needed.
 
 ## Implementation slice
 
-Author exactly ten contiguous entries and a per-entry QC record under PUZZLE_QUALITY_STANDARD.md. Check all answers and themes against live and archive. Apply only with the append-only batch tool after zero errors and no new warnings. Preserve existing live entries byte-for-byte. The current validation failures authorize a focused repair to the append-only tool and schedule test; preserve both the current applied file and the pre-apply snapshot before rebuilding the result through the corrected tool. No application code, historical rows or unrelated files may change. No commit, push, remote content transmission, deployment, publication, paid APIs, Claude or additional Codex worker. Future runs continue toward 60 days; this run ends after this batch.
+Author Murder Mystery, Bistro Dining and Savanna Wildlife, critique each weakest word before validation, check uniqueness against live/archive/batch, and apply through the accepted tool.
+
+## Context to inspect
+
+AGENTS.md, DECISIONS_FROM_EMAAD.md, PUZZLE_QUALITY_STANDARD.md, PRODUCT_DIRECTION.md, compact supervisor state, current handoff/state, live schedule, archive and newest QC format were read. The supervisor shell command was unavailable because bash is absent from PATH; its state.json was read directly.
+
+## Binding approach and constraints
+
+Exactly three contiguous dates after November 1. Preserve every existing source line and all historical puzzle values. No application, archive or unrelated edits. No other worker, paid execution, commit or push. Publication is performed by the OpenClaw gate under the standing decision; no owner approval step exists.
 
 ## Allowed changes
 
-- puzzles.js through append-only apply only
-- puzzle-batches/candidate-2026-10-23-to-2026-11-01.json
-- puzzle-batches/QC-2026-10-23-to-2026-11-01.md
-- HANDOFF.md and relevant content section of CURRENT_STATE.md
-- scripts/manage_puzzle_batch.py and focused tests in scripts/test_manage_puzzle_batch.py and scripts/test_puzzle_compatibility.py
-- Ignored .juggle-supervisor/ state and preservation snapshot
+puzzles.js via apply; the dated candidate JSON and QC Markdown; HANDOFF.md; the content section of CURRENT_STATE.md; ignored supervisor state. Scripts only if genuinely wrong (none identified).
+
+## Explicit exclusions
+
+Application code, gameplay, retired archive, historical puzzle rows, older candidates/QC, publication gate and other files.
 
 ## Acceptance criteria
 
-- Ten contiguous dates; five distinct six-letter primaries and a distinct six-letter keystone final each; exactly six marked letters anagram to final.
-- Every editorial rule enforced; convincing weakest-link sentence recorded before validation for each entry.
-- All 60 answers and ten themes unique within batch and against both live/archive datasets.
-- Batch check zero errors and no new warnings; full validator and full test suite pass before apply and again after apply.
-- Final diff/status reviewed; original entry bytes and surrounding code preserved; archive unchanged.
-- Local review only; record buffer excluding today and distinguish local from deployed availability.
+Three dates November 2-4; five distinct six-letter primaries and one six-letter keystone each; exactly six markers anagram to final. All editorial rules and convincing written weakest-link critiques; all eighteen answers and three themes unique against live/archive/batch. Zero validator errors and full suite with nothing skipped. Original source bytes preserved except inserted entries and range end. Final diff/status reviewed.
 
 ## Required final validation
 
-Use C:/Users/hmsla/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe as $python with PYTHONDONTWRITEBYTECODE=1.
+Use $env:PYTHON (fallback C:/Users/hmsla/Documents/Codex/OpenClaw/runtime/python/python.exe) as $python and PYTHONDONTWRITEBYTECODE=1.
 
 ```powershell
-& $python scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-10-23-to-2026-11-01.json
-& $python scripts/validate_puzzles.py
-& $python -m unittest discover -s scripts -p 'test_*.py'
-# Only after zero errors and no new warnings:
-& $python scripts/manage_puzzle_batch.py apply puzzle-batches/candidate-2026-10-23-to-2026-11-01.json
+& $python scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-11-02-to-2026-11-04.json
+& $python scripts/manage_puzzle_batch.py apply puzzle-batches/candidate-2026-11-02-to-2026-11-04.json
 & $python scripts/validate_puzzles.py
 & $python -m unittest discover -s scripts -p 'test_*.py'
 git diff --check
@@ -51,27 +50,21 @@ git diff -- puzzles.js
 git status --short
 ```
 
-Also directly compare answer/theme sets to live/archive and original raw entry spans to the resulting schedule. Preserve work and report any failed check.
+Also directly verify uniqueness and compare original source bytes to the final file with only the permitted insertion and range-end substitution.
 
 ## Validation evidence
 
-- `scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-10-23-to-2026-11-01.json`: passed before apply, 0 errors / 0 warnings (batch and proposed merge).
-- `scripts/validate_puzzles.py` before apply: 21 entries, 0 errors / 0 warnings.
-- `-m unittest discover -s scripts -p 'test_*.py'` before apply: 102 tests passed in 17.122 seconds.
-- Direct uniqueness checks: all 60 new answers and ten themes unique within batch, with zero collisions against live source or archive. Archive SHA-256 remains `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`.
-- `scripts/manage_puzzle_batch.py apply puzzle-batches/candidate-2026-10-23-to-2026-11-01.json`: applied locally, 31 total entries, 0 errors / 0 warnings.
-- `scripts/validate_puzzles.py` after apply: 31 entries, 0 errors / 0 warnings.
-- `-m unittest discover -s scripts -p 'test_*.py'` after apply: 102 tests ran in 12.179 seconds; 101 passed, one failed. `test_puzzle_compatibility.LivePuzzleDatasetValidationTests.test_live_dataset_is_21_new_entries_with_no_archive_reuse` hardcodes the old October 22 end and 21-entry count; it fails on the new November 1 end. This was not an expected baseline failure: baseline passed.
-- Direct preservation review: all 21 original date/theme/row objects and their marker strings unchanged; all ten new entries equal the candidate. Source bytes outside the two declaration spans and the retired archive unchanged. However, 0 of 21 original entry declaration byte spans are preserved: the existing batch tool serializes old multiline entries into single-line declarations. This fails the strict byte-preservation acceptance criterion despite unchanged puzzle content.
-- Final `git diff --check`: passed; `git diff -- puzzles.js` and final status reviewed. Git emits its LF-to-CRLF advisory for puzzles.js; this is separate from content-validator warnings.
-- No application, script, test, archive, old candidate or unrelated file changed. No commit, push, deployment or remote content transmission.
+- `& $python scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-11-02-to-2026-11-04.json`: 0 errors / 0 warnings before apply.
+- `& $python scripts/manage_puzzle_batch.py apply puzzle-batches/candidate-2026-11-02-to-2026-11-04.json`: 3 new entries, 34 total through November 4, 0 errors / 0 warnings. Initial sandbox atomic rename failed with WinError 5 and left the target unchanged; the identical authorized command succeeded with escalation. No script repair was needed.
+- `& $python scripts/validate_puzzles.py`: post-apply 34 entries, 0 errors / 0 warnings.
+- `& $python -m unittest discover -s scripts -p 'test_*.py'`: post-apply 102 tests passed in 8.950 seconds, nothing skipped. The unchanged baseline also passed 102 tests in 9.581 seconds after the first apply refusal.
+- Direct Python assertions: all 18 answers and three themes unique within batch and against live/archive; all 31 original entries unchanged; reversing only the inserted declarations and range-end substitution reproduces HEAD:puzzles.js byte-for-byte.
+- Archive raw SHA-256 unchanged: `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`. A preliminary raw comparison to the Git blob failed because the archive checkout uses CRLF while the blob uses LF; normalized equality, empty archive diff and the original raw hash confirm no archive change.
+- `git diff --check`: passed. `git diff -- puzzles.js` and `git status --short`: reviewed; only the three insertions and range end change in puzzle source, with candidate/QC/handoff/content-state notes as the remaining changes. No script, application, archive, older candidate/QC or unrelated changes.
 
-After the failure, the tool was changed to insert only new declarations, and the schedule test now accepts validated extensions. Focused tests passed 32/32. The original pre-apply snapshot matched committed `puzzles.js` byte-for-byte. The first applied result was backed up, and the candidate was reapplied with the corrected tool to that exact snapshot. Parsed range and all 31 entries matched the first applied result; all 21 original entry declarations were preserved byte-for-byte. Post-rebuild validator: 31 entries, 0 errors, 0 warnings. Full suite: 102/102 passed. `git diff --check` passed. The ignored pre-apply snapshot is `.juggle-supervisor/pre-batch-puzzles.js`; the first applied result is backed up in the Codex task work directory. Local implementation is accepted for publication review, but nothing has been committed, pushed or deployed. Future-day buffer excluding October 3: 19 before, 29 locally now; deployed buffer unchanged. Next content date is November 2. Future runs continue toward 60 days after publication approval.
+Prepared dates/themes: November 2 Murder Mystery; November 3 Bistro Dining; November 4 Savanna Wildlife. Published buffer before: 29 future days excluding October 3. Prepared buffer after: 32 days. Published availability remains through November 1 until the OpenClaw gate commits and pushes the prepared batch. No worker commit or push; no blockers.
 
-## For Emaad
-
-Nothing. On 2026-10-03 Emaad decided that Juggle publishes itself indefinitely (see `DECISIONS_FROM_EMAAD.md`). This batch and the tooling/test repair are committed and pushed by the OpenClaw gate, not by a worker. Next content date is November 2; a worker prepares the next batch only when about 7 days of published puzzles remain, and the gate publishes each validated batch.
 
 ## Reporting requirements
 
-Report dates, future-day buffer before/after, every theme, exact checks and review files. Genuine decisions belong under For Emaad. Local apply does not extend the deployed runway.
+Record dates/themes, 29-day published buffer before and 32-day prepared buffer after, exact checks and outcomes. Local apply is preparation; publication is performed by the OpenClaw gate. Report genuine blockers only.

@@ -61,10 +61,13 @@
 
 const PUZZLE_PUBLISHING_RANGE = {
   "start": "2026-10-02",
-  "end": "2026-11-01"
+  "end": "2026-11-04"
 };
 
 const PUZZLE_ENTRIES = [
+  { "date": "2026-11-04", "theme": "Savanna Wildlife", "row": "ZEBRAS*, HYEN*AS, I*MP*ALA, JACKAL*, BA*BOON, PLAINS" },
+  { "date": "2026-11-03", "theme": "Bistro Dining", "row": "B*OOTHS, WAI*TER*, S*ALADS, ST*EAKS, BO*TTLE, BISTRO" },
+  { "date": "2026-11-02", "theme": "Murder Mystery", "row": "ALIBIS, SLEU*TH, M*OTIVE, COR*PSE*, D*AGGER*, MURDER" },
   { "date": "2026-11-01", "theme": "Garage Workshop", "row": "JIG*SA*W, DR*ILLS, SANDE*R, CLA*MPS, G*LOVES, GARAGE" },
   { "date": "2026-10-31", "theme": "Haunted House", "row": "GHOS*TS, ZOM*BIE*, C*A*SKET, SPIDER*, SKULLS, SCREAM" },
   { "date": "2026-10-30", "theme": "Church Service", "row": "C*H*OIRS, H*YMNAL, SER*MON, U*SHERS, C*ANDLE, CHURCH" },

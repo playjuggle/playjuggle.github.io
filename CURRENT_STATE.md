@@ -1,13 +1,14 @@
 # Juggle Current State
 
-## Unaccepted local extension (2026-10-03)
+## Current content schedule (2026-10-03)
 
-Ten new puzzles for October 23-November 1 were editorially reviewed, checked against live/archive uniqueness, and applied locally with the append-only tool after a zero-error/zero-warning batch check. The local source now contains 31 entries through November 1; no publication occurred. The future-day buffer excluding October 3 is 29 locally, versus 19 before; the deployed runway is unchanged.
+Supervisor state confirms the prior ten-puzzle batch was published by the OpenClaw gate through November 1 (commit 5465c0e). This run began with a clean working tree and no unfinished batch. The explicit MODE: GENERATE request for exactly three puzzles overrides the usual about-seven-day refill threshold for this run.
 
-The local acceptance blockers were repaired. The schedule test now permits validated contiguous extensions, and the batch tool inserts only new declarations. The result was rebuilt from the exact pre-apply snapshot with the corrected tool; it contains the same 31 puzzle values as the first applied result, while preserving all 21 original entry declarations byte-for-byte. The full suite passes 102 tests, the validator reports 0 errors and 0 warnings, and `git diff --check` passes. No application code or retired archive changed. Local content is validated but remains unpublished.
+Prepared and locally validated November 2-4: Murder Mystery, Bistro Dining, Savanna Wildlife. Source now contains 34 contiguous entries through November 4. Future-day buffer excluding October 3: 29 published before, 32 prepared after; publication is performed by the independent OpenClaw gate. Codex did not commit or push. Next content date: November 5. Routine future generation remains subject to the binding refill decision in DECISIONS_FROM_EMAAD.md.
 
-Candidate and detailed QC/evidence: `puzzle-batches/candidate-2026-10-23-to-2026-11-01.json` and `puzzle-batches/QC-2026-10-23-to-2026-11-01.md`; active order/evidence is in `HANDOFF.md`. The ignored original source snapshot is `.juggle-supervisor/pre-batch-puzzles.js`. Commit and publication require Emaad's explicit approval. Prior accepted schedule facts below describe the pre-extension baseline.
+Exact checks (using $env:PYTHON with PYTHONDONTWRITEBYTECODE=1): `scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-11-02-to-2026-11-04.json` and `apply` each finished with 0 errors / 0 warnings; `scripts/validate_puzzles.py` reports 34 entries, 0 errors / 0 warnings; `-m unittest discover -s scripts -p 'test_*.py'` passed all 102 tests in 8.950 seconds with nothing skipped. `git diff --check` passed; puzzle diff and final status reviewed. Direct assertions confirm 18 answers/three themes unique against live/archive/batch and every existing puzzle-source byte preserved except the allowed insertion and range-end substitution. The initial sandbox atomic-rename denial was resolved by rerunning the same apply command with escalation. No tool or test changes were necessary.
 
+Candidate/QC: `puzzle-batches/candidate-2026-11-02-to-2026-11-04.json` and `puzzle-batches/QC-2026-11-02-to-2026-11-04.md`. Full evidence is in HANDOFF.md. No application or archive changes; archive raw SHA-256 remains `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`. No blockers. Earlier sections below describe historical baselines.
 
 ## Pre-extension live schedule (2026-10-02 to 2026-10-22)
 
