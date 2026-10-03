@@ -1,6 +1,6 @@
 # Juggle working backlog
 
-This is a **dynamic candidate queue**, not a FIFO roadmap and not Claude's task list. Codex may reorder, merge, split, add, or retire items whenever current evidence changes the highest-leverage route toward `PRODUCT_DIRECTION.md`. `HANDOFF.md` alone is the active implementation work order.
+This is a **dynamic candidate queue**, not a FIFO roadmap or active implementation work order. Codex may reorder, merge, split, add, or retire items whenever current evidence changes the highest-leverage route toward `PRODUCT_DIRECTION.md`. `HANDOFF.md` alone is the active implementation work order.
 
 ## Current evidence-derived candidates
 

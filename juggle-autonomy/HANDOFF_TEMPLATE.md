@@ -1,11 +1,10 @@
 # <Task title>
 
 **Status:** Active
-**Primary worker:** Claude Code
+**Implementation worker:** Codex (sole worker)
 **Supervisor/reviewer:** Codex
-**Codex fallback:** Allowed | Disallowed
 **New material architecture/product decision required:** No | Yes — describe and obtain user approval before implementation
-**Fallback continuity basis:** Existing accepted approach | Handoff-specified approach | Mechanically unambiguous local continuation | Not safe for fallback
+**Continuity basis:** Existing accepted approach | Handoff-specified approach | Mechanically unambiguous local continuation | Decision for Emaad required before implementation
 
 ## Why this work now
 
@@ -24,9 +23,9 @@
 
 ## Binding approach and constraints
 
-Copy the **specific** product/architecture decisions needed for this slice here; do not make Claude load broad PM documents merely to discover them.
+Copy the **specific** product/architecture decisions needed for this slice here so Codex can implement without repeatedly loading broad PM documents.
 
-- <implementation direction another worker must preserve>
+- <implementation direction Codex must preserve>
 - <compatibility/persistence/data/UI/product constraints that materially narrow the solution>
 - <if implementation is intentionally open, define boundaries that make local choices interchangeable>
 

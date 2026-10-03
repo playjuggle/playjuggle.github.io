@@ -1,6 +1,6 @@
 # Juggle Shared Implementation Contract
 
-Read this file before Codex fallback, architecture-sensitive assignment design, or Claude re-entry after another implementation writer changed the task. Routine builders should receive the binding constraints in `HANDOFF.md` rather than rereading this whole file on every turn.
+Read this file before architecture-sensitive work or resuming implementation after an interruption or material worktree change. Codex is Juggle's sole implementation worker; do not invoke Claude Code for this project. Keep routine handoffs focused by including the binding constraints they need rather than requiring repeated broad rereads.
 
 ## Authority and source of truth
 
@@ -17,9 +17,9 @@ Do not average conflicting sources. Follow the higher/current authority and iden
 
 ## One implementation writer
 
-Exactly one implementation owner exists: `claude`, `codex`, or none. Supervisor state/locks, not conversation memory, determine ownership.
+Exactly one implementation owner exists at a time: `codex` or none. Supervisor state, not conversation memory, records ownership and task status. Codex must not start a second concurrent implementation process for the same task.
 
-Claude is preferred because the user currently trusts its implementation judgment more. Codex fallback exists to turn otherwise-idle Codex capacity into progress when Claude is usage-limited without creating two competing implementations.
+Codex is the sole implementation worker. If Codex cannot resolve a product or architecture decision, or confidence is too low to proceed safely, stop and record the decision for Emaad rather than guessing or transferring implementation ownership.
 
 ## Default implementation style
 
@@ -48,7 +48,7 @@ Do not pass full transcripts or force the next model to reverse-engineer reasoni
 
 ## Preference is not a defect
 
-Accepted code is current repository truth regardless of whether Codex or Claude wrote it. A later agent must not rewrite it merely because it prefers a different idiom, decomposition, naming style, algorithm, or abstraction.
+Accepted code is current repository truth regardless of who authored it. Codex must not rewrite accepted work merely because it prefers a different idiom, decomposition, naming style, algorithm, or abstraction.
 
 Reopening accepted work requires a material reason such as:
 
@@ -70,23 +70,23 @@ For a material choice, one of the following must already be true before implemen
 - the active handoff specifies the choice; or
 - an accepted architecture decision specifies it.
 
-Otherwise the worker reports the decision needed. Codex fallback is never allowed to create a new material architecture or unresolved product decision merely because Claude is unavailable.
+Otherwise Codex records the decision needed for Emaad and does not implement a guess. Unresolved material architecture and product decisions remain outside the worker's authority.
 
-## Codex fallback gate
+## Continuity after interruption or worktree changes
 
-After verified Claude usage/session unavailability and only when no Claude child is active, Codex may take over when at least one of these is true:
+Before resuming implementation after an interruption or a material worktree change, Codex inspects the current handoff, status, diff, and relevant state so it continues from repository truth. Continue only when at least one of these is true:
 
 - the current implementation approach is already decided and Codex can continue it;
 - the defect is bounded and acceptance is objective;
 - the handoff/architecture record already resolves the design and interface choices.
 
-Codex must not take over a slice whose next step requires broad refactor strategy, unresolved product judgment, a material architecture choice, or reconstruction of Claude's private intent. Preserve ambiguous partial work and wait for Claude for that implementation. Codex may continue read-only planning/review that does not modify repository implementation state.
+If none applies, do not guess at broad refactor strategy, unresolved product judgment, or a material architecture choice. Preserve ambiguous partial work and record the concrete decision needed for Emaad. Read-only investigation may continue where it does not imply an implementation decision.
 
-## Efficient re-entry after another agent
+## Efficient resumption
 
-Before Codex fallback edits, the supervisor records the exact worktree/index/fingerprint and prior Claude session identity. If Codex changes implementation work, the old Claude session becomes stale; later Claude involvement starts fresh from current repository truth. If Codex aborts before any worktree change, the old session may remain resumable.
+Before resuming after a material interruption or ownership-state transition, record the relevant status, staged/unstaged diff, untracked paths, and content fingerprint where the local supervisor supports them. This preserves a clear continuity point and prevents accidental loss or duplication of work.
 
-A fresh Claude review of Codex work should be requested only for a named risk: a complex algorithm/state issue, architecture boundary, meaningful maintainability/testability concern, compatibility/data integrity, or behavior Codex cannot independently verify. Review that risk and relevant changed files first rather than rereading project history.
+Re-read only the changed handoff/context, current diff, and unfinished work; revisit broader project documents only when a named unresolved question requires them.
 
 Reports should explain decisions a returning agent would otherwise have to reconstruct, but should not narrate routine line-by-line coding.
 
