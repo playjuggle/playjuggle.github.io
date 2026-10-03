@@ -70,7 +70,7 @@ After the failure, the tool was changed to insert only new declarations, and the
 
 ## For Emaad
 
-Nothing. On 2026-10-03 Emaad decided that Juggle publishes itself indefinitely (see `DECISIONS_FROM_EMAAD.md`). This batch and the tooling/test repair are committed and pushed by the OpenClaw gate, not by a worker. Next content date is November 2; future runs refill toward 60 days and the gate publishes each validated batch.
+Nothing. On 2026-10-03 Emaad decided that Juggle publishes itself indefinitely (see `DECISIONS_FROM_EMAAD.md`). This batch and the tooling/test repair are committed and pushed by the OpenClaw gate, not by a worker. Next content date is November 2; a worker prepares the next batch only when about 7 days of published puzzles remain, and the gate publishes each validated batch.
 
 ## Reporting requirements
 

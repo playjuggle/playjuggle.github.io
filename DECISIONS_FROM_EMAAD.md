@@ -3,10 +3,20 @@
 Newest first. Every scheduled run reads this file before choosing work.
 Each entry is an executive decision and is binding until a later entry supersedes it.
 
+## 2026-10-03 (later) — Generate batches only when needed
+
+Do not spend tokens extending the schedule early. The OpenClaw check costs nothing and runs
+every few hours, but a worker is launched only when about 7 days of published puzzles remain
+(the margin lets one bad night, such as a usage limit or a refused batch, pass without the live
+game running out). When due, prepare one batch of 20 and let the gate publish it. This
+supersedes the earlier "stay 60 days ahead" target below; everything else in the earlier entry
+still stands.
+
 ## 2026-10-03 — Juggle runs and publishes itself, indefinitely
 
 Emaad does not approve, commit, or push puzzle batches. Juggle must keep its
-schedule at 60 or more days ahead on its own, in perpetuity, with no human step.
+schedule from ever running out on its own, in perpetuity, with no human step (the "60 days
+ahead" target originally written here is replaced by the later entry above).
 This supersedes every earlier "await Emaad's approval to commit or push" rule for
 puzzle content.
 
