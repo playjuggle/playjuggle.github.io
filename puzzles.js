@@ -65,25 +65,109 @@ const PUZZLE_PUBLISHING_RANGE = {
 };
 
 const PUZZLE_ENTRIES = [
-  {"date": "2026-10-22", "theme": "Toy Box", "row": "RO*B*OTS, FI*GURE*, BUBBL*E, RATTLE, M*IRROR, MOBILE"},
-  {"date": "2026-10-21", "theme": "Museum Tour", "row": "ST*A*TU*E*, R*ELIC*S, PLAQUE, MOSAIC, BRONZE, CURATE"},
-  {"date": "2026-10-20", "theme": "Roadside Repair", "row": "P*I*STON, CLUTCH, BR*A*KE*S, PEDALS, FENDER*, REPAIR"},
-  {"date": "2026-10-19", "theme": "City Transit", "row": "SUBWA*Y, T*R*AINS, TUNNE*L, SIGNAL, D*EP*OTS, DEPART"},
-  {"date": "2026-10-18", "theme": "Hair Salon", "row": "BA*R*BE*R, CURLER, CUTTER, S*TYLES*, SH*AVER, SHEARS"},
-  {"date": "2026-10-17", "theme": "Snow Day", "row": "MI*TTE*N, GLOV*ES*, PAR*KAS, BEANIE, SH*OVEL, SHIVER"},
-  {"date": "2026-10-16", "theme": "Hotel Room", "row": "L*O*DGE*S*, SUIT*ES, TOWELS, H*OSTEL, RESORT, HOTELS"},
-  {"date": "2026-10-15", "theme": "Fish Tank", "row": "F*IS*HES, PL*A*NT*S, CO*RALS, FILTER, GRAVEL, FLOATS"},
-  {"date": "2026-10-14", "theme": "Birthday Party", "row": "H*A*MPE*R*, PINAT*A, PRIZES, G*UESTS, TOASTS, GATHER"},
-  {"date": "2026-10-13", "theme": "Moving Day", "row": "C*RA*TE*S, TRUCK*S, P*ACKER, MOVERS, UNLOAD*, PACKED"},
-  {"date": "2026-10-12", "theme": "Lawn Care", "row": "MOWER*S*, WEEDER, EDG*I*N*G, SP*RAYS, RAKING, SPRING"},
-  {"date": "2026-10-11", "theme": "Dental Visit", "row": "DEN*TA*L*, MOLA*RS*, BRAC*ES, ENAMEL, CAVITY, CANALS"},
-  {"date": "2026-10-10", "theme": "Dance Class", "row": "D*A*N*C*E*R, TIGHTS*, BALLET, TWIRLS, RHYTHM, DANCES"},
-  {"date": "2026-10-09", "theme": "Barbecue", "row": "GRILLS*, K*E*BABS*, SAUCES, SM*O*KER, FLAMES, SMOKES"},
-  {"date": "2026-10-08", "theme": "Art Studio", "row": "P*A*INT*S*, CANVAS, SKE*TCH, EASEL*S, STROKE, PASTEL"},
-  {"date": "2026-10-07", "theme": "Sports Stars", "row": "S*OC*CE*R*, TENNIS, R*UNNER, RA*CKET, JOCKEY, RACERS"},
-  {"date": "2026-10-06", "theme": "Diner Lunch", "row": "WAI*TE*R*, D*IN*NER, PLATES*, NAPKIN, SALADS, DINERS"},
-  {"date": "2026-10-05", "theme": "Photo Studio", "row": "CAME*R*A, LEN*S*ES*, TRIPO*D, STROBE, PHOTOS, SENSOR"},
-  {"date": "2026-10-04", "theme": "Fruit Market", "row": "BAN*ANA, PAPAYA, M*E*L*O*NS*, CHERRY, GRAPES, LEMONS"},
-  {"date": "2026-10-03", "theme": "Sewing Basket", "row": "N*E*EDLE, THR*EA*D, FAB*RIC, BUTTON*, BOBBIN, BANNER"},
-  {"date": "2026-10-02", "theme": "Home Office", "row": "LAP*T*O*P, TABLE*T, C*HECK*S, PAPERS, DEVICE, POCKET"}
+  {
+    "date": "2026-10-22",
+    "theme": "Toy Box",
+    "row": "RAT*TLE, CO*WB*O*Y*, BLOCKS, BOX*CAR, DOMINO, TOYBOX"
+  },
+  {
+    "date": "2026-10-21",
+    "theme": "Museum Exhibit",
+    "row": "S*TATU*E*, RELICS, PLAQU*E, M*OSAIC, M*URALS, MUSEUM"
+  },
+  {
+    "date": "2026-10-20",
+    "theme": "Roadside Repair",
+    "row": "WHE*ELS, P*LI*ER*S, BR*A*KES, CABLES, FENDER, REPAIR"
+  },
+  {
+    "date": "2026-10-19",
+    "theme": "Urban Rail",
+    "row": "TR*ACKS, TRAI*N*S, TUNNEL, SI*G*NAL, D*EPOTS, RIDING"
+  },
+  {
+    "date": "2026-10-18",
+    "theme": "Hair Styling",
+    "row": "BARBE*R, CURL*ER, CUT*TER, S*HAVER, DRY*ERS*, STYLES"
+  },
+  {
+    "date": "2026-10-17",
+    "theme": "Snow Day",
+    "row": "MI*TTE*N, S*LEIGH*, PAR*KAS, BEANIE, SHOV*EL, SHIVER"
+  },
+  {
+    "date": "2026-10-16",
+    "theme": "Hotel Room",
+    "row": "T*O*WE*LS*, SHEETS, MIR*R*OR, REMOTE, HANGER, RESORT"
+  },
+  {
+    "date": "2026-10-15",
+    "theme": "Ocean Life",
+    "row": "W*HA*LE*S*, SHAR*KS, MANT*AS, MUSSEL, CORALS, WATERS"
+  },
+  {
+    "date": "2026-10-14",
+    "theme": "Birthday Party",
+    "row": "B*A*NNE*R, PINATA, PRIZES*, GUES*TS, CH*EERS, BASHES"
+  },
+  {
+    "date": "2026-10-13",
+    "theme": "Moving Day",
+    "row": "C*RA*TES, TRU*CK*S, P*ACKER, MOVERS, TEN*ANT, UNPACK"
+  },
+  {
+    "date": "2026-10-12",
+    "theme": "Lawn Care",
+    "row": "M*O*W*ERS, WEEDER, EDG*I*N*G, SPRAYS, RAKING, MOWING"
+  },
+  {
+    "date": "2026-10-11",
+    "theme": "Dental Visit",
+    "row": "MOL*ARS, BRAC*ES, EN*AMEL, C*AVI*TY, CANI*NE, CLINIC"
+  },
+  {
+    "date": "2026-10-10",
+    "theme": "Dance Rehearsal",
+    "row": "DA*NCE*R, T*IG*HTS*, TUTORS*, TANGOS, RHYTHM, STAGES"
+  },
+  {
+    "date": "2026-10-09",
+    "theme": "Backyard Dinner",
+    "row": "GR*I*LLS, KE*BABS, ON*ION*S, PLATES, D*RINKS, DINNER"
+  },
+  {
+    "date": "2026-10-08",
+    "theme": "Art Studio",
+    "row": "IN*KING, PA*S*TEL, EA*SELS, SKETC*H, SILV*ER, CANVAS"
+  },
+  {
+    "date": "2026-10-07",
+    "theme": "Sports Tournament",
+    "row": "SO*CCER*, T*ENNIS, P*ADDLE, SKATER, H*OCKEY*, TROPHY"
+  },
+  {
+    "date": "2026-10-06",
+    "theme": "Diner Brunch",
+    "row": "B*U*R*GER, QUIC*H*E, HASHES, PAN*INI, CREPES, BRUNCH"
+  },
+  {
+    "date": "2026-10-05",
+    "theme": "Photo Studio",
+    "row": "T*RIP*O*D, S*TRO*BE, FILTER, SH*ADOW, FAMILY, PHOTOS"
+  },
+  {
+    "date": "2026-10-04",
+    "theme": "Farmers' Market",
+    "row": "BA*NANA, MEL*ONS*, T*URNIP, OL*IVES*, GRAPES, STALLS"
+  },
+  {
+    "date": "2026-10-03",
+    "theme": "Hand Sewing",
+    "row": "NEEDLE, T*H*READ, FABRI*C*, BUT*TON, S*POOLS, STITCH"
+  },
+  {
+    "date": "2026-10-02",
+    "theme": "Home Office",
+    "row": "LAP*T*O*P, TABLE*T, C*HECK*S, PAPERS, DEVICE, POCKET"
+  }
 ];

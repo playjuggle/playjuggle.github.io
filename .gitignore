@@ -2,3 +2,5 @@
 .juggle-supervisor/
 
 *.zip
+__pycache__/
+*.pyc
