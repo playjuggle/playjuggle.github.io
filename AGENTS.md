@@ -1,5 +1,7 @@
 # Juggle Engineering Rules
 
+**Before authoring or reviewing any puzzle, read `juggle-autonomy/PUZZLE_QUALITY_STANDARD.md`. This is required on every run, including scheduled runs.**
+
 This file is the canonical engineering/collaboration policy for this repository. The latest explicit user instruction governs. `juggle-autonomy/PRODUCT_DIRECTION.md` defines durable product intent; `juggle-autonomy/WORKING_BACKLOG.md` is only a revisable candidate queue. If an active handoff appears to conflict with higher-authority direction, stop on the conflicting decision rather than silently averaging them.
 
 ## Product and architecture
