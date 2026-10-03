@@ -37,7 +37,7 @@ This file is the canonical engineering/collaboration policy for this repository.
 - Codex is the product-minded project manager, technical lead, reviewer, and implementation worker. It defines scope and acceptance criteria, protects product/architecture/compatibility constraints, reviews implementation evidence, and chooses the next high-leverage work.
 - Codex is the sole implementation worker. Juggle does not invoke Claude Code.
 - The current implementation owner is recorded in ignored supervisor state. Exactly one implementation owner may exist at a time; Claude ownership is retired for this project.
-- Do not start the legacy Claude runner or transmit repository content to Claude. The user retains final authority over scope, product behavior, commits, pushes, and deployment.
+- Do not start the legacy Claude runner or transmit repository content to Claude. The user retains final authority over scope, product behavior, and deployment, except routine puzzle publication, which is autonomous (see `DECISIONS_FROM_EMAAD.md`, 2026-10-03).
 
 ## Implementation and token efficiency
 
@@ -52,7 +52,7 @@ This file is the canonical engineering/collaboration policy for this repository.
 - Read durable direction plus compact current state/backlog on a fresh supervision session, then use targeted sections thereafter.
 - Treat existing modifications and untracked files as user work. Preserve unrelated changes and never reset, discard, overwrite, or reformat them incidentally.
 - Keep changes narrowly scoped. Do not perform opportunistic cleanup or mix puzzle-content corrections with tooling or application changes unless the handoff explicitly requests both.
-- Do not commit or push without explicit user approval. Never assume that implementation approval includes publication approval.
+- Do not commit or push application code, tooling, or anything else without explicit user approval. The one standing exception, authorized in `DECISIONS_FROM_EMAAD.md` (2026-10-03): validated append-only puzzle batches are committed and pushed to `origin/main` by the OpenClaw publication gate, never by a worker, and never need Emaad's approval.
 - Avoid destructive Git commands. If safe progress would require discarding or overwriting work, stop and ask the user.
 
 ## Validation and acceptance
@@ -70,6 +70,6 @@ This file is the canonical engineering/collaboration policy for this repository.
 3. Codex runs required validation, reviews its diff and evidence, and records exact outcomes.
 4. If an unapproved architecture/product decision, unresolved ambiguity, or low confidence blocks correctness, Codex records it for Emaad instead of guessing.
 5. Acceptance of one handoff is a gate, not automatically a reason to return control to the user. While the broader objective remains active, Codex continues into the next safe, already-authorized high-leverage handoff. Codex stops only for a concrete user decision/approval, materially new authority, genuine external blocker, or completion.
-6. The user decides whether and when to commit, push, merge, or deploy. The supervisor never commits, pushes, deploys, or switches to paid API/ChatGPT Work execution.
+6. The user decides whether and when to commit, push, merge, or deploy anything other than routine puzzle batches; those are published by the OpenClaw gate under the standing decision of 2026-10-03. The supervisor never commits, pushes, deploys, or switches to paid API/ChatGPT Work execution. A validated, prepared puzzle batch is never "awaiting approval": repair what blocks it and leave it for the gate.
 
 Machine-local supervisor state belongs in ignored `.juggle-supervisor/`. The normal user instruction to the persistent Codex supervisor remains `continue`; Codex operates implementation and review directly. The legacy Claude runner is retired and must not be started.
