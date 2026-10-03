@@ -265,7 +265,7 @@ def _render_entries_blob(entries):
     return f'[\n{body}\n]'
 
 
-def _render_target(original_text, merged_range, merged_entries):
+def _render_target(original_text, merged_range, new_entries):
     """Return original_text with only the two declaration spans replaced.
 
     Returns (new_text_or_None, error_message_or_None). Uses the same
@@ -282,10 +282,23 @@ def _render_target(original_text, merged_range, merged_entries):
     if entries_err or entries_start is None:
         return None, entries_err or "'PUZZLE_ENTRIES' declaration not found in target"
 
+    original_entries = original_text[entries_start:entries_end]
+    newline = "\r\n" if "\r\n" in original_entries else "\n"
+    # Insert only the new declarations. Re-rendering the merged data changes
+    # every existing declaration's source bytes even when its value is equal.
+    if original_entries[1:].startswith(newline):
+        insertion_at = 1 + len(newline)
+        insertion = ("," + newline).join(_render_entry_line(e) for e in new_entries) + "," + newline
+    else:
+        insertion_at = 1
+        insertion = ", ".join(_render_entry_line(e).strip() for e in new_entries) + ", "
+    entries_blob = (original_entries[:insertion_at] + insertion
+                    + original_entries[insertion_at:])
+
     replacements = sorted(
         [
             (range_start, range_end, _render_range_blob(merged_range)),
-            (entries_start, entries_end, _render_entries_blob(merged_entries)),
+            (entries_start, entries_end, entries_blob),
         ],
         key=lambda t: t[0],
         reverse=True,
@@ -331,8 +344,9 @@ def cmd_apply(args):
     original_bytes = original_text.encode("utf-8")
     merged_range = context["merged_range"]
     merged_entries = context["merged_entries"]
+    new_entries = context["batch"]["entries"]
 
-    new_text, render_err = _render_target(original_text, merged_range, merged_entries)
+    new_text, render_err = _render_target(original_text, merged_range, new_entries)
     if render_err is not None:
         diags.append(vp.err("apply-render-failed",
                              f"Could not render the updated target; refusing to write: {render_err}"))

@@ -1,0 +1,56 @@
+{
+  "start": "2026-10-23",
+  "end": "2026-11-01",
+  "entries": [
+    {
+      "date": "2026-11-01",
+      "theme": "Garage Workshop",
+      "row": "JIG*SA*W, DR*ILLS, SANDE*R, CLA*MPS, G*LOVES, GARAGE"
+    },
+    {
+      "date": "2026-10-31",
+      "theme": "Haunted House",
+      "row": "GHOS*TS, ZOM*BIE*, C*A*SKET, SPIDER*, SKULLS, SCREAM"
+    },
+    {
+      "date": "2026-10-30",
+      "theme": "Church Service",
+      "row": "C*H*OIRS, H*YMNAL, SER*MON, U*SHERS, C*ANDLE, CHURCH"
+    },
+    {
+      "date": "2026-10-29",
+      "theme": "Horse Stable",
+      "row": "SA*DDL*E, B*RIDLE, HALT*ER, HORSE*S, GROOMS*, STABLE"
+    },
+    {
+      "date": "2026-10-28",
+      "theme": "Bridge Construction",
+      "row": "G*IRD*ER, AR*CHE*S, RI*VETS, PYLONS, B*RICKS, BRIDGE"
+    },
+    {
+      "date": "2026-10-27",
+      "theme": "Cold Spell",
+      "row": "IC*ICL*E, FL*URRY, FROS*TS, H*EATER, SKI*ING, CHILLS"
+    },
+    {
+      "date": "2026-10-26",
+      "theme": "Police Patrol",
+      "row": "SI*RENS, BADGE*S, RADIO*S, P*ATROL*, C*RIMES, POLICE"
+    },
+    {
+      "date": "2026-10-25",
+      "theme": "Running Stream",
+      "row": "M*INNOW, PE*BBLE, RA*PIDS*, OT*TERS, R*USHES, STREAM"
+    },
+    {
+      "date": "2026-10-24",
+      "theme": "Picnic Lunch",
+      "row": "N*AP*KIN, C*HEESE, JUI*C*ES, FRUI*TS, BREADS, PICNIC"
+    },
+    {
+      "date": "2026-10-23",
+      "theme": "Autumn Harvest",
+      "row": "ACORN*S, LEA*VES, APPLES, SQU*ASH, NU*T*M*EG, AUTUMN"
+    }
+  ]
+}

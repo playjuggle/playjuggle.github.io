@@ -1,6 +1,15 @@
 # Juggle Current State
 
-## Live schedule (2026-10-02 to 2026-10-22)
+## Unaccepted local extension (2026-10-03)
+
+Ten new puzzles for October 23-November 1 were editorially reviewed, checked against live/archive uniqueness, and applied locally with the append-only tool after a zero-error/zero-warning batch check. The local source now contains 31 entries through November 1; no publication occurred. The future-day buffer excluding October 3 is 29 locally, versus 19 before; the deployed runway is unchanged.
+
+The local acceptance blockers were repaired. The schedule test now permits validated contiguous extensions, and the batch tool inserts only new declarations. The result was rebuilt from the exact pre-apply snapshot with the corrected tool; it contains the same 31 puzzle values as the first applied result, while preserving all 21 original entry declarations byte-for-byte. The full suite passes 102 tests, the validator reports 0 errors and 0 warnings, and `git diff --check` passes. No application code or retired archive changed. Local content is validated but remains unpublished.
+
+Candidate and detailed QC/evidence: `puzzle-batches/candidate-2026-10-23-to-2026-11-01.json` and `puzzle-batches/QC-2026-10-23-to-2026-11-01.md`; active order/evidence is in `HANDOFF.md`. The ignored original source snapshot is `.juggle-supervisor/pre-batch-puzzles.js`. Commit and publication require Emaad's explicit approval. Prior accepted schedule facts below describe the pre-extension baseline.
+
+
+## Pre-extension live schedule (2026-10-02 to 2026-10-22)
 
 The live schedule contains 21 puzzles for 2026-10-02 through 2026-10-22. Its themes are Computer Desk, Hand Sewing, Farmers' Market, Photo Studio, Diner Brunch, Sports Tournament, Art Studio, Backyard Dinner, Dance Rehearsal, Dental Visit, Lawn Care, Moving Day, Birthday Party, Ocean Life, Hotel Room, Snow Day, Hair Styling, Urban Rail, Roadside Repair, Museum Exhibit, and Toy Box. The 2026-10-02 entry was preserved unchanged. The 2026-10-03 through 2026-10-22 rows were rewritten under `juggle-autonomy/PUZZLE_QUALITY_STANDARD.md`; the per-date rationale and weakest-link critiques are in `juggle-autonomy/QC-2026-10-03-to-2026-10-22.md`. The retired archive remains unchanged at `puzzle-batches/approved-live-puzzles-2026-06-17.js` (SHA-256 `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`) and was used only for uniqueness checks. The staged 120-puzzle candidate remains unapproved and is not live. The next date needing content is 2026-10-23. The editorial audit found globally unique answers and six marked letters per replacement by direct source review; full validator and unit-test evidence is recorded below after final checks.
 

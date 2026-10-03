@@ -246,6 +246,11 @@ class SuccessPathTests(BatchWorkflowTestCase):
         # Historical entries preserved byte-for-data.
         self.assertEqual(entries[2], LIVE_ENTRIES[0])
         self.assertEqual(entries[3], LIVE_ENTRIES[1])
+        old_start, old_end, old_err = vp._locate_balanced_span(
+            self.original_bytes.decode("utf-8"), "PUZZLE_ENTRIES", "[", "]")
+        self.assertIsNone(old_err)
+        old_body = self.original_bytes.decode("utf-8")[old_start + 1:old_end - 1]
+        self.assertIn(old_body, self.target.read_bytes().decode("utf-8"))
 
         validation_diags = vp.validate(publishing_range, entries)
         self.assertEqual([d for d in validation_diags if d.severity == "ERROR"], [])

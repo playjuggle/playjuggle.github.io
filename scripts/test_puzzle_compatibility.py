@@ -355,11 +355,13 @@ class PuzzleCompatibilityTests(unittest.TestCase):
 class LivePuzzleDatasetValidationTests(unittest.TestCase):
     """Confirms the new live schedule excludes retired archive content."""
 
-    def test_live_dataset_is_21_new_entries_with_no_archive_reuse(self):
+    def test_live_dataset_extends_original_schedule_with_no_archive_reuse(self):
         publishing_range, entries, diags = vp.load_source(REPO_ROOT / "puzzles.js")
-        self.assertEqual(publishing_range, {"start": "2026-10-02", "end": "2026-10-22"})
         self.assertIsNotNone(entries)
-        self.assertEqual(len(entries), 21)
+        self.assertGreaterEqual(len(entries), 21)
+        self.assertEqual(publishing_range["start"], "2026-10-02")
+        self.assertEqual(publishing_range["end"], entries[0]["date"])
+        self.assertEqual(entries[-1]["date"], "2026-10-02")
 
         diags = list(diags) + vp.validate(publishing_range, entries)
         errors = [d for d in diags if d.severity == "ERROR"]
