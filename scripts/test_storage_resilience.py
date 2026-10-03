@@ -5,11 +5,9 @@ Exercises the *actual production* functions in main.js (saveSettings,
 getAnalyticsSessionId, trackEvent, init, the bootstrap ?reset handler) rather
 than reimplementing their logic in Python. puzzles.js, game.js, wordlist.js,
 and main.js are loaded verbatim (byte-for-byte, unmodified) into a
-JavaScriptCore sandbox via macOS's `osascript -l JavaScript` (JXA), the same
-approach used by scripts/test_puzzle_compatibility.py (the only JS runtime
-available in this environment; no node/deno/jsc CLI is installed). This is a
-portability limitation: these tests only run where `osascript` exists (macOS),
-and they exercise the JavaScriptCore shim, not an actual browser's
+JavaScript sandbox via Node.js when available, with macOS's
+`osascript -l JavaScript` (JXA) as a runtime fallback. They exercise the
+shim, not an actual browser's
 localStorage/Safari private-mode behavior.
 
 The harness extends test_puzzle_compatibility's minimal shim with a
@@ -30,7 +28,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from test_puzzle_compatibility import REPO_ROOT, _osascript_available  # noqa: E402
+from test_puzzle_compatibility import REPO_ROOT, _js_runtime  # noqa: E402
 
 # Minimal, browser-standard-shaped shims, extended with a permissive mock DOM
 # so the real init() (theme/board/streak/pregame rendering) can execute
@@ -118,8 +116,8 @@ globalThis.fetch = function (url, opts) {
 
 
 def run_js(body):
-    """Load the real production JS files plus `body` into a JavaScriptCore
-    sandbox and return the JSON-decoded result of evaluating `body` (which
+    """Load the real production JS files plus `body` into Node.js or JXA
+    and return the JSON-decoded result of evaluating `body` (which
     must be a single JSON.stringify(...) expression)."""
     files = ["puzzles.js", "game.js", "wordlist.js", "main.js"]
     source = _SHIM + "\n"
@@ -130,14 +128,25 @@ def run_js(body):
         f.write(source)
         path = f.name
     try:
+        runtime = _js_runtime()
+        if runtime is None:
+            raise RuntimeError("Neither Node.js nor osascript (JavaScriptCore) is available")
+        if runtime[0] == "node":
+            command = [runtime[1], "-e", (
+                "const fs = require('fs'); const vm = require('vm'); "
+                "const result = vm.runInThisContext(fs.readFileSync(process.argv[1], 'utf8')); "
+                "process.stdout.write(String(result));"
+            ), path]
+        else:
+            command = [runtime[1], "-l", "JavaScript", path]
         result = subprocess.run(
-            ["osascript", "-l", "JavaScript", path],
+            command,
             capture_output=True, text=True, timeout=30,
         )
     finally:
         Path(path).unlink(missing_ok=True)
     if result.returncode != 0:
-        raise RuntimeError(f"JXA harness failed (exit {result.returncode}): {result.stderr.strip()}")
+        raise RuntimeError(f"JavaScript harness failed (exit {result.returncode}): {result.stderr.strip()}")
     return json.loads(result.stdout)
 
 
@@ -159,7 +168,7 @@ function buildCompatibleSave(puzzle, hardMode) {
 """
 
 
-@unittest.skipUnless(_osascript_available(), "osascript (JavaScriptCore) is not available on this platform")
+@unittest.skipUnless(_js_runtime(), "Node.js or osascript (JavaScriptCore) is not available on this platform")
 class SaveSettingsResilienceTests(unittest.TestCase):
 
     def test_working_storage_persists_settings_as_before(self):
@@ -189,7 +198,7 @@ class SaveSettingsResilienceTests(unittest.TestCase):
         self.assertTrue(result["afterRan"])
 
 
-@unittest.skipUnless(_osascript_available(), "osascript (JavaScriptCore) is not available on this platform")
+@unittest.skipUnless(_js_runtime(), "Node.js or osascript (JavaScriptCore) is not available on this platform")
 class BootstrapResetResilienceTests(unittest.TestCase):
 
     def test_working_removal_clears_only_the_active_puzzle_key(self):
@@ -228,7 +237,7 @@ class BootstrapResetResilienceTests(unittest.TestCase):
         self.assertTrue(result["puzzleInitialized"])
 
 
-@unittest.skipUnless(_osascript_available(), "osascript (JavaScriptCore) is not available on this platform")
+@unittest.skipUnless(_js_runtime(), "Node.js or osascript (JavaScriptCore) is not available on this platform")
 class AnalyticsSessionIdResilienceTests(unittest.TestCase):
 
     def test_working_storage_generates_and_persists_then_reuses_id(self):
@@ -334,7 +343,7 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
         self.assertEqual(result["theme"], "Test Theme")
 
 
-@unittest.skipUnless(_osascript_available(), "osascript (JavaScriptCore) is not available on this platform")
+@unittest.skipUnless(_js_runtime(), "Node.js or osascript (JavaScriptCore) is not available on this platform")
 class HardModeRestorationTests(unittest.TestCase):
 
     def test_fresh_date_restores_true_from_saved_global_setting(self):

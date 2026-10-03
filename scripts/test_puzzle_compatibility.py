@@ -4,10 +4,9 @@
 Exercises the *actual production* helpers in main.js (computePuzzleFingerprint,
 isSaveCompatible, LEGACY_INCOMPATIBLE_DATES, saveState, loadState) rather than
 reimplementing their logic in Python. puzzles.js, game.js, wordlist.js, and
-main.js are loaded verbatim (byte-for-byte, unmodified) into a JavaScriptCore
-sandbox via macOS's `osascript -l JavaScript` (JXA), the only JS runtime
-available in this environment (no node/deno/jsc CLI is installed). This is a
-portability limitation: these tests only run where `osascript` exists (macOS).
+main.js are loaded verbatim (byte-for-byte, unmodified) into a JavaScript
+sandbox via Node.js when available, with macOS's `osascript -l JavaScript`
+(JXA) as a runtime fallback.
 The harness supplies minimal, browser-standard-shaped shims for
 document/window/localStorage/URLSearchParams so the production files can load
 without a real browser; it never changes what the production helpers do.
@@ -104,13 +103,20 @@ function setupState(puzzle) {
 """
 
 
-def _osascript_available():
-    return shutil.which("osascript") is not None
+def _js_runtime():
+    """Return the preferred JavaScript runtime command, or None if absent."""
+    node = shutil.which("node")
+    if node:
+        return "node", node
+    osascript = shutil.which("osascript")
+    if osascript:
+        return "osascript", osascript
+    return None
 
 
 def run_js(body):
-    """Load the real production JS files plus `body` into a JavaScriptCore
-    sandbox and return the JSON-decoded result of evaluating `body` (which
+    """Load the real production JS files plus `body` into Node.js or JXA
+    and return the JSON-decoded result of evaluating `body` (which
     must be a single JSON.stringify(...) expression)."""
     files = ["puzzles.js", "game.js", "wordlist.js", "main.js"]
     source = _SHIM + "\n"
@@ -121,18 +127,29 @@ def run_js(body):
         f.write(source)
         path = f.name
     try:
+        runtime = _js_runtime()
+        if runtime is None:
+            raise RuntimeError("Neither Node.js nor osascript (JavaScriptCore) is available")
+        if runtime[0] == "node":
+            command = [runtime[1], "-e", (
+                "const fs = require('fs'); const vm = require('vm'); "
+                "const result = vm.runInThisContext(fs.readFileSync(process.argv[1], 'utf8')); "
+                "process.stdout.write(String(result));"
+            ), path]
+        else:
+            command = [runtime[1], "-l", "JavaScript", path]
         result = subprocess.run(
-            ["osascript", "-l", "JavaScript", path],
+            command,
             capture_output=True, text=True, timeout=30,
         )
     finally:
         Path(path).unlink(missing_ok=True)
     if result.returncode != 0:
-        raise RuntimeError(f"JXA harness failed (exit {result.returncode}): {result.stderr.strip()}")
+        raise RuntimeError(f"JavaScript harness failed (exit {result.returncode}): {result.stderr.strip()}")
     return json.loads(result.stdout)
 
 
-@unittest.skipUnless(_osascript_available(), "osascript (JavaScriptCore) is not available on this platform")
+@unittest.skipUnless(_js_runtime(), "Node.js or osascript (JavaScriptCore) is not available on this platform")
 class PuzzleCompatibilityTests(unittest.TestCase):
 
     def test_legacy_incompatible_dates_are_the_exact_approved_twelve(self):

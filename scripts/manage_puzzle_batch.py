@@ -138,7 +138,10 @@ def load_batch(path):
 
 def _load_live(path):
     try:
-        text = Path(path).read_text(encoding="utf-8")
+        # Decode bytes directly: read_text() normalizes CRLF on Windows,
+        # which would break the exact target-change check and verbatim
+        # preservation promised by apply.
+        text = Path(path).read_bytes().decode("utf-8")
     except FileNotFoundError:
         return None, None, None, [vp.err("live-file-not-found", f"Target file not found: {path}")]
     except IsADirectoryError:
@@ -372,8 +375,11 @@ def cmd_apply(args):
     try:
         fd, tmp_path = tempfile.mkstemp(
             dir=str(target_path.parent), prefix=f".{target_path.name}.", suffix=".tmp")
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            f.write(new_text)
+        # Binary output avoids Windows text-mode newline translation. This
+        # keeps untouched surrounding bytes verbatim and makes the replace
+        # atomic with respect to the exact rendered UTF-8 bytes.
+        with os.fdopen(fd, "wb") as f:
+            f.write(new_text.encode("utf-8"))
         os.chmod(tmp_path, target_mode)
         os.replace(tmp_path, target_path)
     except OSError as e:

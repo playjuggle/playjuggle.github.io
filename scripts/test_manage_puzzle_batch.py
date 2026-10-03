@@ -280,6 +280,9 @@ class SuccessPathTests(BatchWorkflowTestCase):
     def test_successful_apply_preserves_target_permission_mode(self):
         os.chmod(self.target, 0o640)
         self.original_bytes = self.target.read_bytes()  # unchanged by chmod; kept for clarity
+        original_mode = stat.S_IMODE(self.target.stat().st_mode)
+        if os.name != "nt":
+            self.assertEqual(original_mode, 0o640)
 
         batch = self.write_batch(build_batch_json(
             "2026-06-18", "2026-06-18",
@@ -288,7 +291,10 @@ class SuccessPathTests(BatchWorkflowTestCase):
         self.assertEqual(code, 0)
 
         new_mode = stat.S_IMODE(self.target.stat().st_mode)
-        self.assertEqual(new_mode, 0o640)
+        # Windows exposes only a subset of POSIX mode bits through chmod and
+        # stat; the safety contract is that apply preserves what the platform
+        # reports for the source file.
+        self.assertEqual(new_mode, original_mode)
 
 
 class BlockedApplyTests(BatchWorkflowTestCase):
