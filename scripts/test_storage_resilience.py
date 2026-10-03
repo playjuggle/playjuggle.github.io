@@ -204,12 +204,12 @@ class BootstrapResetResilienceTests(unittest.TestCase):
     def test_working_removal_clears_only_the_active_puzzle_key(self):
         result = run_js(
             """
-            window.location.search = '?reset=1&date=2026-06-10';
-            localStorage.setItem('juggle_puzzle_2026-06-10', 'stale-save');
+            window.location.search = '?reset=1&date=2026-10-19';
+            localStorage.setItem('juggle_puzzle_2026-10-19', 'stale-save');
             localStorage.setItem('juggle_settings', 'keep-me');
             init();
             JSON.stringify({
-              puzzleKeyRemoved: localStorage.getItem('juggle_puzzle_2026-06-10') === null,
+              puzzleKeyRemoved: localStorage.getItem('juggle_puzzle_2026-10-19') === null,
               settingsUnchanged: localStorage.getItem('juggle_settings') === 'keep-me',
             });
             """
@@ -220,7 +220,7 @@ class BootstrapResetResilienceTests(unittest.TestCase):
     def test_throwing_removal_does_not_abort_init_or_touch_other_keys(self):
         result = run_js(
             """
-            window.location.search = '?reset=1&date=2026-06-10';
+            window.location.search = '?reset=1&date=2026-10-19';
             localStorage.setItem('juggle_settings', 'keep-me');
             localStorage.removeItem = function () { throw new Error('denied'); };
             let threw = false;
@@ -243,14 +243,14 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
     def test_working_storage_generates_and_persists_then_reuses_id(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             const id1 = getAnalyticsSessionId();
             const id2 = getAnalyticsSessionId();
             JSON.stringify({
               id1: id1,
               sameOnSecondCall: id1 === id2,
               nonEmpty: typeof id1 === 'string' && id1.length > 0,
-              persisted: localStorage.getItem('juggle_session_2026-06-10') === id1,
+              persisted: localStorage.getItem('juggle_session_2026-10-19') === id1,
             });
             """
         )
@@ -261,8 +261,8 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
     def test_existing_stored_id_is_preserved(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
-            localStorage.setItem('juggle_session_2026-06-10', 'existing-id-123');
+            window.location.search = '?date=2026-10-19';
+            localStorage.setItem('juggle_session_2026-10-19', 'existing-id-123');
             const id = getAnalyticsSessionId();
             JSON.stringify({ id: id });
             """
@@ -272,7 +272,7 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
     def test_throwing_read_falls_back_to_stable_unpersisted_id(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             let setItemCalls = 0;
             localStorage.getItem = function () { throw new Error('denied'); };
             const realSetItem = localStorage.setItem;
@@ -297,7 +297,7 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
     def test_throwing_write_falls_back_to_stable_id_without_persisting(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             localStorage.setItem = function () { throw new Error('denied'); };
             let threw = false;
             let id1, id2;
@@ -307,7 +307,7 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
               threw: threw,
               nonEmpty: typeof id1 === 'string' && id1.length > 0,
               stableAcrossCalls: id1 === id2,
-              storedSessionKey: localStorage.getItem('juggle_session_2026-06-10'),
+              storedSessionKey: localStorage.getItem('juggle_session_2026-10-19'),
             });
             """
         )
@@ -319,7 +319,7 @@ class AnalyticsSessionIdResilienceTests(unittest.TestCase):
     def test_track_event_still_sends_payload_when_storage_unavailable(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             localStorage.getItem = function () { throw new Error('denied'); };
             localStorage.setItem = function () { throw new Error('denied'); };
             S.puzzle = { theme: 'Test Theme' };
@@ -349,7 +349,7 @@ class HardModeRestorationTests(unittest.TestCase):
     def test_fresh_date_restores_true_from_saved_global_setting(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             localStorage.setItem('juggle_settings', JSON.stringify({ hardMode: true, timerHidden: false }));
             init();
             JSON.stringify({ hardMode: S.hardMode });
@@ -360,7 +360,7 @@ class HardModeRestorationTests(unittest.TestCase):
     def test_fresh_date_defaults_false_when_settings_missing(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             init();
             JSON.stringify({ hardMode: S.hardMode });
             """
@@ -370,7 +370,7 @@ class HardModeRestorationTests(unittest.TestCase):
     def test_fresh_date_defaults_false_when_settings_malformed(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             localStorage.setItem('juggle_settings', 'not-valid-json{{{');
             init();
             JSON.stringify({ hardMode: S.hardMode });
@@ -382,10 +382,10 @@ class HardModeRestorationTests(unittest.TestCase):
         result = run_js(
             _BUILD_COMPATIBLE_SAVE_JS
             + """
-            window.location.search = '?date=2026-06-10';
+            window.location.search = '?date=2026-10-19';
             localStorage.setItem('juggle_settings', JSON.stringify({ hardMode: true }));
-            const puzzle = PUZZLES['2026-06-10'];
-            localStorage.setItem('juggle_puzzle_2026-06-10', JSON.stringify(buildCompatibleSave(puzzle, false)));
+            const puzzle = PUZZLES['2026-10-19'];
+            localStorage.setItem('juggle_puzzle_2026-10-19', JSON.stringify(buildCompatibleSave(puzzle, false)));
             init();
             JSON.stringify({ hardMode: S.hardMode, gameStarted: S.gameStarted });
             """

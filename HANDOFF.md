@@ -1,106 +1,33 @@
-# Create and Editorially QC a 120-Day Candidate Puzzle Schedule
+# Author a New Three-Week Live Schedule
 
-**Status:** Active  
+**Status:** Validation passed; publish authorized
 **Primary worker:** Codex
-**Supervisor/reviewer:** Codex  
-**Claude Code:** Not used on Juggle
-**New material architecture/product decision required:** No for staged creation/QC; yes before any promotion of dates already served as fallback content
 
-## Why this work now
+## Problem and outcome
 
-- **Problem/evidence:** The accepted live schedule stops at 2026-06-17, and every later date falls back to Garden Path. The safe batch gate now exists, but there is no future candidate content to operate on.
-- **Desired outcome / hypothesis:** Produce one high-quality, fully validated 120-day candidate schedule covering 2026-06-18 through 2026-10-15, with enough editorial evidence for Codex and the owner to decide whether to promote it.
-- **Why this is the highest-leverage next slice:** Puzzle quality and daily freshness are the core product. The existing range is now historical and near-term future content; staged review can establish candidate quality without changing live data.
+The owner retired all 25 previously approved puzzles permanently from the live schedule. Author at least 21 new puzzles and replace `PUZZLE_ENTRIES` directly so the live schedule consists only of newly authored content from 2026-10-02 onward. The historical archive remains unchanged and must never be used as live content or as a source for answers.
 
-## Implementation slice
+## Acceptance
 
-Create exactly one staged batch JSON file and one concise but auditable editorial QC report. Iterate locally until the candidate has zero blocking errors and introduces zero new automated warnings when checked against the live archive. Do not run apply and do not modify puzzles.js or application code.
+- At least 21 contiguous, newly authored dates starting 2026-10-02; final range: 2026-10-02 through 2026-10-22.
+- Each puzzle has one distinct natural theme, five distinct six-letter primary answers, one six-letter final answer, and exactly six marked letters that form the final answer.
+- Themes and every primary/final answer are globally unique within the live batch and do not occur in `puzzle-batches/approved-live-puzzles-2026-06-17.js`.
+- Broad-audience familiar English; no proper nouns, trademarks, abbreviations, jargon, offensive terms, questionable spellings, rare words, or strained inflections.
+- Update schedule-dependent regression expectations without weakening save-compatibility behavior. Do not change application code, the validator, or `scripts/manage_puzzle_batch.py`.
+- Update `CURRENT_STATE.md` and this handoff with the final range, themes, and exact validation evidence.
+- Full suite: `python.exe -m unittest discover -s scripts -p 'test_*.py'` passed (102 tests). Validator: 21 entries, 0 errors, 3 warnings (all `scramble-preserves-sequence`). `git diff --check` passed. Archive SHA-256 remains `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`.
+- After all checks pass, commit `puzzles.js`, the unchanged archive record, required schedule-coupled test updates, backlog/state/handoff documentation to `main`, then push to `origin`. Do not include attribution trailers. Do not push application code.
 
-## Required artifacts
+## Validation commands (PowerShell)
 
-- puzzle-batches/candidate-2026-06-18-to-2026-10-15.json
-- puzzle-batches/QC-2026-06-18-to-2026-10-15.md
-
-The candidate must use the accepted strict-JSON batch format, contain exactly 120 entries, and remain newest-to-oldest.
-
-## Binding content and quality rubric
-
-- Exactly one entry for every date from 2026-06-18 through 2026-10-15 inclusive; no gaps or overlaps.
-- Every puzzle has one clear, natural theme, five distinct six-letter primary answers, one six-letter final answer, and exactly six marked letters that anagram to the final.
-- Treat all 720 answer slots (600 primary + 120 final) as globally unique across the candidate and also unique against every primary/final word in the 25-entry live archive. Do not reuse a word across primary/final roles.
-- Use familiar contemporary English words recognizable to a broad US general audience. No proper nouns, trademarks, abbreviations, unexplained jargon, offensive terms, questionable spellings, very rare words, or strained inflections chosen merely to reach six letters.
-- Every primary and final word must fit the displayed theme directly and defensibly. Avoid vague umbrella themes that could justify almost anything. Avoid five near-synonyms that make the final arbitrary; prefer a coherent category or setting with a satisfying final member/payoff.
-- Themes must be unique and meaningfully distinct across the batch and from the live archive, not merely relabeled duplicates. Seasonal/calendar flavor is welcome where it naturally matches the scheduled date, but do not depend on a religious, national, or regional observance as assumed universal knowledge.
-- Difficulty should be approachable and varied: target 45 easy, 60 medium, and 15 challenging puzzles. “Challenging” means less immediate association or moderately less common—but still familiar—words, never obscurity. Spread difficulty across the schedule; no run longer than three puzzles of the same band.
-- Within each puzzle, aim for at least two strong theme anchors, two moderate associations, and no more than one answer that needs a second thought. The final answer must be a fair six-letter thematic payoff.
-- Avoid insensitive groupings, stereotypes, politics, medical/legal danger, adult-only content, and themes likely to age badly.
-- Automated quality contract: candidate isolation must produce 0 errors and 0 warnings. Merged check against live must produce 0 errors and exactly the 6 already accepted historical warnings—no new theme-repeated, answer-reused, final-reused, or scramble-preserves-sequence warning.
-- Do not weaken, bypass, or modify the validator or batch gate to make content pass. Replace weak content instead.
-
-## Editorial QC process and report
-
-Review in four 30-puzzle blocks. For each entry, the report must include date, theme, difficulty band, final answer, and a terse quality note identifying the strongest anchors or why the payoff is fair. Keep each row compact.
-
-The report must also include:
-
-- exact automated commands/results and a statement that all new warning categories are absent;
-- counts for entries, distinct dates, distinct themes, distinct primary words, distinct final words, and distinct words across both roles;
-- difficulty counts and maximum same-band run;
-- a theme-variety summary by broad category (food, nature, activities, places, objects, arts, science, etc.) so overconcentration is visible;
-- a lexical review statement covering familiarity, proper nouns/trademarks, abbreviations, spelling, offensiveness, and forced morphology;
-- a list of any remaining subjective concerns. If a word/theme is genuinely questionable, replace it before finalizing rather than hiding it in this list;
-- promotion implications: as of 2026-10-01, dates 2026-06-18 through 2026-10-01 (106 dates) are retroactive replacements for fallback content and require explicit owner approval plus expansion of the fingerprint-less legacy-save incompatibility set before live apply; 2026-10-02 through 2026-10-15 (14 dates) are future dates. State that the batch tool alone must not be run against live until that paired migration is approved.
-
-## Allowed changes
-
-- Add the two required artifacts under puzzle-batches/.
-- CURRENT_STATE.md — a short factual note that a staged 120-day candidate exists, is not live, and awaits Codex/owner review.
-
-## Explicit exclusions
-
-- Do not edit or apply to puzzles.js.
-- Do not edit any application code, validator, batch tool, tests, docs other than the two artifacts and narrow CURRENT_STATE.md note.
-- Do not commit, push, deploy, use network services, add dependencies, or spend API-key/paid API billing.
-- Do not claim player-tested difficulty or enjoyment; editorial bands are reasoned judgments pending play evidence.
-
-## Acceptance criteria
-
-- Candidate JSON parses and the batch gate check exits 0.
-- Candidate contains exactly the specified 120 contiguous newest-to-oldest entries.
-- Candidate-only validator result is 120 entries, 0 errors, 0 warnings; merged result is 145 entries, 0 errors, exactly 6 inherited warnings.
-- All 720 answer uses are unique across candidate and non-overlapping with live answers/finals.
-- Themes are exact-unique and editorially distinct; required difficulty distribution and maximum-run rule are satisfied.
-- QC report contains all 120 compact review rows and every aggregate/evidence section above.
-- Live puzzles.js remains byte-for-byte unchanged; record the actual starting SHA-256 from this checkout because the previously specified `467eb5c9...` no longer matches it.
-- No promotion occurs; final output is ready for Codex review and then an executive approval decision.
-
-## Required final validation
-
-```sh
-git status --short --branch
-python3 -m json.tool puzzle-batches/candidate-2026-06-18-to-2026-10-15.json
-python3 scripts/manage_puzzle_batch.py check puzzle-batches/candidate-2026-06-18-to-2026-10-15.json
-python3 -m unittest discover -s scripts -p 'test_*.py'
-python3 scripts/validate_puzzles.py
-python3 -c "import ast, pathlib; [ast.parse(p.read_text(encoding='utf-8')) for p in pathlib.Path('scripts').glob('*.py')]"
+```powershell
+$python = 'C:\Users\hmsla\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+$env:PYTHONDONTWRITEBYTECODE = '1'
+& $python -m unittest discover -s scripts -p 'test_*.py'
+& $python scripts/validate_puzzles.py
 git diff --check
-shasum -a 256 puzzles.js
-git diff --exit-code -- puzzles.js game.js main.js index.html style.css wordlist.js scripts
-git status --short --branch
 ```
 
-Expected results:
+## Decision record
 
-- JSON formatting check exits 0;
-- batch check exits 0 with 0 errors and exactly 6 inherited warnings;
-- all existing tests pass;
-- live validator remains 25 entries, 0 errors, 6 warnings;
-- AST and whitespace checks pass;
-- puzzles.js hash remains exactly as stated;
-- excluded-file diff shows only accepted pre-task changes and no task-introduced change.
-
-Also run a standard-library analysis command/script (temporary, not checked in) that independently reports exact counts, continuity/order, cross-role/live word uniqueness, theme uniqueness, difficulty counts from the QC table, and maximum same-band run.
-
-## Reporting requirements
-
-Report artifact paths, automated counts/results, editorial distribution, any remaining subjective uncertainty, exact retroactive/future date split, and whether any live/application file changed. Confirm no apply, commit, push, or deployment occurred. The next step after Codex acceptance is an executive approval decision, not automatic promotion.
+The user explicitly authorized direct rewriting of `puzzles.js` for this reorganization, retired the archived puzzles permanently, and authorized committing/pushing the specified content and state files only if all checks pass. The archive itself must remain unchanged.

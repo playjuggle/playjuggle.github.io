@@ -163,8 +163,8 @@ class PuzzleCompatibilityTests(unittest.TestCase):
     def test_matching_fingerprint_loads_normally(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
-            setupState(PUZZLES['2026-06-10']);
+            window.location.search = '?date=2026-10-19';
+            setupState(PUZZLES['2026-10-19']);
             saveState();
             S.gameStarted = false;
             S.wrongGuesses = 0;
@@ -185,38 +185,38 @@ class PuzzleCompatibilityTests(unittest.TestCase):
     def test_mismatching_fingerprint_resets_only_active_key_and_requests_notice(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
-            setupState(PUZZLES['2026-06-10']);
+            window.location.search = '?date=2026-10-19';
+            setupState(PUZZLES['2026-10-19']);
             saveState();
-            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-06-10'));
+            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-10-19'));
             raw.puzzleFingerprint = 'not-a-real-fingerprint';
-            localStorage.setItem('juggle_puzzle_2026-06-10', JSON.stringify(raw));
+            localStorage.setItem('juggle_puzzle_2026-10-19', JSON.stringify(raw));
             localStorage.setItem('juggle_settings', JSON.stringify({hardMode:false}));
-            localStorage.setItem('juggle_visits', JSON.stringify(['2026-06-10']));
+            localStorage.setItem('juggle_visits', JSON.stringify(['2026-10-19']));
             localStorage.setItem('juggle_achievements', JSON.stringify(['flawless']));
-            localStorage.setItem('juggle_ach_counts', JSON.stringify({flawless:['2026-06-10']}));
-            localStorage.setItem('juggle_completions', JSON.stringify(['2026-06-10']));
-            localStorage.setItem('juggle_session_2026-06-10', 'session-abc');
+            localStorage.setItem('juggle_ach_counts', JSON.stringify({flawless:['2026-10-19']}));
+            localStorage.setItem('juggle_completions', JSON.stringify(['2026-10-19']));
+            localStorage.setItem('juggle_session_2026-10-19', 'session-abc');
             var before = {
               settings: localStorage.getItem('juggle_settings'),
               visits: localStorage.getItem('juggle_visits'),
               achievements: localStorage.getItem('juggle_achievements'),
               achCounts: localStorage.getItem('juggle_ach_counts'),
               completions: localStorage.getItem('juggle_completions'),
-              session: localStorage.getItem('juggle_session_2026-06-10'),
+              session: localStorage.getItem('juggle_session_2026-10-19'),
             };
             S.puzzleWasReset = false;
             var ok = loadState();
             JSON.stringify({
               ok: ok,
               wasReset: S.puzzleWasReset,
-              keyRemoved: localStorage.getItem('juggle_puzzle_2026-06-10') === null,
+              keyRemoved: localStorage.getItem('juggle_puzzle_2026-10-19') === null,
               settingsUnchanged: localStorage.getItem('juggle_settings') === before.settings,
               visitsUnchanged: localStorage.getItem('juggle_visits') === before.visits,
               achievementsUnchanged: localStorage.getItem('juggle_achievements') === before.achievements,
               achCountsUnchanged: localStorage.getItem('juggle_ach_counts') === before.achCounts,
               completionsUnchanged: localStorage.getItem('juggle_completions') === before.completions,
-              sessionUnchanged: localStorage.getItem('juggle_session_2026-06-10') === before.session,
+              sessionUnchanged: localStorage.getItem('juggle_session_2026-10-19') === before.session,
             });
             """
         )
@@ -232,6 +232,9 @@ class PuzzleCompatibilityTests(unittest.TestCase):
     def test_legacy_save_on_affected_date_resets(self):
         result = run_js(
             """
+            // Keep this historical migration case tied to its legacy date,
+            // while borrowing an active sample puzzle for the test harness.
+            PUZZLES['2026-06-13'] = PUZZLES['2026-10-22'];
             window.location.search = '?date=2026-06-13';
             setupState(PUZZLES['2026-06-13']);
             saveState();
@@ -254,24 +257,24 @@ class PuzzleCompatibilityTests(unittest.TestCase):
     def test_legacy_save_on_unchanged_date_loads_and_upgrades(self):
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
-            setupState(PUZZLES['2026-06-10']);
+            window.location.search = '?date=2026-10-19';
+            setupState(PUZZLES['2026-10-19']);
             saveState();
-            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-06-10'));
+            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-10-19'));
             delete raw.puzzleFingerprint;
-            localStorage.setItem('juggle_puzzle_2026-06-10', JSON.stringify(raw));
+            localStorage.setItem('juggle_puzzle_2026-10-19', JSON.stringify(raw));
             S.puzzleWasReset = false;
             S.gameStarted = false;
             S.wrongGuesses = 0;
             var ok = loadState();
-            var after = JSON.parse(localStorage.getItem('juggle_puzzle_2026-06-10'));
+            var after = JSON.parse(localStorage.getItem('juggle_puzzle_2026-10-19'));
             JSON.stringify({
               ok: ok,
               wasReset: S.puzzleWasReset,
               gameStartedRestored: S.gameStarted,
               wrongGuessesRestored: S.wrongGuesses,
               upgraded: !!after.puzzleFingerprint,
-              fingerprintMatchesCurrent: after.puzzleFingerprint === computePuzzleFingerprint(PUZZLES['2026-06-10']),
+              fingerprintMatchesCurrent: after.puzzleFingerprint === computePuzzleFingerprint(PUZZLES['2026-10-19']),
             });
             """
         )
@@ -290,9 +293,9 @@ class PuzzleCompatibilityTests(unittest.TestCase):
         result = run_js(
             """
             JSON.stringify({
-              emptyString: isSaveCompatible('2026-06-10', '', 'real-fingerprint'),
-              nullValue: isSaveCompatible('2026-06-10', null, 'real-fingerprint'),
-              trulyMissing: isSaveCompatible('2026-06-10', undefined, 'real-fingerprint'),
+              emptyString: isSaveCompatible('2026-10-19', '', 'real-fingerprint'),
+              nullValue: isSaveCompatible('2026-10-19', null, 'real-fingerprint'),
+              trulyMissing: isSaveCompatible('2026-10-19', undefined, 'real-fingerprint'),
             });
             """
         )
@@ -308,18 +311,18 @@ class PuzzleCompatibilityTests(unittest.TestCase):
         # the reset.
         result = run_js(
             """
-            window.location.search = '?date=2026-06-10';
-            setupState(PUZZLES['2026-06-10']);
+            window.location.search = '?date=2026-10-19';
+            setupState(PUZZLES['2026-10-19']);
             saveState();
-            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-06-10'));
+            var raw = JSON.parse(localStorage.getItem('juggle_puzzle_2026-10-19'));
             raw.puzzleFingerprint = '';
-            localStorage.setItem('juggle_puzzle_2026-06-10', JSON.stringify(raw));
+            localStorage.setItem('juggle_puzzle_2026-10-19', JSON.stringify(raw));
             S.puzzleWasReset = false;
             var ok = loadState();
             JSON.stringify({
               ok: ok,
               wasReset: S.puzzleWasReset,
-              keyRemoved: localStorage.getItem('juggle_puzzle_2026-06-10') === null,
+              keyRemoved: localStorage.getItem('juggle_puzzle_2026-10-19') === null,
             });
             """
         )
@@ -327,52 +330,57 @@ class PuzzleCompatibilityTests(unittest.TestCase):
         self.assertTrue(result["wasReset"])
         self.assertTrue(result["keyRemoved"])
 
-    def test_fingerprint_changes_with_marker_repaired_content(self):
-        # 2026-06-11 (Hard Hat Zone) is the marker-repair date: same theme,
-        # answers, and final word as the pre-remediation puzzle, but with the
-        # HELMET marker moved to its final T (bonusIndices [5], per
-        # HISTORICAL_PUZZLE_REMEDIATION_PLAN.md §4). Locate HELMET by answer
-        # rather than assuming a display-order index, since `words` is
-        # deterministically permuted per date and HELMET is not guaranteed
-        # to land at index 0.
+    def test_fingerprint_changes_when_marker_positions_change(self):
+        # Fingerprints include marked-letter positions. Use a current live
+        # puzzle without coupling this compatibility test to authored answers.
         result = run_js(
             """
-            var puzzle = PUZZLES['2026-06-11'];
-            var helmet = puzzle.words.find(function (w) { return w.answer === 'HELMET'; });
+            var puzzle = PUZZLES['2026-10-20'];
             var fp = computePuzzleFingerprint(puzzle);
             var mutated = JSON.parse(JSON.stringify(puzzle));
-            var mutatedHelmet = mutated.words.find(function (w) { return w.answer === 'HELMET'; });
-            mutatedHelmet.bonusIndices = mutatedHelmet.bonusIndices[0] === 0 ? [1] : [0];
+            var markedWord = mutated.words.find(function (w) { return w.bonusIndices.length > 0; });
+            markedWord.bonusIndices = [
+              (markedWord.bonusIndices[0] + 1) % markedWord.answer.length
+            ];
             JSON.stringify({
-              helmetFound: !!helmet,
-              origBonusIndices: helmet ? helmet.bonusIndices : null,
+              markedWordFound: !!markedWord,
               changed: fp !== computePuzzleFingerprint(mutated),
             });
             """
         )
-        self.assertTrue(result["helmetFound"])
-        self.assertEqual(result["origBonusIndices"], [5])
+        self.assertTrue(result["markedWordFound"])
         self.assertTrue(result["changed"])
 
 
 class LivePuzzleDatasetValidationTests(unittest.TestCase):
-    """Confirms the approved §6 dataset, as applied to the live puzzles.js,
-    validates with zero errors and the documented 6-warning contract."""
+    """Confirms the new live schedule excludes retired archive content."""
 
-    def test_live_dataset_is_25_entries_zero_errors_six_warnings(self):
+    def test_live_dataset_is_21_new_entries_with_no_archive_reuse(self):
         publishing_range, entries, diags = vp.load_source(REPO_ROOT / "puzzles.js")
-        self.assertIsNotNone(publishing_range)
+        self.assertEqual(publishing_range, {"start": "2026-10-02", "end": "2026-10-22"})
         self.assertIsNotNone(entries)
-        self.assertEqual(len(entries), 25)
+        self.assertEqual(len(entries), 21)
 
         diags = list(diags) + vp.validate(publishing_range, entries)
         errors = [d for d in diags if d.severity == "ERROR"]
-        warnings = [d for d in diags if d.severity == "WARNING"]
-
         self.assertEqual(errors, [])
-        self.assertEqual(len(warnings), 6)
-        for d in warnings:
-            self.assertEqual(d.rule, "answer-reused")
+
+        _, archived, archive_diags = vp.load_source(
+            REPO_ROOT / "puzzle-batches" / "approved-live-puzzles-2026-06-17.js"
+        )
+        self.assertEqual(archive_diags, [])
+        archived_themes = {entry["theme"].casefold() for entry in archived}
+        archived_words = {
+            token.strip().replace("*", "").upper()
+            for entry in archived for token in entry["row"].split(",")
+        }
+        live_themes = {entry["theme"].casefold() for entry in entries}
+        live_words = {
+            token.strip().replace("*", "").upper()
+            for entry in entries for token in entry["row"].split(",")
+        }
+        self.assertTrue(live_themes.isdisjoint(archived_themes))
+        self.assertTrue(live_words.isdisjoint(archived_words))
 
 
 if __name__ == "__main__":

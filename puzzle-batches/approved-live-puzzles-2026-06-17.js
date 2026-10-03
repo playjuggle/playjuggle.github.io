@@ -60,30 +60,34 @@
 // ---------------------------------------------------------------------------
 
 const PUZZLE_PUBLISHING_RANGE = {
-  "start": "2026-10-02",
-  "end": "2026-10-22"
+  "start": "2026-05-24",
+  "end": "2026-06-17"
 };
 
 const PUZZLE_ENTRIES = [
-  {"date": "2026-10-22", "theme": "Toy Box", "row": "RO*B*OTS, FI*GURE*, BUBBL*E, RATTLE, M*IRROR, MOBILE"},
-  {"date": "2026-10-21", "theme": "Museum Tour", "row": "ST*A*TU*E*, R*ELIC*S, PLAQUE, MOSAIC, BRONZE, CURATE"},
-  {"date": "2026-10-20", "theme": "Roadside Repair", "row": "P*I*STON, CLUTCH, BR*A*KE*S, PEDALS, FENDER*, REPAIR"},
-  {"date": "2026-10-19", "theme": "City Transit", "row": "SUBWA*Y, T*R*AINS, TUNNE*L, SIGNAL, D*EP*OTS, DEPART"},
-  {"date": "2026-10-18", "theme": "Hair Salon", "row": "BA*R*BE*R, CURLER, CUTTER, S*TYLES*, SH*AVER, SHEARS"},
-  {"date": "2026-10-17", "theme": "Snow Day", "row": "MI*TTE*N, GLOV*ES*, PAR*KAS, BEANIE, SH*OVEL, SHIVER"},
-  {"date": "2026-10-16", "theme": "Hotel Room", "row": "L*O*DGE*S*, SUIT*ES, TOWELS, H*OSTEL, RESORT, HOTELS"},
-  {"date": "2026-10-15", "theme": "Fish Tank", "row": "F*IS*HES, PL*A*NT*S, CO*RALS, FILTER, GRAVEL, FLOATS"},
-  {"date": "2026-10-14", "theme": "Birthday Party", "row": "H*A*MPE*R*, PINAT*A, PRIZES, G*UESTS, TOASTS, GATHER"},
-  {"date": "2026-10-13", "theme": "Moving Day", "row": "C*RA*TE*S, TRUCK*S, P*ACKER, MOVERS, UNLOAD*, PACKED"},
-  {"date": "2026-10-12", "theme": "Lawn Care", "row": "MOWER*S*, WEEDER, EDG*I*N*G, SP*RAYS, RAKING, SPRING"},
-  {"date": "2026-10-11", "theme": "Dental Visit", "row": "DEN*TA*L*, MOLA*RS*, BRAC*ES, ENAMEL, CAVITY, CANALS"},
-  {"date": "2026-10-10", "theme": "Dance Class", "row": "D*A*N*C*E*R, TIGHTS*, BALLET, TWIRLS, RHYTHM, DANCES"},
-  {"date": "2026-10-09", "theme": "Barbecue", "row": "GRILLS*, K*E*BABS*, SAUCES, SM*O*KER, FLAMES, SMOKES"},
-  {"date": "2026-10-08", "theme": "Art Studio", "row": "P*A*INT*S*, CANVAS, SKE*TCH, EASEL*S, STROKE, PASTEL"},
-  {"date": "2026-10-07", "theme": "Sports Stars", "row": "S*OC*CE*R*, TENNIS, R*UNNER, RA*CKET, JOCKEY, RACERS"},
-  {"date": "2026-10-06", "theme": "Diner Lunch", "row": "WAI*TE*R*, D*IN*NER, PLATES*, NAPKIN, SALADS, DINERS"},
-  {"date": "2026-10-05", "theme": "Photo Studio", "row": "CAME*R*A, LEN*S*ES*, TRIPO*D, STROBE, PHOTOS, SENSOR"},
-  {"date": "2026-10-04", "theme": "Fruit Market", "row": "BAN*ANA, PAPAYA, M*E*L*O*NS*, CHERRY, GRAPES, LEMONS"},
-  {"date": "2026-10-03", "theme": "Sewing Basket", "row": "N*E*EDLE, THR*EA*D, FAB*RIC, BUTTON*, BOBBIN, BANNER"},
-  {"date": "2026-10-02", "theme": "Home Office", "row": "LAP*T*O*P, TABLE*T, C*HECK*S, PAPERS, DEVICE, POCKET"}
+  { "date": "2026-06-17", "theme": "Garden Path", "row": "BA*MBOO, CACT*U*S, OR*CHID, GARDEN*, FLOWE*R, NATURE" },
+  { "date": "2026-06-16", "theme": "Movie Night", "row": "CINEMA*, AC*TIO*N, SCR*EEN, POS*T*ER, CREDIT, ACTORS" },
+  { "date": "2026-06-15", "theme": "Road Trip", "row": "T*R*AVEL, DETO*U*R, MOTE*LS, SCENIC, S*NACKS, ROUTES" },
+  { "date": "2026-06-14", "theme": "Rainy Day", "row": "C*LOUD*S, PUDDLE*, SPLASH*, PON*CHO, STOR*MY, DRENCH" },
+  { "date": "2026-06-13", "theme": "Game Night", "row": "TOKE*NS, BOA*R*D*S, PUZZL*E*, WINNER, SCORES, DEALER" },
+  { "date": "2026-06-12", "theme": "Bake Shop", "row": "PASTR*Y*, COOK*IE, BA*TTE*R, MUFFIN, B*UTTER, BAKERY" },
+  { "date": "2026-06-11", "theme": "Hard Hat Zone", "row": "HELMET*, HAM*MER, LADDE*R, WORKE*R, WREN*C*H, CEMENT" },
+  { "date": "2026-06-10", "theme": "Bird Watching", "row": "FALC*ON, MA*GPIE, PA*R*ROT, PIGEON*, TURKEY*, CANARY" },
+  { "date": "2026-06-09", "theme": "Crayon Box", "row": "PUR*PLE, IN*DIG*O, YELLO*W, MA*ROON, VIOLE*T, ORANGE" },
+  { "date": "2026-06-08", "theme": "What's for Dessert?", "row": "C*OOKI*E, GE*L*ATO, SUNDA*E, PASTR*Y, MOUSSE, ECLAIR" },
+  { "date": "2026-06-07", "theme": "The Veggie Garden", "row": "C*ELERY, GA*R*LIC, TO*MATO, POT*ATO, PEPPER*, CARROT" },
+  { "date": "2026-06-06", "theme": "Outer Space", "row": "R*OC*KET, GA*LAXY, METEOR*, PLANE*T*, COSMOS, CRATER" },
+  { "date": "2026-06-05", "theme": "Hail Mary", "row": "KIC*K*ER, HELMET*, PLA*YER, JERSE*Y, HUDDL*E, TACKLE" },
+  { "date": "2026-06-04", "theme": "X Marks the Spot", "row": "PAR*ROT, CA*NNON, ANCHO*R, IS*L*AND, PI*STOL, SAILOR" },
+  { "date": "2026-06-03", "theme": "Once Upon a Time", "row": "KNIG*HT, WIZARD*, THRO*NE, CA*STLE, PR*IN*CE, DRAGON" },
+  { "date": "2026-06-02", "theme": "Animal Kingdom", "row": "JAGU*AR, RABBIT*, PAR*ROT*, L*IZARD, MONKE*Y, TURTLE" },
+  { "date": "2026-06-01", "theme": "Class is in Session", "row": "CR*AYON, PE*NCIL, LES*SON, MA*RKER*, RE*CESS, ERASER" },
+  { "date": "2026-05-31", "theme": "Grocery Store", "row": "BASKET, A*ISLES, CO*UPON*, GROC*ER, MAR*KET*, CARTON" },
+  { "date": "2026-05-30", "theme": "Airplane Mode", "row": "WI*N*DOW, RUN*WAY, FLIG*HT, JE*TLAG, TICKE*T, ENGINE" },
+  { "date": "2026-05-29", "theme": "Music Class", "row": "GU*IT*AR, VIO*LIN, MELOD*Y, S*INGER, PI*ANOS, STUDIO" },
+  { "date": "2026-05-28", "theme": "Beach Day", "row": "SUN*TAN, S*ANDAL, CO*OLE*R, C*A*BANA, TROPIC, OCEANS" },
+  { "date": "2026-05-27", "theme": "Camping Trip", "row": "FORE*ST, GR*OUND, SUM*MIT, C*ANOP*Y, TRA*ILS, CAMPER" },
+  { "date": "2026-05-26", "theme": "Breakfast", "row": "C*EREAL, YO*GURT, WAF*F*LE, OME*LET, ORANGE*, COFFEE" },
+  { "date": "2026-05-25", "theme": "Under the Sea", "row": "TU*RTLE, OYSTER*, ANC*H*OR, SHRI*MP, SALMON*, URCHIN" },
+  { "date": "2026-05-24", "theme": "Around the House", "row": "CLOSE*T, FRID*G*E, CA*RPET, PAN*TRY, SHOWER*, GARDEN" }
 ];

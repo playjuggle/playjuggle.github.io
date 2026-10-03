@@ -1,8 +1,12 @@
 # Juggle Current State
 
-## Staged candidate schedule (2026-10-01)
+## Live schedule (2026-10-02 to 2026-10-22)
 
-`puzzle-batches/candidate-2026-06-18-to-2026-10-15.json` and its per-date review at `puzzle-batches/QC-2026-06-18-to-2026-10-15.md` are staged only; neither is live. Structural and batch checks pass with 0 candidate errors/warnings and the same 6 inherited live warnings. Codex's editorial review did not accept the content for promotion: 29 theme/payoff concerns remain, the broad-audience lexical review is incomplete, and the unit suite has five Windows batch-apply failures. No apply occurred. Any eventual retrospective promotion still needs owner approval and a save-compatibility migration.
+The live schedule contains 21 newly authored puzzles, one for each date from 2026-10-02 through 2026-10-22. The schedule has no gaps. Its themes are Computer Desk, Sewing Basket, Fruit Market, Photo Studio, Diner Lunch, Sports Stars, Art Studio, Barbecue, Dance Class, Dental Visit, Lawn Care, Moving Day, Birthday Party, Fish Tank, Hotel Room, Snow Day, Hair Salon, City Transit, Roadside Repair, Museum Tour, and Toy Box. The approved 25-puzzle archive is permanently retired from the live schedule; it remains only at `puzzle-batches/approved-live-puzzles-2026-06-17.js` (SHA-256 `7CB3E3B0F5001393CAC985A365003B43C69DAEEFD44518D27B33397E5D38B318`) as historical record, and its themes and answer words are excluded from the new schedule. The staged 120-puzzle candidate remains unapproved and is not live. The next date needing content is 2026-10-23. Validation on 2026-10-02: all 102 unit tests pass; `scripts/validate_puzzles.py` reports 21 entries, 0 errors, and 3 `scramble-preserves-sequence` warnings. The schedule-specific compatibility tests also assert no archive theme or answer reuse.
+
+## Staged candidate schedule (snapshot from 2026-10-01)
+
+`puzzle-batches/candidate-2026-06-18-to-2026-10-15.json` and its per-date review at `puzzle-batches/QC-2026-06-18-to-2026-10-15.md` are staged only; neither is live. Structural and batch checks passed with 0 candidate errors/warnings and 6 inherited live warnings. Codex's editorial review did not accept the content for promotion: 29 theme/payoff concerns remained and the broad-audience lexical review was incomplete. No apply occurred. The owner's later authorization covers re-dating the approved 25-puzzle archive; it does not approve this candidate.
 
 Baseline captured on 2026-09-13 from local commit `e273c7f` on `main`. At capture time the worktree was clean and `main` matched the locally recorded `origin/main`. No network fetch was performed, so this does not prove that the remote has not changed since its local tracking reference was last updated.
 
@@ -25,12 +29,12 @@ Baseline captured on 2026-09-13 from local commit `e273c7f` on `main`. At captur
 - `validatePuzzles()` runs during browser initialization and reports to the console only. There is no release-blocking validation.
 - The active date is the browser's local date, overridden by a public `?date=YYYY-MM-DD` parameter. `?reset` removes saved puzzle state for that active date.
 - If an exact date is absent, the game silently selects the most recent puzzle on or before that date. The displayed date, daily colors, storage key, completion date, and analytics date still use the requested date rather than the selected puzzle's source date.
-- The last scheduled date is 2026-06-17. Therefore every later normal date falls back to the 2026-06-17 "Garden Path" puzzle while presenting it as the later date and giving it separate daily progress.
+- At the 2026-10-02 to 2026-10-22 authored schedule, every date in that inclusive range has a distinct entry. An absent date still falls back to the most recent puzzle on or before it; content after 2026-10-22 therefore needs to be added before that date is reached.
 - Preview state is date-scoped, but previewing is not side-effect-free: a preview can emit analytics and affect completion and achievement records. Visit/streak recording uses the real local date.
 
 ## Historical archive remediation (applied 2026-09-15)
 
-`puzzles.js` now contains the owner-approved 25-entry `PUZZLE_ENTRIES` dataset from `HISTORICAL_PUZZLE_REMEDIATION_PLAN.md` §6, covering the unchanged `2026-05-24`–`2026-06-17` publishing range with one declaration per date. `python3 scripts/validate_puzzles.py` reports 25 entries, 0 errors, 6 warnings (all non-blocking `answer-reused`, none newly introduced by editorial choice beyond the documented, accepted Bake Shop/"What's for Dessert?" overlap). Relative to the prior state:
+At the time of the 2026-09-15 remediation, `puzzles.js` contained the owner-approved 25-entry `PUZZLE_ENTRIES` dataset from `HISTORICAL_PUZZLE_REMEDIATION_PLAN.md` §6, covering `2026-05-24`–`2026-06-17` with one declaration per date. That exact source is preserved before the schedule restoration in `puzzle-batches/approved-live-puzzles-2026-06-17.js`. At the time, the validator reported 25 entries, 0 errors, and 6 warnings. Relative to the pre-remediation state:
 
 - The duplicate `2026-06-17` declaration is gone; only "Garden Path" remains, matching what was already effective at runtime.
 - `2026-06-11` ("Hard Hat Zone"), `2026-06-03` ("Once Upon a Time"), and `2026-06-02` ("Animal Kingdom") had their marker positions repaired so the six marked letters anagram to their final word; themes, answers, and dates are unchanged.
@@ -107,9 +111,15 @@ Inferred, not proven by repository files:
 
 ## Current process weaknesses
 
-- The live schedule still ends at `2026-06-17`; no future puzzle content has been generated, so later dates still silently reuse the `2026-06-17` "Garden Path" puzzle (see "Confirmed puzzle and date behavior" above). `scripts/manage_puzzle_batch.py` (added 2026-09-16, see above) now makes append-only promotion of a prepared batch safe and locally runnable, but does not itself author puzzle content — someone/something still has to write the ~120-puzzle batch before it can be checked and applied.
+- The live schedule currently ends at `2026-10-22`; content is next needed for `2026-10-23`. The retired approved archive and staged candidate are not live. `scripts/manage_puzzle_batch.py` still enforces its append-only promotion contract and was not changed for this schedule reorganization.
 - If a future edit reintroduces a duplicate date, `PUZZLE_ENTRIES`'s ordered-array authoring keeps both declarations as separate elements so `scripts/validate_puzzles.py` can report it explicitly (rule `duplicate-date`) rather than it silently disappearing before validation runs. The approved live source currently has zero duplicate dates. The runtime `game.js` build step still folds `PUZZLE_ENTRIES` into `PUZZLE_ROWS` with later-entry-wins overwrite semantics, matching prior behavior — this is a retained compatibility characteristic of the build step, not something any live date currently relies on.
 - Validation warnings (repeated theme/answer/final-word, scramble preserving an obvious 4-letter run) do not fail the validator and do not prevent publication; nothing currently blocks a commit or a GitHub Pages deploy on validator errors either, since the validator is not wired into CI, a pre-commit hook, or any publish step.
 - A publishing range is now declared (`PUZZLE_PUBLISHING_RANGE` in `puzzles.js`) and the validator reports any date missing from that inclusive range, but nothing enforces the range automatically outside of running the validator by hand.
 - Recent history contains repeated puzzle additions and same-day content fixes, showing that puzzle maintenance is currently manual and error-prone.
 - The ignored local `.claude/settings.local.json` is a machine-specific permission allowlist, not shared workflow documentation.
+# Historical live schedule restoration (2026-10-02; superseded 2026-10-02)
+
+- The live schedule now uses 25 owner-approved, remediated puzzles re-dated to cover 2026-10-02 through 2026-10-26. The next date needing content is 2026-10-27.
+- Before re-dating, the original complete `puzzles.js` was preserved as `puzzle-batches/approved-live-puzzles-2026-06-17.js` with its original dates and exact file content.
+- The 120-puzzle candidate ending 2026-10-15 remains staged and unapproved; it was not promoted or edited.
+- No gameplay code, validator, or batch gate was changed. Save compatibility must be rebuilt and verified before launch; no real players exist at this point.
